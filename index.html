@@ -1,0 +1,2273 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Услуги</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Onest:wght@500&family=JetBrains+Mono:wght@400;500&display=swap&subset=cyrillic,latin"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css?v=20260509-iter10" />
+    <style>
+      .store {
+        margin-top: 140px;
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) 341px;
+        grid-template-areas:
+          "title title"
+          "toolbar cta"
+          "slider slider";
+        column-gap: 40px;
+        row-gap: 32px;
+        padding-inline: clamp(20px, calc(-140px + 12.5vw), 100px);
+      }
+
+      .store-title {
+        grid-area: title;
+        margin: 0 0 40px;
+        font-family: "Onest", Arial, sans-serif;
+        font-size: clamp(4.5rem, 7.25vw, 5.5rem);
+        font-weight: 500;
+        line-height: 0.9659;
+        letter-spacing: -0.03em;
+      }
+
+      .store-toolbar {
+        grid-area: toolbar;
+        display: grid;
+        grid-template-columns: minmax(0, 1fr);
+        gap: 24px;
+        align-items: start;
+        margin-bottom: 0;
+      }
+
+      .store-tabs {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        align-items: flex-start;
+      }
+
+      .store-tab {
+        appearance: none;
+        -webkit-appearance: none;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 44px;
+        padding: 8px 16px;
+        border: 0;
+        border-radius: 56px;
+        background: #ffffff;
+        color: #0b0b0b;
+        font-family: "JetBrains Mono", "TT Commons Pro Mono Trl", "Roboto Mono", monospace;
+        font-size: 16px;
+        line-height: 1.4;
+        text-transform: uppercase;
+        white-space: nowrap;
+        box-shadow: none;
+        cursor: pointer;
+      }
+
+      .store-tab.is-active {
+        background: #0e0e0e;
+        color: #ffffff;
+      }
+
+      .store-cta-block {
+        grid-area: cta;
+        display: grid;
+        gap: 16px;
+        align-content: start;
+      }
+
+      .store-cta {
+        appearance: none;
+        -webkit-appearance: none;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        min-height: 60px;
+        padding: 8px 32px;
+        border: 0;
+        border-radius: 16px;
+        background: #0b0b0b;
+        color: #ffffff;
+        font-family: "JetBrains Mono", "TT Commons Pro Mono Trl", "Roboto Mono", monospace;
+        font-size: 16px;
+        line-height: 1.4;
+        text-transform: uppercase;
+        cursor: pointer;
+      }
+
+      .store-cta-note {
+        margin: 0;
+        color: rgba(11, 11, 11, 0.6);
+        font-family: "JetBrains Mono", "TT Commons Pro Mono Trl", "Roboto Mono", monospace;
+        font-size: 16px;
+        line-height: 1.4;
+      }
+
+      .store-grid {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 4px;
+        align-items: stretch;
+      }
+
+      .store-slider-shell {
+        grid-area: slider;
+        overflow-x: auto;
+        overflow-y: visible;
+        width: 100%;
+        scrollbar-width: none;
+        cursor: grab;
+        touch-action: pan-y;
+        overscroll-behavior-x: contain;
+      }
+
+      .store-slider-shell::-webkit-scrollbar {
+        display: none;
+      }
+
+      .store-slider-shell.is-dragging {
+        cursor: grabbing;
+      }
+
+      .store-slider-track {
+        display: flex;
+        gap: 4px;
+        width: max-content;
+        min-width: 100%;
+      }
+
+      .store-card {
+        display: flex;
+        flex-direction: column;
+        flex: 0 0 calc((100vw - (var(--page-gutter) * 2) - 12px) / 4);
+        width: calc((100vw - (var(--page-gutter) * 2) - 12px) / 4);
+        min-width: 0;
+        min-height: 462px;
+        background: #ffffff;
+        overflow: hidden;
+      }
+
+      .store-card[hidden] {
+        display: none;
+      }
+
+      .store-card-image-wrap {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 278px;
+        overflow: hidden;
+      }
+
+      .store-card-image {
+        display: block;
+        width: 200px;
+        height: 200px;
+        max-width: 100%;
+        object-fit: contain;
+      }
+
+      .store-card-badge {
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 32px;
+        padding: 0 12px;
+        border-radius: 40px;
+        overflow: hidden;
+      }
+
+      .store-card-badge-accent {
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        z-index: 1;
+      }
+
+      .store-card-badge-bg {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+      }
+
+      .store-card-badge-label {
+        position: relative;
+        z-index: 1;
+        font-family: "JetBrains Mono", "TT Commons Pro Mono Trl", "Roboto Mono", monospace;
+        font-size: 13px;
+        line-height: 1.4;
+        text-transform: uppercase;
+      }
+
+      .store-card-info {
+        display: grid;
+        gap: 12px;
+        padding: 20px;
+      }
+
+      .store-card-name {
+        margin: 0;
+        font-family: "JetBrains Mono", "TT Commons Pro Mono Trl", "Roboto Mono", monospace;
+        font-size: 16px;
+        line-height: 1.4;
+      }
+
+      .store-card-price {
+        margin: 0;
+        color: rgba(11, 11, 11, 0.4);
+        font-family: "Onest", Arial, sans-serif;
+        font-size: 29px;
+        font-weight: 500;
+        line-height: 1;
+        letter-spacing: -0.02em;
+      }
+
+      .store-card-action-wrap {
+        margin-top: auto;
+        padding: 0 16px 16px;
+      }
+
+      .store-card-action {
+        appearance: none;
+        -webkit-appearance: none;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        min-height: 60px;
+        padding: 8px 32px;
+        border: 0;
+        border-radius: 16px;
+        background: #eaeaea;
+        color: #0b0b0b;
+        font-family: "JetBrains Mono", "TT Commons Pro Mono Trl", "Roboto Mono", monospace;
+        font-size: 16px;
+        line-height: 1.4;
+        text-transform: uppercase;
+        cursor: pointer;
+      }
+
+      @media (max-width: 1100px) {
+        .store {
+          grid-template-columns: 1fr;
+          grid-template-areas:
+            "title"
+            "toolbar"
+            "slider"
+            "cta";
+          row-gap: 24px;
+        }
+
+        .store-title {
+          max-width: 640px;
+          font-size: clamp(3.75rem, 10vw, 5rem);
+        }
+
+        .store-toolbar {
+          overflow: visible;
+        }
+
+        .store-tabs {
+          display: flex;
+          flex-wrap: nowrap;
+          width: calc(100% + var(--page-gutter));
+          min-width: calc(100% + var(--page-gutter));
+          gap: 8px;
+          overflow-x: auto;
+          overflow-y: visible;
+          padding: 2px var(--page-gutter) 2px 0;
+          margin-right: calc(var(--page-gutter) * -1);
+          align-items: center;
+          -webkit-overflow-scrolling: touch;
+          scrollbar-width: none;
+        }
+
+        .store-tabs::-webkit-scrollbar {
+          display: none;
+        }
+
+        .store-tab {
+          flex: 0 0 auto;
+        }
+
+        .store-cta-block {
+          width: min(100%, 341px);
+        }
+
+        .store-grid {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .store-card {
+          flex-basis: min(320px, calc((100vw - (var(--page-gutter) * 2)) - 80px));
+          width: min(320px, calc((100vw - (var(--page-gutter) * 2)) - 80px));
+          min-height: 420px;
+        }
+      }
+
+      @media (max-width: 720px) {
+        .store {
+          row-gap: 20px;
+          padding-inline: 12px;
+        }
+
+        .store-title {
+          margin-bottom: 24px;
+          max-width: 320px;
+          font-size: clamp(3.5rem, 18vw, 4.75rem);
+        }
+
+        .store-toolbar {
+          gap: 20px;
+          margin-bottom: 0;
+          overflow: visible;
+        }
+
+        .store-tabs {
+          display: flex;
+          flex-wrap: nowrap;
+          width: calc(100% + var(--page-gutter));
+          min-width: calc(100% + var(--page-gutter));
+          gap: 8px;
+          overflow-x: auto;
+          overflow-y: visible;
+          padding: 2px var(--page-gutter) 2px 0;
+          margin-right: calc(var(--page-gutter) * -1);
+          align-items: center;
+          -webkit-overflow-scrolling: touch;
+          scrollbar-width: none;
+        }
+
+        .store-tabs::-webkit-scrollbar {
+          display: none;
+        }
+
+        .store-tab {
+          flex: 0 0 auto;
+          min-height: 40px;
+          padding: 8px 14px;
+          font-size: 13px;
+        }
+
+        .store-cta {
+          min-height: 52px;
+          padding: 8px 20px;
+          font-size: 13px;
+        }
+
+        .store-cta-note {
+          font-size: 13px;
+        }
+
+        .store-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .store-card {
+          flex-basis: calc(100vw - 56px);
+          width: calc(100vw - 56px);
+          min-height: 396px;
+        }
+
+        .store-card-image-wrap {
+          height: 240px;
+        }
+
+        .store-card-badge {
+          top: 16px;
+          left: 16px;
+        }
+
+        .store-card-badge-accent {
+          top: 16px;
+          left: 16px;
+        }
+
+        .store-card-info {
+          gap: 10px;
+          padding: 16px;
+        }
+
+        .store-card-name {
+          font-size: 13px;
+        }
+
+        .store-card-price {
+          font-size: 22px;
+        }
+
+        .store-card-action-wrap {
+          padding: 0 16px 16px;
+        }
+
+        .store-card-action {
+          min-height: 52px;
+          padding: 8px 20px;
+          font-size: 13px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="scroll-progress" data-scroll-progress aria-hidden="true"></div>
+
+    <div class="float-header" data-float-header aria-hidden="true">
+      <nav class="float-header-nav" aria-label="Меню">
+        <a class="float-header-link" href="#services" data-anchor>Услуги</a>
+        <a class="float-header-link" href="#works" data-anchor>Работы</a>
+        <a class="float-header-link" href="#store" data-anchor>Магазин</a>
+        <a class="float-header-link" href="#about" data-anchor>О&nbsp;нас</a>
+        <a class="float-header-link" href="#testimonials" data-anchor>Отзывы</a>
+        <a class="float-header-link" href="#business" data-anchor>Бизнес</a>
+        <a class="float-header-link" href="#contacts" data-anchor>Контакты</a>
+      </nav>
+      <button class="float-header-cta" type="button" data-brief-open>Получить расчёт</button>
+    </div>
+
+    <button class="mobile-sticky-cta" type="button" data-brief-open data-mobile-sticky-cta>
+      <span>Получить расчёт</span>
+      <span class="mobile-sticky-cta-note">бесплатно, за 24 часа</span>
+    </button>
+
+    <main class="services-page">
+      <section class="cover cover-alt" aria-labelledby="cover-alt-title">
+        <div class="cover-media cover-alt-media" aria-hidden="true">
+          <img src="./assets/figma/cover-main.png" alt="" />
+        </div>
+
+        <header class="cover-header cover-alt-header">
+          <a class="cover-logo cover-alt-logo" href="#cover-alt-title" aria-label="Хамелеон">
+            <span class="cover-alt-wordmark">Хамелеон</span>
+          </a>
+
+          <button
+            class="cover-burger"
+            type="button"
+            aria-label="Открыть меню"
+            aria-expanded="false"
+            aria-controls="cover-alt-nav"
+          >
+            <span class="cover-burger-line"></span>
+            <span class="cover-burger-line"></span>
+            <span class="cover-burger-line"></span>
+          </button>
+
+          <div class="cover-menu">
+            <nav id="cover-alt-nav" class="cover-nav" aria-label="Основная навигация">
+              <a class="cover-nav-link" href="#services" data-anchor>Услуги</a>
+              <a class="cover-nav-link" href="#works" data-anchor>Работы</a>
+              <a class="cover-nav-link" href="#store" data-anchor>Магазин</a>
+              <a class="cover-nav-link" href="#about" data-anchor>О&nbsp;нас</a>
+              <a class="cover-nav-link" href="#testimonials" data-anchor>Отзывы</a>
+              <a class="cover-nav-link" href="#business" data-anchor>Бизнес</a>
+              <a class="cover-nav-link" href="#contacts" data-anchor>Контакты</a>
+            </nav>
+
+            <div class="cover-contact" aria-label="Контакты">
+              <button class="cover-contact-link" type="button" aria-label="Telegram">
+                <img
+                  class="cover-contact-icon cover-contact-icon-telegram"
+                  src="./assets/figma/cover-telegram.svg"
+                  alt=""
+                />
+              </button>
+              <button class="cover-contact-link" type="button" aria-label="VK">
+                <svg
+                  class="cover-contact-icon cover-contact-icon-vk"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                  aria-hidden="true"
+                >
+                  <path
+                    d="M4.8 7.35C4.93 13.65 8.06 17.44 13.56 17.44H13.87V13.84C15.9 14.04 17.43 15.52 18.04 17.44H20.91C20.13 14.58 18.08 13 16.8 12.39C18.08 11.65 19.87 9.84 20.3 7.35H17.69C17.13 9.37 15.48 11.18 13.87 11.35V7.35H11.26V14.36C9.63 13.95 7.57 11.99 7.48 7.35H4.8Z"
+                    fill="currentColor"
+                  />
+                </svg>
+              </button>
+              <a class="cover-phone" href="tel:+79129479147">+7 (912) 947-91-47</a>
+            </div>
+          </div>
+        </header>
+
+        <p class="cover-lead cover-alt-lead">
+          Передовые технологии отделки и&nbsp;детейлинга - аквапринт, карбон, антихром
+        </p>
+
+        <div class="cover-cta-block cover-alt-cta-block">
+          <button
+            class="cover-cta cover-alt-cta"
+            type="button"
+            data-brief-open
+            aria-label="Получить расчёт"
+          >
+            <span class="cover-cta-label">Получить расчёт</span>
+            <span class="cover-cta-icon" aria-hidden="true">
+              <img
+                class="cover-cta-fire"
+                src="./assets/figma/cover-fire.svg"
+                alt=""
+              />
+            </span>
+          </button>
+          <p class="cover-cta-note cover-alt-cta-note">Бесплатно, за&nbsp;24 часа</p>
+        </div>
+
+        <h2 id="cover-alt-title" class="cover-alt-title" aria-label="Мы делаем аквапринт">
+          <span class="cover-alt-title-static">Мы делаем</span>
+          <span class="cover-alt-title-dynamic-row">
+            <span
+              class="cover-alt-title-dynamic"
+              data-typed-words="аквапринт|инфузию|антихром|ламинацию|эстетику"
+            >
+              аквапринт
+            </span>
+            <span class="cover-alt-title-caret" aria-hidden="true"></span>
+          </span>
+        </h2>
+      </section>
+
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="hero-content">
+          <div class="hero-ellipses" aria-hidden="true">
+            <div class="hero-glow hero-glow-left">
+              <div class="hero-glow-asset">
+                <img loading="lazy" decoding="async"
+                  src="./assets/figma/hero-glow-left.svg"
+                  alt=""
+                />
+              </div>
+            </div>
+            <div class="hero-glow hero-glow-center">
+              <div class="hero-glow-asset">
+                <img loading="lazy" decoding="async"
+                  src="./assets/figma/hero-glow-center.svg"
+                  alt=""
+                />
+              </div>
+            </div>
+            <div class="hero-glow hero-glow-right">
+              <div class="hero-glow-asset">
+                <img loading="lazy" decoding="async"
+                  src="./assets/figma/hero-glow-right.svg"
+                  alt=""
+                />
+              </div>
+            </div>
+          </div>
+          <h1 id="hero-title" class="hero-title">
+            Создаем уникальность
+            <br />
+            на ваш вкус
+          </h1>
+          <p class="hero-subtitle">
+            Авто, мото, спортивный инвентарь, интерьерные решения
+          </p>
+        </div>
+      </section>
+
+      <section id="services" class="services" aria-labelledby="services-title">
+        <h1 id="services-title" class="services-title">Услуги</h1>
+
+        <div class="services-grid">
+          <article
+            class="service-card"
+            data-preview-art="console-red"
+          >
+            <div class="service-card-preview" aria-hidden="true">
+              <img loading="lazy" decoding="async"
+                class="service-card-preview-image"
+                src="./assets/figma/service-preview.png"
+                alt=""
+              />
+            </div>
+            <div class="badge-list" aria-label="Категории Аквапринт">
+              <span class="service-badge">металл</span>
+              <span class="service-badge">пластик</span>
+              <span class="service-badge">композит</span>
+              <span class="service-badge">гарантия</span>
+            </div>
+            <p class="service-description">
+              Переносим декоративные текстуры на детали салона, кузова и
+              мотоэлементы с&nbsp;аккуратной подгонкой под проект
+            </p>
+            <div class="service-card-footer">
+              <h2 class="service-title">Аквапринт</h2>
+            </div>
+          </article>
+
+          <article
+            class="service-card"
+            data-preview-art="grille"
+          >
+            <div class="service-card-preview" aria-hidden="true">
+              <img loading="lazy" decoding="async"
+                class="service-card-preview-image"
+                src="./assets/figma/service-preview.png"
+                alt=""
+              />
+            </div>
+            <div class="badge-list" aria-label="Категории Антихром">
+              <span class="service-badge">гальваника</span>
+              <span class="service-badge">металлизация</span>
+            </div>
+            <p class="service-description">
+              Убираем хромированные элементы и&nbsp;собираем чистый тёмный финиш под
+              общий стиль автомобиля
+            </p>
+            <div class="service-card-footer">
+              <h2 class="service-title">Антихром</h2>
+            </div>
+          </article>
+
+          <article
+            class="service-card service-card-wide"
+            data-preview-art="vacuum"
+          >
+            <div class="service-card-preview" aria-hidden="true">
+              <img loading="lazy" decoding="async"
+                class="service-card-preview-image"
+                src="./assets/figma/service-preview.png"
+                alt=""
+              />
+            </div>
+            <div class="badge-list" aria-label="Категории Вакуумная инфузия">
+              <span class="service-badge service-badge-accent">новинка</span>
+              <span class="service-badge">свое производство</span>
+            </div>
+            <p class="service-description">
+              Создаём лёгкие и&nbsp;прочные детали из&nbsp;углеродного волокна по&nbsp;вашей форме
+              и&nbsp;технической задаче
+            </p>
+            <div class="service-card-footer">
+              <h2 class="service-title">Вакуумная инфузия</h2>
+            </div>
+          </article>
+
+          <article
+            class="service-card"
+            data-preview-art="painting"
+          >
+            <div class="service-card-preview" aria-hidden="true">
+              <img loading="lazy" decoding="async"
+                class="service-card-preview-image"
+                src="./assets/figma/service-preview.png"
+                alt=""
+              />
+            </div>
+            <div class="badge-list" aria-label="Категории Покраска">
+              <span class="service-badge">металл</span>
+              <span class="service-badge">пластик</span>
+              <span class="service-badge">композит</span>
+              <span class="service-badge">хром</span>
+            </div>
+            <p class="service-description">
+              Подбираем оттенок, готовим поверхность и&nbsp;наносим покрытие под
+              конкретную задачу и&nbsp;материал детали
+            </p>
+            <div class="service-card-footer">
+              <h2 class="service-title">Покраска</h2>
+            </div>
+          </article>
+
+          <article
+            class="service-card service-card-wide"
+            data-preview-art="carbon"
+          >
+            <div class="service-card-preview" aria-hidden="true">
+              <img loading="lazy" decoding="async"
+                class="service-card-preview-image"
+                src="./assets/figma/service-preview.png"
+                alt=""
+              />
+            </div>
+            <div class="badge-list" aria-label="Категории Ламинация карбоном">
+              <span class="service-badge">пластик</span>
+              <span class="service-badge">композит</span>
+              <span class="service-badge">интерьер</span>
+              <span class="service-badge">экстерьер</span>
+            </div>
+            <p class="service-description">
+              Ламинируем детали карбоном для салона и&nbsp;экстерьера с&nbsp;точной
+              геометрией, рисунком и&nbsp;чистой посадкой
+            </p>
+            <div class="service-card-footer">
+              <h2 class="service-title">Ламинация карбоном</h2>
+            </div>
+          </article>
+
+          <button
+            id="cta-button"
+            class="cta-card"
+            type="button"
+            data-telegram-link="https://t.me/katerpillar_89"
+            aria-label="Оставить заявку"
+          >
+            <span class="cta-icon" aria-hidden="true">
+              <svg viewBox="0 0 21 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path
+                  d="M4.5 16L16.5 4M16.5 4H7.5M16.5 4V13"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </span>
+            <span class="cta-label">Оставить заявку</span>
+          </button>
+        </div>
+      </section>
+
+      <section id="works" class="works" aria-labelledby="works-title">
+        <div class="works-header">
+          <h2 id="works-title" class="works-title">Наши работы</h2>
+
+          <div class="works-tabs" role="tablist" aria-label="Категории работ">
+            <button class="works-tab is-active" type="button" data-filter="all" role="tab" aria-selected="true">
+              Все
+            </button>
+            <button class="works-tab" type="button" data-filter="aquaprint" role="tab" aria-selected="false">
+              Аквапринт
+            </button>
+            <button class="works-tab" type="button" data-filter="antichrome" role="tab" aria-selected="false">
+              Антихром
+            </button>
+            <button class="works-tab" type="button" data-filter="painting" role="tab" aria-selected="false">
+              Окрашивание
+            </button>
+            <button class="works-tab" type="button" data-filter="restoration" role="tab" aria-selected="false">
+              Восстановление
+            </button>
+            <button class="works-tab" type="button" data-filter="art" role="tab" aria-selected="false">
+              Арт
+            </button>
+            <button class="works-tab" type="button" data-filter="secondary" role="tab" aria-selected="false">
+              Вторичный пластик
+            </button>
+            <button class="works-tab" type="button" data-filter="wheels" role="tab" aria-selected="false">
+              Колёса
+            </button>
+          </div>
+        </div>
+
+        <div class="works-slider-shell" data-drag-scroll>
+          <div class="works-slider-track">
+            <article class="works-slide works-slide-standard" data-categories="antichrome">
+              <img loading="lazy" decoding="async"
+                class="works-slide-image"
+                src="./assets/figma/works/antichrome-1.webp"
+                alt=""
+              />
+              <div class="works-slide-info">
+                <div class="works-slide-badges" aria-label="Категории работы">
+                  <span class="works-slide-badge">Антихром</span>
+                  <span class="works-slide-badge">Volkswagen</span>
+                </div>
+                <h3 class="works-slide-title">Volkswagen чёрный глянец</h3>
+              </div>
+            </article>
+
+            <article class="works-slide works-slide-standard" data-categories="antichrome">
+              <img loading="lazy" decoding="async"
+                class="works-slide-image"
+                src="./assets/figma/works/antichrome-2.webp"
+                alt=""
+              />
+              <div class="works-slide-info">
+                <div class="works-slide-badges" aria-label="Категории работы">
+                  <span class="works-slide-badge">Антихром</span>
+                  <span class="works-slide-badge">Toyota</span>
+                </div>
+                <h3 class="works-slide-title">Toyota чёрный глянец</h3>
+              </div>
+            </article>
+
+            <article class="works-slide works-slide-standard" data-categories="antichrome">
+              <img loading="lazy" decoding="async"
+                class="works-slide-image"
+                src="./assets/figma/works/antichrome-3.webp"
+                alt=""
+              />
+              <div class="works-slide-info">
+                <div class="works-slide-badges" aria-label="Категории работы">
+                  <span class="works-slide-badge">Антихром</span>
+                  <span class="works-slide-badge">Honda</span>
+                </div>
+                <h3 class="works-slide-title">Honda жидкий матовый полиуретан</h3>
+              </div>
+            </article>
+
+            <article class="works-slide works-slide-standard" data-categories="antichrome">
+              <img loading="lazy" decoding="async"
+                class="works-slide-image"
+                src="./assets/figma/works/antichrome-4.webp"
+                alt=""
+              />
+              <div class="works-slide-info">
+                <div class="works-slide-badges" aria-label="Категории работы">
+                  <span class="works-slide-badge">Антихром</span>
+                  <span class="works-slide-badge">Mitsubishi</span>
+                </div>
+                <h3 class="works-slide-title">Mitsubishi чёрный глянец</h3>
+              </div>
+            </article>
+
+            <article class="works-slide works-slide-standard" data-categories="aquaprint">
+              <img loading="lazy" decoding="async"
+                class="works-slide-image"
+                src="./assets/figma/works/aquaprint-1.webp"
+                alt=""
+              />
+              <div class="works-slide-info">
+                <div class="works-slide-badges" aria-label="Категории работы">
+                  <span class="works-slide-badge">Аквапринт</span>
+                  <span class="works-slide-badge">Lexus</span>
+                </div>
+                <h3 class="works-slide-title">Lexus дерево + тактилизация</h3>
+              </div>
+            </article>
+
+            <article class="works-slide works-slide-standard" data-categories="aquaprint">
+              <img loading="lazy" decoding="async"
+                class="works-slide-image"
+                src="./assets/figma/works/aquaprint-2.webp"
+                alt=""
+              />
+              <div class="works-slide-info">
+                <div class="works-slide-badges" aria-label="Категории работы">
+                  <span class="works-slide-badge">Аквапринт</span>
+                  <span class="works-slide-badge">Lexus</span>
+                </div>
+                <h3 class="works-slide-title">Lexus дерево + тактилизация</h3>
+              </div>
+            </article>
+
+            <article class="works-slide works-slide-standard" data-categories="aquaprint">
+              <img loading="lazy" decoding="async"
+                class="works-slide-image"
+                src="./assets/figma/works/aquaprint-3.webp"
+                alt=""
+              />
+              <div class="works-slide-info">
+                <div class="works-slide-badges" aria-label="Категории работы">
+                  <span class="works-slide-badge">Аквапринт</span>
+                  <span class="works-slide-badge">Toyota</span>
+                </div>
+                <h3 class="works-slide-title">Toyota реставрация заводского покрытия</h3>
+              </div>
+            </article>
+
+            <article class="works-slide works-slide-standard" data-categories="aquaprint">
+              <img loading="lazy" decoding="async"
+                class="works-slide-image"
+                src="./assets/figma/works/aquaprint-4.webp"
+                alt=""
+              />
+              <div class="works-slide-info">
+                <div class="works-slide-badges" aria-label="Категории работы">
+                  <span class="works-slide-badge">Аквапринт</span>
+                  <span class="works-slide-badge">BMW</span>
+                </div>
+                <h3 class="works-slide-title">BMW аквапринт + кэнди</h3>
+              </div>
+            </article>
+
+            <article class="works-slide works-slide-standard" data-categories="aquaprint">
+              <img loading="lazy" decoding="async"
+                class="works-slide-image"
+                src="./assets/figma/works/aquaprint-5.webp"
+                alt=""
+              />
+              <div class="works-slide-info">
+                <div class="works-slide-badges" aria-label="Категории работы">
+                  <span class="works-slide-badge">Аквапринт</span>
+                  <span class="works-slide-badge">Toyota</span>
+                </div>
+                <h3 class="works-slide-title">Toyota аквапринт</h3>
+              </div>
+            </article>
+
+            <article class="works-slide works-slide-standard" data-categories="aquaprint">
+              <img loading="lazy" decoding="async"
+                class="works-slide-image"
+                src="./assets/figma/works/aquaprint-6.webp"
+                alt=""
+              />
+              <div class="works-slide-info">
+                <div class="works-slide-badges" aria-label="Категории работы">
+                  <span class="works-slide-badge">Аквапринт</span>
+                  <span class="works-slide-badge">BMW</span>
+                </div>
+                <h3 class="works-slide-title">BMW аквапринт + кэнди</h3>
+              </div>
+            </article>
+
+            <article class="works-slide works-slide-standard" data-categories="aquaprint">
+              <img loading="lazy" decoding="async"
+                class="works-slide-image"
+                src="./assets/figma/works/aquaprint-7.webp"
+                alt=""
+              />
+              <div class="works-slide-info">
+                <div class="works-slide-badges" aria-label="Категории работы">
+                  <span class="works-slide-badge">Аквапринт</span>
+                  <span class="works-slide-badge">Mitsubishi</span>
+                </div>
+                <h3 class="works-slide-title">Mitsubishi аквапринт + чёрный глянец</h3>
+              </div>
+            </article>
+
+            <article class="works-slide works-slide-standard" data-categories="aquaprint">
+              <img loading="lazy" decoding="async"
+                class="works-slide-image"
+                src="./assets/figma/works/aquaprint-8.webp"
+                alt=""
+              />
+              <div class="works-slide-info">
+                <div class="works-slide-badges" aria-label="Категории работы">
+                  <span class="works-slide-badge">Аквапринт</span>
+                  <span class="works-slide-badge">Toyota</span>
+                </div>
+                <h3 class="works-slide-title">Toyota аквапринт</h3>
+              </div>
+            </article>
+
+            <article class="works-slide works-slide-standard" data-categories="painting">
+              <img loading="lazy" decoding="async"
+                class="works-slide-image"
+                src="./assets/figma/works/painting-1.webp"
+                alt=""
+              />
+              <div class="works-slide-info">
+                <div class="works-slide-badges" aria-label="Категории работы">
+                  <span class="works-slide-badge">Окрашивание</span>
+                  <span class="works-slide-badge">Mitsubishi</span>
+                </div>
+                <h3 class="works-slide-title">Mitsubishi чёрный глянец + кэнди градиент</h3>
+              </div>
+            </article>
+
+            <article class="works-slide works-slide-standard" data-categories="painting">
+              <img loading="lazy" decoding="async"
+                class="works-slide-image"
+                src="./assets/figma/works/painting-2.webp"
+                alt=""
+              />
+              <div class="works-slide-info">
+                <div class="works-slide-badges" aria-label="Категории работы">
+                  <span class="works-slide-badge">Окрашивание</span>
+                  <span class="works-slide-badge">Honda</span>
+                </div>
+                <h3 class="works-slide-title">Honda кэнди под матовым лаком</h3>
+              </div>
+            </article>
+
+            <article class="works-slide works-slide-standard" data-categories="painting">
+              <img loading="lazy" decoding="async"
+                class="works-slide-image"
+                src="./assets/figma/works/painting-3.webp"
+                alt=""
+              />
+              <div class="works-slide-info">
+                <div class="works-slide-badges" aria-label="Категории работы">
+                  <span class="works-slide-badge">Окрашивание</span>
+                  <span class="works-slide-badge">Toyota</span>
+                </div>
+                <h3 class="works-slide-title">Toyota чёрный глянец</h3>
+              </div>
+            </article>
+
+            <article class="works-slide works-slide-standard" data-categories="painting">
+              <img loading="lazy" decoding="async"
+                class="works-slide-image"
+                src="./assets/figma/works/painting-4.webp"
+                alt=""
+              />
+              <div class="works-slide-info">
+                <div class="works-slide-badges" aria-label="Категории работы">
+                  <span class="works-slide-badge">Окрашивание</span>
+                  <span class="works-slide-badge">Honda</span>
+                </div>
+                <h3 class="works-slide-title">Honda жидкий матовый полиуретан</h3>
+              </div>
+            </article>
+
+            <article class="works-slide works-slide-standard" data-categories="painting">
+              <img loading="lazy" decoding="async"
+                class="works-slide-image"
+                src="./assets/figma/works/painting-5.webp"
+                alt=""
+              />
+              <div class="works-slide-info">
+                <div class="works-slide-badges" aria-label="Категории работы">
+                  <span class="works-slide-badge">Окрашивание</span>
+                  <span class="works-slide-badge">Honda</span>
+                </div>
+                <h3 class="works-slide-title">Honda чёрный глянец + кэнди градиент</h3>
+              </div>
+            </article>
+
+            <article class="works-slide works-slide-standard" data-categories="painting">
+              <img loading="lazy" decoding="async"
+                class="works-slide-image"
+                src="./assets/figma/works/painting-6.webp"
+                alt=""
+              />
+              <div class="works-slide-info">
+                <div class="works-slide-badges" aria-label="Категории работы">
+                  <span class="works-slide-badge">Окрашивание</span>
+                  <span class="works-slide-badge">Toyota</span>
+                </div>
+                <h3 class="works-slide-title">Toyota реставрация заводского покрытия</h3>
+              </div>
+            </article>
+
+            <article class="works-slide works-slide-standard" data-categories="painting">
+              <img loading="lazy" decoding="async"
+                class="works-slide-image"
+                src="./assets/figma/works/painting-7.webp"
+                alt=""
+              />
+              <div class="works-slide-info">
+                <div class="works-slide-badges" aria-label="Категории работы">
+                  <span class="works-slide-badge">Окрашивание</span>
+                  <span class="works-slide-badge">BMW</span>
+                </div>
+                <h3 class="works-slide-title">BMW чёрный глянец</h3>
+              </div>
+            </article>
+
+            <article class="works-slide works-slide-standard" data-categories="painting">
+              <img loading="lazy" decoding="async"
+                class="works-slide-image"
+                src="./assets/figma/works/painting-8.webp"
+                alt=""
+              />
+              <div class="works-slide-info">
+                <div class="works-slide-badges" aria-label="Категории работы">
+                  <span class="works-slide-badge">Окрашивание</span>
+                  <span class="works-slide-badge">Мото</span>
+                </div>
+                <h3 class="works-slide-title">Мототехника чёрный матовый полиуретан + трафарет</h3>
+              </div>
+            </article>
+
+            <article class="works-slide works-slide-standard" data-categories="restoration">
+              <img loading="lazy" decoding="async"
+                class="works-slide-image"
+                src="./assets/figma/works/restoration-1.webp"
+                alt=""
+              />
+              <div class="works-slide-info">
+                <div class="works-slide-badges" aria-label="Категории работы">
+                  <span class="works-slide-badge">Восстановление</span>
+                  <span class="works-slide-badge">Mercedes</span>
+                </div>
+                <h3 class="works-slide-title">Mercedes реставрация шпона</h3>
+              </div>
+            </article>
+
+            <article class="works-slide works-slide-standard" data-categories="art">
+              <img loading="lazy" decoding="async"
+                class="works-slide-image"
+                src="./assets/figma/works/art-1.webp"
+                alt=""
+              />
+              <div class="works-slide-info">
+                <div class="works-slide-badges" aria-label="Категории работы">
+                  <span class="works-slide-badge">Арт</span>
+                  <span class="works-slide-badge">Картина</span>
+                </div>
+                <h3 class="works-slide-title">Эпоксидный арт + кэнди</h3>
+              </div>
+            </article>
+
+            <article class="works-slide works-slide-standard" data-categories="art">
+              <img loading="lazy" decoding="async"
+                class="works-slide-image"
+                src="./assets/figma/works/art-2.webp"
+                alt=""
+              />
+              <div class="works-slide-info">
+                <div class="works-slide-badges" aria-label="Категории работы">
+                  <span class="works-slide-badge">Арт</span>
+                  <span class="works-slide-badge">Картина</span>
+                </div>
+                <h3 class="works-slide-title">Эпоксидный арт + кэнди + поталь</h3>
+              </div>
+            </article>
+
+            <article class="works-slide works-slide-standard" data-categories="secondary">
+              <img loading="lazy" decoding="async"
+                class="works-slide-image"
+                src="./assets/figma/works/secondary-1.webp"
+                alt=""
+              />
+              <div class="works-slide-info">
+                <div class="works-slide-badges" aria-label="Категории работы">
+                  <span class="works-slide-badge">Вторичный пластик</span>
+                  <span class="works-slide-badge">Потолок</span>
+                </div>
+                <h3 class="works-slide-title">Потолочный пластик жидкий матовый полиуретан + чёрный глянец</h3>
+              </div>
+            </article>
+
+            <article class="works-slide works-slide-standard" data-categories="secondary">
+              <img loading="lazy" decoding="async"
+                class="works-slide-image"
+                src="./assets/figma/works/secondary-2.webp"
+                alt=""
+              />
+              <div class="works-slide-info">
+                <div class="works-slide-badges" aria-label="Категории работы">
+                  <span class="works-slide-badge">Вторичный пластик</span>
+                  <span class="works-slide-badge">Ручки</span>
+                </div>
+                <h3 class="works-slide-title">Потолочные ручки жидкий матовый полиуретан</h3>
+              </div>
+            </article>
+
+            <article class="works-slide works-slide-standard" data-categories="secondary">
+              <img loading="lazy" decoding="async"
+                class="works-slide-image"
+                src="./assets/figma/works/secondary-3.webp"
+                alt=""
+              />
+              <div class="works-slide-info">
+                <div class="works-slide-badges" aria-label="Категории работы">
+                  <span class="works-slide-badge">Вторичный пластик</span>
+                  <span class="works-slide-badge">Ручки</span>
+                </div>
+                <h3 class="works-slide-title">Потолочные ручки жидкий матовый полиуретан + реставрация шпона</h3>
+              </div>
+            </article>
+
+            <article class="works-slide works-slide-standard" data-categories="wheels">
+              <img loading="lazy" decoding="async"
+                class="works-slide-image"
+                src="./assets/figma/works/wheels-1.webp"
+                alt=""
+              />
+              <div class="works-slide-info">
+                <div class="works-slide-badges" aria-label="Категории работы">
+                  <span class="works-slide-badge">Колёса</span>
+                  <span class="works-slide-badge">R22</span>
+                </div>
+                <h3 class="works-slide-title">R22 жидкий матовый полиуретан</h3>
+              </div>
+            </article>
+
+            <article class="works-slide works-slide-standard" data-categories="wheels">
+              <img loading="lazy" decoding="async"
+                class="works-slide-image"
+                src="./assets/figma/works/wheels-2.webp"
+                alt=""
+              />
+              <div class="works-slide-info">
+                <div class="works-slide-badges" aria-label="Категории работы">
+                  <span class="works-slide-badge">Колёса</span>
+                  <span class="works-slide-badge">R17</span>
+                </div>
+                <h3 class="works-slide-title">R17 жидкий матовый полиуретан + апплакация</h3>
+              </div>
+            </article>
+          
+          </div>
+        </div>
+      </section>
+
+      <section class="clients-network" aria-labelledby="clients-network-title">
+        <div class="clients-network-layout">
+          <div class="clients-network-copy">
+            <h2 id="clients-network-title" class="clients-network-title">
+              Клиенты
+              <br />
+              по всей
+              <br />
+              России
+            </h2>
+            <p class="clients-network-note">
+              Процесс прост и&nbsp;одинаков для всех: отдадим заказ лично или доставим в
+              ваш город
+            </p>
+
+            <div class="clients-network-map" aria-hidden="true">
+              <img loading="lazy" decoding="async"
+                class="clients-network-map-outline"
+                src="./assets/figma/russia-outline.svg"
+                alt=""
+              />
+              <img loading="lazy" decoding="async"
+                class="clients-network-map-image"
+                src="./assets/figma/russia-map.svg"
+                alt=""
+              />
+              <a
+                class="clients-network-map-dot"
+                href="https://yandex.ru/maps/org/khameleon/123480386302/?ll=53.686187%2C63.572384&amp;z=16"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Хамелеон на Яндекс Картах — г. Ухта"
+              ></a>
+              <img loading="lazy" decoding="async"
+                class="clients-network-marker clients-network-marker-1"
+                src="./assets/figma/russia-marker.png"
+                alt=""
+              />
+              <img loading="lazy" decoding="async"
+                class="clients-network-marker clients-network-marker-2"
+                src="./assets/figma/russia-marker.png"
+                alt=""
+              />
+              <img loading="lazy" decoding="async"
+                class="clients-network-marker clients-network-marker-3"
+                src="./assets/figma/russia-marker.png"
+                alt=""
+              />
+              <img loading="lazy" decoding="async"
+                class="clients-network-marker clients-network-marker-4"
+                src="./assets/figma/russia-marker.png"
+                alt=""
+              />
+              <img loading="lazy" decoding="async"
+                class="clients-network-marker clients-network-marker-5"
+                src="./assets/figma/russia-marker.png"
+                alt=""
+              />
+              <img loading="lazy" decoding="async"
+                class="clients-network-marker clients-network-marker-6"
+                src="./assets/figma/russia-marker.png"
+                alt=""
+              />
+            </div>
+          </div>
+
+          <ol class="clients-network-steps" aria-label="Этапы работы" data-drag-scroll>
+            <li class="clients-network-step" data-step="01">
+              <h3 class="clients-network-step-title">Оставляете заявку</h3>
+              <p class="clients-network-step-text">
+                Встречаемся на консультации (очно или онлайн), уточняем детали,
+                фиксируем стоимость и&nbsp;заключаем договор
+              </p>
+            </li>
+            <li class="clients-network-step" data-step="02">
+              <h3 class="clients-network-step-title">Забираем детали</h3>
+              <p class="clients-network-step-text">
+                Привозите детали в&nbsp;студию или сдаёте её в&nbsp;удобную транспортную
+                компанию. Клиентам из&nbsp;других городов подсказываем, как снять и
+                упаковать детали
+              </p>
+            </li>
+            <li class="clients-network-step" data-step="03">
+              <h3 class="clients-network-step-title">Выполняем работу</h3>
+              <p class="clients-network-step-text">
+                От подготовки поверхности до&nbsp;финишного покрытия. Присылаем фотоотчёт
+                на ключевых этапах
+              </p>
+            </li>
+            <li class="clients-network-step" data-step="04">
+              <h3 class="clients-network-step-title">Передаём результат вам</h3>
+              <p class="clients-network-step-text">
+                Устанавливаем детали в&nbsp;студии или отправляем обратно в&nbsp;ваш город
+              </p>
+            </li>
+          </ol>
+
+          <button
+            class="clients-network-cta"
+            type="button"
+            data-telegram-link="https://t.me/katerpillar_89"
+            aria-label="Оставить заявку"
+          >
+            <span class="clients-network-cta-label">Оставить заявку</span>
+            <span class="clients-network-cta-icon" aria-hidden="true">
+              <img loading="lazy" decoding="async"
+                class="clients-network-cta-fire"
+                src="./assets/figma/cover-fire.svg"
+                alt=""
+              />
+            </span>
+          </button>
+        </div>
+      </section>
+
+      <section id="store" class="store" aria-labelledby="store-title">
+        <h2 id="store-title" class="store-title">Магазин</h2>
+
+        <div class="store-toolbar">
+          <div class="store-tabs" role="tablist" aria-label="Категории магазина">
+            <button class="store-tab is-active" type="button" data-filter="all" role="tab" aria-selected="true">
+              Все работы
+            </button>
+            <button class="store-tab" type="button" data-filter="aquaprint" role="tab" aria-selected="false">
+              Аквапринт
+            </button>
+            <button class="store-tab" type="button" data-filter="antichrome" role="tab" aria-selected="false">
+              Антихром
+            </button>
+            <button class="store-tab" type="button" data-filter="vacuum" role="tab" aria-selected="false">
+              Вакуумная инфузия
+            </button>
+            <button class="store-tab" type="button" data-filter="carbon" role="tab" aria-selected="false">
+              Ламинация карбоном
+            </button>
+            <button class="store-tab" type="button" data-filter="other" role="tab" aria-selected="false">
+              Другое
+            </button>
+          </div>
+        </div>
+
+        <div class="store-slider-shell" data-drag-scroll>
+          <div class="store-slider-track">
+          <article class="store-card store-card-featured" data-categories="aquaprint other">
+            <div class="store-card-image-wrap">
+              <img loading="lazy" decoding="async"
+                class="store-card-image store-card-image-helmet"
+                src="./assets/figma/store-1.webp"
+                alt=""
+              />
+              <span class="service-badge service-badge-accent store-card-badge-accent">рекомендуем</span>
+            </div>
+            <div class="store-card-info">
+              <p class="store-card-name">Шлем мото с&nbsp;аквапринтом</p>
+              <p class="store-card-price">14 900 ₽</p>
+            </div>
+              <div class="store-card-action-wrap">
+                <button
+                  class="store-card-action"
+                  type="button"
+                  data-telegram-link="https://t.me/katerpillar_89"
+                >
+                  Подробнее
+                </button>
+              </div>
+          </article>
+
+          <article class="store-card" data-categories="antichrome carbon">
+            <div class="store-card-image-wrap">
+              <img loading="lazy" decoding="async"
+                class="store-card-image store-card-image-wheel"
+                src="./assets/figma/store-2.webp"
+                alt=""
+              />
+            </div>
+            <div class="store-card-info">
+              <p class="store-card-name">Колёсный диск с&nbsp;аквапринтом</p>
+              <p class="store-card-price">21 500 ₽</p>
+            </div>
+              <div class="store-card-action-wrap">
+                <button
+                  class="store-card-action"
+                  type="button"
+                  data-telegram-link="https://t.me/katerpillar_89"
+                >
+                  Подробнее
+                </button>
+              </div>
+          </article>
+
+          <article class="store-card" data-categories="aquaprint vacuum">
+            <div class="store-card-image-wrap">
+              <img loading="lazy" decoding="async"
+                class="store-card-image store-card-image-helmet"
+                src="./assets/figma/store-3.webp"
+                alt=""
+              />
+            </div>
+            <div class="store-card-info">
+              <p class="store-card-name">Шлем мото арт-серия</p>
+              <p class="store-card-price">15 750 ₽</p>
+            </div>
+              <div class="store-card-action-wrap">
+                <button
+                  class="store-card-action"
+                  type="button"
+                  data-telegram-link="https://t.me/katerpillar_89"
+                >
+                  Подробнее
+                </button>
+              </div>
+          </article>
+
+          <article class="store-card" data-categories="antichrome other">
+            <div class="store-card-image-wrap">
+              <img loading="lazy" decoding="async"
+                class="store-card-image store-card-image-wheel"
+                src="./assets/figma/store-4.webp"
+                alt=""
+              />
+            </div>
+            <div class="store-card-info">
+              <p class="store-card-name">Колёсный диск R18</p>
+              <p class="store-card-price">19 900 ₽</p>
+            </div>
+              <div class="store-card-action-wrap">
+                <button
+                  class="store-card-action"
+                  type="button"
+                  data-telegram-link="https://t.me/katerpillar_89"
+                >
+                  Подробнее
+                </button>
+              </div>
+          </article>
+          </div>
+        </div>
+
+        <div class="store-cta-block">
+          <button
+            class="store-cta"
+            type="button"
+            data-feedback-message="Кнопка нажата. Здесь можно подключить подбор деталей."
+          >
+            Не нашли то, что искали?
+          </button>
+          <p class="store-cta-note">Есть детали в наличии и под заказ</p>
+        </div>
+      </section>
+
+      <section class="choice-scroll" aria-labelledby="choice-title">
+        <div class="choice choice-scroll-sticky">
+        <div class="choice-head">
+          <div class="choice-glow choice-glow-left" aria-hidden="true"></div>
+          <div class="choice-glow choice-glow-center" aria-hidden="true"></div>
+          <div class="choice-glow choice-glow-right" aria-hidden="true"></div>
+          <h2 id="choice-title" class="choice-title">
+            Клиенты
+            <br />
+            выбирают
+            <br />
+            Хамелеон
+          </h2>
+        </div>
+
+        <div class="choice-slider-shell" data-drag-scroll>
+          <div class="choice-slider-track">
+            <article class="choice-card">
+              <div class="choice-card-copy">
+                <h3 class="choice-card-title">Работаем официально, по договору</h3>
+                <p class="choice-card-text">
+                  Гарантируем прозрачность условий, фиксируем сроки и&nbsp;объём работ,
+                  соблюдаем договорённости на каждом этапе.
+                </p>
+              </div>
+              <div class="choice-card-visual choice-card-visual-doc" aria-hidden="true">
+                <div class="choice-card-visual-glow choice-card-visual-glow-green"></div>
+                <div class="choice-card-visual-asset choice-card-visual-asset-doc">
+                  <img loading="lazy" decoding="async"
+                    class="choice-card-visual-img choice-card-visual-img-doc"
+                    src="./assets/figma/choice-doc.png"
+                    alt=""
+                  />
+                </div>
+              </div>
+            </article>
+
+            <article class="choice-card">
+              <div class="choice-card-copy">
+                <h3 class="choice-card-title">Даём пожизненную гарантию</h3>
+                <p class="choice-card-text">
+                  Берём ответственность за результат. При необходимости проводим
+                  обслуживание и поддержку без ограничений по времени.
+                </p>
+              </div>
+              <div class="choice-card-visual choice-card-visual-shield" aria-hidden="true">
+                <div class="choice-card-visual-glow choice-card-visual-glow-violet"></div>
+                <div class="choice-card-visual-asset choice-card-visual-asset-shield">
+                  <img loading="lazy" decoding="async"
+                    class="choice-card-visual-img choice-card-visual-img-shield"
+                    src="./assets/figma/choice-shield.png"
+                    alt=""
+                  />
+                </div>
+              </div>
+            </article>
+
+            <article class="choice-card">
+              <div class="choice-card-copy">
+                <h3 class="choice-card-title">Подбираем материалы под задачу</h3>
+                <p class="choice-card-text">
+                  Подбираем состав, цвет и&nbsp;тип покрытия под вашу задачу &mdash;
+                  от автотюнинга до интерьерных решений. Согласуем образец до
+                  старта работ.
+                </p>
+              </div>
+              <div class="choice-card-visual choice-card-visual-brilliant" aria-hidden="true">
+                <div class="choice-card-visual-glow choice-card-visual-glow-sand"></div>
+                <div class="choice-card-visual-asset choice-card-visual-asset-brilliant">
+                  <img loading="lazy" decoding="async"
+                    class="choice-card-visual-img choice-card-visual-img-brilliant"
+                    src="./assets/figma/choice-premium.png"
+                    alt=""
+                  />
+                </div>
+              </div>
+            </article>
+
+            <article class="choice-card">
+              <div class="choice-card-copy">
+                <h3 class="choice-card-title">Сопровождаем после сдачи проекта</h3>
+                <p class="choice-card-text">
+                  Остаёмся на связи после сдачи: проконсультируем по&nbsp;уходу,
+                  поможем с&nbsp;обслуживанием и&nbsp;плановой реставрацией покрытия.
+                </p>
+              </div>
+              <div class="choice-card-visual choice-card-visual-star" aria-hidden="true">
+                <div class="choice-card-visual-glow choice-card-visual-glow-blue"></div>
+                <div class="choice-card-visual-asset choice-card-visual-asset-star">
+                  <img loading="lazy" decoding="async"
+                    class="choice-card-visual-img choice-card-visual-img-star"
+                    src="./assets/figma/choice-discount.png"
+                    alt=""
+                  />
+                </div>
+              </div>
+            </article>
+          </div>
+        </div>
+        <button
+          class="choice-cta"
+          type="button"
+          data-telegram-link="https://t.me/katerpillar_89"
+          aria-label="Оставить заявку"
+        >
+          <span class="choice-cta-label">Оставить заявку</span>
+          <span class="choice-cta-icon" aria-hidden="true">
+            <img loading="lazy" decoding="async"
+              class="choice-cta-fire"
+              src="./assets/figma/cover-fire.svg"
+              alt=""
+            />
+          </span>
+        </button>
+        </div>
+      </section>
+
+      <section id="about" class="about" aria-labelledby="about-title">
+        <div class="about-top">
+          <div class="about-copy">
+            <h2 id="about-title" class="about-title">
+              Привет!
+              <br />
+              Меня зовут
+              <br />
+              Евгений
+            </h2>
+
+            <button
+              class="about-telegram"
+              type="button"
+              data-telegram-link="https://t.me/katerpillar_89"
+              aria-label="Написать в Telegram"
+            >
+              <span class="about-telegram-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M21.4 4.2 18.4 19.7c-.2 1-.8 1.2-1.6.7l-4.5-3.3-2.2 2.1c-.2.2-.4.4-.9.4l.3-4.6 8.4-7.6c.4-.3-.1-.5-.6-.2L7 12.5 2.6 11.1c-1-.3-1-1 .2-1.4L20.1 3c.8-.3 1.6.2 1.3 1.2Z" fill="currentColor"/>
+                </svg>
+              </span>
+              <span class="about-telegram-text">Написать<br />в Telegram</span>
+            </button>
+          </div>
+
+          <div class="about-visual">
+            <div class="about-glow" aria-hidden="true"></div>
+            <div class="about-portrait-frame" aria-hidden="true">
+              <img loading="lazy" decoding="async"
+                class="about-portrait"
+                src="./assets/figma/about-portrait.png"
+                alt=""
+              />
+            </div>
+
+            <div class="about-intro">
+              <p class="about-intro-text">
+                Я создал Хамелеон, чтобы изменить представление о&nbsp;том, каким может
+                быть аквапринт. За&nbsp;годы работы я понял, что этот процесс - не&nbsp;просто
+                нанесение рисунка. Это сочетание технологии, внимания к&nbsp;деталям и
+                вкуса, которое превращает обычные поверхности в уникальные вещи
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="about-stats">
+          <article class="about-stat">
+            <p class="about-stat-value">2000+</p>
+            <p class="about-stat-label">Проектов</p>
+          </article>
+
+          <article class="about-stat">
+            <p class="about-stat-value">11+ лет</p>
+            <p class="about-stat-label">Опыта работы</p>
+          </article>
+
+          <article class="about-stat about-stat-accent">
+            <p class="about-stat-value">98%</p>
+            <p class="about-stat-label">Клиентов рекомендуют нас</p>
+          </article>
+        </div>
+      </section>
+
+      <section id="testimonials" class="testimonials-scroll" aria-labelledby="testimonials-title">
+        <div class="testimonials-scroll-sticky">
+          <div class="testimonials-scroll-bg" aria-hidden="true">
+            <div class="testimonials-glow testimonials-glow-left"></div>
+            <div class="testimonials-glow testimonials-glow-center"></div>
+            <div class="testimonials-glow testimonials-glow-right"></div>
+          </div>
+
+          <h2 id="testimonials-title" class="testimonials-scroll-title">
+            Что о нас
+            <br />
+            говорят
+          </h2>
+
+          <div class="testimonials-cards-layer" aria-hidden="true">
+            <article class="testimonial-card testimonial-card-light testimonial-card-1">
+              <p class="testimonial-card-quote">
+                «Фантастическое внимание к&nbsp;деталям. Все сделано очень аккуратно, с
+                понятной коммуникацией и отличным финальным результатом.»
+              </p>
+              <div class="testimonial-card-author">
+                <span class="testimonial-card-avatar">ЕК</span>
+                <span class="testimonial-card-meta">
+                  <span class="testimonial-card-name">Евгений Кухаренко</span>
+                  <span class="testimonial-card-project">BMW X5</span>
+                </span>
+              </div>
+            </article>
+
+            <article class="testimonial-card testimonial-card-accent testimonial-card-2">
+              <p class="testimonial-card-quote">
+                «Понравился подход к&nbsp;проекту и&nbsp;скорость работы. Обязательно вернусь с
+                новыми деталями.»
+              </p>
+              <div class="testimonial-card-author">
+                <span class="testimonial-card-avatar">АК</span>
+                <span class="testimonial-card-meta">
+                  <span class="testimonial-card-name">Алексей К.</span>
+                  <span class="testimonial-card-project">Интерьер</span>
+                </span>
+              </div>
+            </article>
+
+            <article class="testimonial-card testimonial-card-light testimonial-card-3">
+              <p class="testimonial-card-quote">
+                «Качество покрытия превзошло ожидания. Поверхность выглядит дорого и
+                ощущается именно так, как хотелось.»
+              </p>
+              <div class="testimonial-card-author">
+                <span class="testimonial-card-avatar">МП</span>
+                <span class="testimonial-card-meta">
+                  <span class="testimonial-card-name">Марина П.</span>
+                  <span class="testimonial-card-project">Декор салона</span>
+                </span>
+              </div>
+            </article>
+
+            <article class="testimonial-card testimonial-card-outline testimonial-card-4">
+              <p class="testimonial-card-quote">
+                «Результат получился именно таким, как обсуждали на&nbsp;старте. Спасибо за
+                аккуратность и внимание к мелочам.»
+              </p>
+              <div class="testimonial-card-author">
+                <span class="testimonial-card-avatar">ИЛ</span>
+                <span class="testimonial-card-meta">
+                  <span class="testimonial-card-name">Илья Л.</span>
+                  <span class="testimonial-card-project">Руль и консоль</span>
+                </span>
+              </div>
+            </article>
+
+            <article class="testimonial-card testimonial-card-light testimonial-card-5">
+              <p class="testimonial-card-quote">
+                «Все этапы были прозрачны: сроки, материалы и&nbsp;стоимость. Очень
+                комфортная работа с&nbsp;командой.»
+              </p>
+              <div class="testimonial-card-author">
+                <span class="testimonial-card-avatar">СК</span>
+                <span class="testimonial-card-meta">
+                  <span class="testimonial-card-name">Сергей К.</span>
+                  <span class="testimonial-card-project">Audi Q7</span>
+                </span>
+              </div>
+            </article>
+
+            <article class="testimonial-card testimonial-card-accent testimonial-card-6">
+              <p class="testimonial-card-quote">
+                «Решение получилось смелым, но очень точным по&nbsp;вкусу. Вживую выглядит
+                даже лучше, чем на референсах.»
+              </p>
+              <div class="testimonial-card-author">
+                <span class="testimonial-card-avatar">НВ</span>
+                <span class="testimonial-card-meta">
+                  <span class="testimonial-card-name">Никита В.</span>
+                  <span class="testimonial-card-project">Панели торпедо</span>
+                </span>
+              </div>
+            </article>
+
+            <article class="testimonial-card testimonial-card-light testimonial-card-7">
+              <p class="testimonial-card-quote">
+                «Отдельно отмечу сервис и&nbsp;упаковку результата. Все приехало безупречно,
+                уже рекомендую знакомым.»
+              </p>
+              <div class="testimonial-card-author">
+                <span class="testimonial-card-avatar">ОВ</span>
+                <span class="testimonial-card-meta">
+                  <span class="testimonial-card-name">Ольга В.</span>
+                  <span class="testimonial-card-project">Доставка в регион</span>
+                </span>
+              </div>
+            </article>
+
+            <article class="testimonial-card testimonial-card-outline testimonial-card-8">
+              <p class="testimonial-card-quote">
+                «Проект реализован очень чисто и&nbsp;технологично. Видно, что у&nbsp;команды
+                сильная насмотренность и опыт.»
+              </p>
+              <div class="testimonial-card-author">
+                <span class="testimonial-card-avatar">РД</span>
+                <span class="testimonial-card-meta">
+                  <span class="testimonial-card-name">Роман Д.</span>
+                  <span class="testimonial-card-project">Карбон-комплект</span>
+                </span>
+              </div>
+            </article>
+          </div>
+        </div>
+
+      </section>
+
+      <section class="faq" aria-labelledby="faq-title">
+        <h2 id="faq-title" class="faq-title">Частые вопросы</h2>
+
+        <div class="faq-list">
+          <details class="faq-item" open>
+            <summary class="faq-trigger">
+              <span class="faq-question">Что такое пожизненная гарантия?</span>
+              <span class="faq-icon" aria-hidden="true">
+                <svg viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    d="M8 17L14 11L20 17"
+                    stroke="currentColor"
+                    stroke-width="2.4"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+              </span>
+            </summary>
+
+            <div class="faq-panel">
+              <p class="faq-answer">
+                Гарантируем прозрачность условий, фиксируем сроки и&nbsp;объём работ,
+                соблюдаем договорённости на каждом этапе.
+              </p>
+            </div>
+          </details>
+
+          <details class="faq-item">
+            <summary class="faq-trigger">
+              <span class="faq-question">Сколько времени занимает работа?</span>
+              <span class="faq-icon" aria-hidden="true">
+                <svg viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    d="M8 17L14 11L20 17"
+                    stroke="currentColor"
+                    stroke-width="2.4"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+              </span>
+            </summary>
+
+            <div class="faq-panel">
+              <p class="faq-answer">
+                Срок зависит от&nbsp;сложности детали и&nbsp;типа покрытия, но перед стартом мы
+                сразу согласовываем реалистичный график и этапы.
+              </p>
+            </div>
+          </details>
+
+          <details class="faq-item">
+            <summary class="faq-trigger">
+              <span class="faq-question">Нужно ли полностью разбирать салон?</span>
+              <span class="faq-icon" aria-hidden="true">
+                <svg viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    d="M8 17L14 11L20 17"
+                    stroke="currentColor"
+                    stroke-width="2.4"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+              </span>
+            </summary>
+
+            <div class="faq-panel">
+              <p class="faq-answer">
+                Нет, мы работаем только с&nbsp;теми элементами, которые реально требуют
+                демонтажа, и&nbsp;заранее обсуждаем объём вмешательства.
+              </p>
+            </div>
+          </details>
+
+          <details class="faq-item">
+            <summary class="faq-trigger">
+              <span class="faq-question">Можно ли отправить детали из другого города?</span>
+              <span class="faq-icon" aria-hidden="true">
+                <svg viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    d="M8 17L14 11L20 17"
+                    stroke="currentColor"
+                    stroke-width="2.4"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+              </span>
+            </summary>
+
+            <div class="faq-panel">
+              <p class="faq-answer">
+                Да, принимаем детали из&nbsp;регионов, согласовываем упаковку и&nbsp;возвращаем
+                результат тем же удобным способом доставки.
+              </p>
+            </div>
+          </details>
+
+          <details class="faq-item">
+            <summary class="faq-trigger">
+              <span class="faq-question">Как ухаживать за покрытием после работы?</span>
+              <span class="faq-icon" aria-hidden="true">
+                <svg viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    d="M8 17L14 11L20 17"
+                    stroke="currentColor"
+                    stroke-width="2.4"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+              </span>
+            </summary>
+
+            <div class="faq-panel">
+              <p class="faq-answer">
+                После выдачи даём понятные рекомендации по&nbsp;уходу, чтобы покрытие
+                сохраняло внешний вид и тактильность максимально долго.
+              </p>
+            </div>
+          </details>
+        </div>
+      </section>
+
+      <section id="business" class="business" aria-labelledby="business-title">
+        <div class="business-layout">
+          <div class="business-copy">
+            <h2 id="business-title" class="business-title">
+              Начните бизнес
+              <br />
+              с Хамелеон
+            </h2>
+
+            <div class="business-visual" aria-hidden="true">
+              <img loading="lazy" decoding="async"
+                class="business-visual-img"
+                src="./assets/figma/business-briefcase.png"
+                alt=""
+              />
+            </div>
+          </div>
+
+          <div class="business-cards">
+            <article class="business-card business-card-franchise">
+              <div class="business-card-copy">
+                <h3 class="business-card-title">Франшиза</h3>
+                <p class="business-card-text">
+                  Готовая модель студии с&nbsp;поддержкой запуска, материалами, стандартами
+                  работы и&nbsp;сопровождением команды
+                </p>
+              </div>
+              <div class="business-card-footer">
+                <button
+                  class="business-card-price business-card-price-link"
+                  type="button"
+                  data-telegram-link="https://t.me/katerpillar_89"
+                >
+                  Cтоимость по запросу
+                </button>
+                <button
+                  class="business-card-action"
+                  type="button"
+                  data-telegram-link="https://t.me/katerpillar_89"
+                  aria-label="Открыть франшизу"
+                >
+                  <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                      d="M4 16L16 4M16 4H7M16 4V13"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+                </button>
+              </div>
+            </article>
+
+            <article class="business-card business-card-training">
+              <div class="business-card-copy">
+                <h3 class="business-card-title">Обучение</h3>
+                <p class="business-card-text">
+                  Практические курсы по&nbsp;аквапринту, карбону и&nbsp;защитным покрытиям для
+                  мастеров и&nbsp;начинающих предпринимателей
+                </p>
+              </div>
+              <div class="business-card-footer">
+                <button
+                  class="business-card-price business-card-price-link"
+                  type="button"
+                  data-telegram-link="https://t.me/katerpillar_89"
+                >
+                  Cтоимость по запросу
+                </button>
+                <button
+                  class="business-card-action"
+                  type="button"
+                  data-telegram-link="https://t.me/katerpillar_89"
+                  aria-label="Открыть обучение"
+                >
+                  <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                      d="M4 16L16 4M16 4H7M16 4V13"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+                </button>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer" aria-labelledby="footer-title">
+      <div class="site-footer-main">
+        <section id="contacts" class="footer-contact">
+          <h2 id="footer-title" class="footer-contact-title">Свяжитесь с нами</h2>
+
+          <div class="footer-contact-cards">
+            <button
+              class="footer-contact-card footer-contact-card-brief"
+              type="button"
+              data-brief-open
+              aria-label="Заполнить бриф"
+            >
+              <div class="footer-contact-card-top">
+                <div class="footer-contact-eyebrow">
+                  <span class="footer-contact-eyebrow-icon" aria-hidden="true">
+                    <svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path
+                        d="M7 11.5C7 9.567 8.567 8 10.5 8H25.5C27.433 8 29 9.567 29 11.5V24.5C29 26.433 27.433 28 25.5 28H10.5C8.567 28 7 26.433 7 24.5V11.5Z"
+                        stroke="currentColor"
+                        stroke-width="2.4"
+                      />
+                      <path
+                        d="M9.5 11L18 18L26.5 11"
+                        stroke="currentColor"
+                        stroke-width="2.4"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                    </svg>
+                  </span>
+                  <span>Кратко о задаче</span>
+                </div>
+
+                <span class="footer-contact-arrow footer-contact-arrow-light" aria-hidden="true">
+                  <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                      d="M4 16L16 4M16 4H7M16 4V13"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+                </span>
+              </div>
+
+              <span class="footer-contact-card-title">Заполнить бриф</span>
+            </button>
+
+            <a
+              class="footer-contact-card footer-contact-card-telegram"
+              href="https://t.me/katerpillar_89"
+              target="_blank"
+              rel="noreferrer"
+              aria-label="Написать в Telegram"
+            >
+              <div class="footer-contact-card-top">
+                <div class="footer-contact-person">
+                  <img loading="lazy" decoding="async"
+                    class="footer-contact-avatar"
+                    src="./assets/figma/about-portrait.png"
+                    alt=""
+                  />
+                  <span class="footer-contact-person-name">Евгений Кухаренко</span>
+                </div>
+
+                <span class="footer-contact-arrow footer-contact-arrow-dark" aria-hidden="true">
+                  <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                      d="M4 16L16 4M16 4H7M16 4V13"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+                </span>
+              </div>
+
+              <span class="footer-contact-card-title">Написать в Telegram</span>
+            </a>
+          </div>
+
+          <div class="footer-contact-meta">
+            <div class="footer-contact-address">
+              <p>г.&nbsp;Ухта, строительная ул, 19</p>
+              <a
+                href="https://yandex.ru/maps/org/khameleon/123480386302/?ll=53.686187%2C63.572384&amp;z=16"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Мы на Яндекс картах
+              </a>
+            </div>
+
+            <div class="footer-contact-phone">
+              <a href="tel:+79129479147">+7 (912) 947-91-47</a>
+              <p>с&nbsp;9 до&nbsp;18 по&nbsp;будням мск</p>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <div class="site-footer-bar">
+        <a href="#" class="site-footer-legal">Политика конфиденциальности</a>
+        <p class="site-footer-credit">Разработка сайта</p>
+      </div>
+    </footer>
+
+    <div class="brief-modal" aria-hidden="true" hidden>
+      <div class="brief-modal-backdrop" data-brief-close></div>
+      <section
+        class="brief-modal-dialog"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="brief-modal-title"
+      >
+        <button class="brief-modal-close" type="button" data-brief-close aria-label="Закрыть">
+          <img loading="lazy" decoding="async"
+            src="./assets/figma/modal-x.svg"
+            alt=""
+          />
+        </button>
+
+        <div class="brief-modal-art" aria-hidden="true">
+          <img loading="lazy" decoding="async"
+            src="./assets/figma/choice-doc.png"
+            alt=""
+          />
+        </div>
+
+        <form class="brief-form">
+          <header class="brief-form-header">
+            <h3 id="brief-modal-title" class="brief-modal-title">Получить расчёт</h3>
+            <p class="brief-form-eyebrow">Ответим в&nbsp;течение 24&nbsp;часов с&nbsp;расчётом стоимости</p>
+          </header>
+
+          <fieldset class="brief-form-chips" data-brief-chips="service">
+            <legend class="brief-form-chips-label">Какая услуга интересует?</legend>
+            <div class="brief-form-chips-list">
+              <label class="brief-chip">
+                <input type="radio" name="service" value="aquaprint" />
+                <span>Аквапринт</span>
+              </label>
+              <label class="brief-chip">
+                <input type="radio" name="service" value="antichrome" />
+                <span>Антихром</span>
+              </label>
+              <label class="brief-chip">
+                <input type="radio" name="service" value="painting" />
+                <span>Окрашивание</span>
+              </label>
+              <label class="brief-chip">
+                <input type="radio" name="service" value="restoration" />
+                <span>Восстановление</span>
+              </label>
+              <label class="brief-chip">
+                <input type="radio" name="service" value="other" />
+                <span>Другое</span>
+              </label>
+            </div>
+          </fieldset>
+
+          <fieldset class="brief-form-chips" data-brief-chips="object">
+            <legend class="brief-form-chips-label">Что обрабатываем?</legend>
+            <div class="brief-form-chips-list">
+              <label class="brief-chip">
+                <input type="radio" name="object" value="auto" />
+                <span>Авто</span>
+              </label>
+              <label class="brief-chip">
+                <input type="radio" name="object" value="moto" />
+                <span>Мото</span>
+              </label>
+              <label class="brief-chip">
+                <input type="radio" name="object" value="wheels" />
+                <span>Колёса</span>
+              </label>
+              <label class="brief-chip">
+                <input type="radio" name="object" value="interior" />
+                <span>Интерьер</span>
+              </label>
+              <label class="brief-chip">
+                <input type="radio" name="object" value="other" />
+                <span>Другое</span>
+              </label>
+            </div>
+          </fieldset>
+
+          <div class="brief-form-fields">
+            <label class="brief-form-field">
+              <span class="brief-form-field-label">Как вас зовут?*</span>
+              <input
+                class="brief-form-input"
+                type="text"
+                name="name"
+                placeholder="Как вас зовут?*"
+                aria-label="Как вас зовут?"
+                autocomplete="name"
+                required
+              />
+            </label>
+
+            <label class="brief-form-field">
+              <span class="brief-form-field-label">Телефон или почта*</span>
+              <input
+                class="brief-form-input"
+                type="tel"
+                name="contact"
+                placeholder="+7 (___) ___-__-__"
+                aria-label="Телефон или почта"
+                autocomplete="tel"
+                data-phone-mask
+                inputmode="tel"
+                required
+              />
+            </label>
+
+            <label class="brief-form-field brief-form-field-message">
+              <span class="brief-form-field-label">Опишите задачу — деталь, материал, желаемый эффект</span>
+              <textarea
+                class="brief-form-textarea"
+                name="task"
+                placeholder="Например: капот BMW X5, чёрный матовый полиуретан"
+                aria-label="Опишите задачу"
+              ></textarea>
+            </label>
+          </div>
+
+          <div class="brief-form-attach">
+            <label class="brief-form-attach-button" for="brief-attachment">
+              <span class="brief-form-attach-icon" aria-hidden="true">
+                <svg viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    d="M18.2 8.2L11.05 15.35C9.853 16.547 9.853 18.488 11.05 19.685C12.247 20.882 14.188 20.882 15.385 19.685L23.19 11.88C25.052 10.018 25.052 6.998 23.19 5.136C21.328 3.274 18.308 3.274 16.446 5.136L8.17 13.412C5.976 15.606 5.976 19.163 8.17 21.357C10.364 23.551 13.921 23.551 16.115 21.357L23.1 14.372"
+                    stroke="currentColor"
+                    stroke-width="2.2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+              </span>
+              <span class="brief-form-attach-text">Приложить документ</span>
+            </label>
+            <input id="brief-attachment" class="brief-form-file" type="file" multiple />
+            <div class="brief-form-attach-state" hidden>
+              <ul class="brief-form-file-list" aria-live="polite"></ul>
+            </div>
+          </div>
+
+          <div class="brief-form-footer">
+            <p class="brief-form-note">
+              Нажимая “Отправить”, вы соглашаетесь с&nbsp;<a
+                class="brief-form-note-link"
+                href="#"
+              >
+                политикой конфиденциальности
+              </a>
+            </p>
+
+            <button class="brief-form-submit" type="submit">Отправить</button>
+          </div>
+        </form>
+      </section>
+    </div>
+
+    <div class="success-modal" aria-hidden="true" hidden>
+      <div class="success-modal-backdrop" data-success-close></div>
+      <section
+        class="success-modal-dialog"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="success-modal-title"
+      >
+        <button class="success-modal-close" type="button" data-success-close aria-label="Закрыть">
+          <img loading="lazy" decoding="async"
+            src="./assets/figma/modal-x.svg"
+            alt=""
+          />
+        </button>
+
+        <div class="success-modal-check" aria-hidden="true">
+          <img loading="lazy" decoding="async"
+            src="./assets/figma/success-check.png"
+            alt=""
+          />
+        </div>
+
+        <div class="success-modal-copy">
+          <h3 id="success-modal-title" class="success-modal-title">Спасибо за заявку</h3>
+          <p class="success-modal-note">Мы свяжемся с&nbsp;вами в&nbsp;ближайшее время</p>
+        </div>
+      </section>
+    </div>
+
+    <script type="module" src="./src/app.mjs?v=20260509-iter9"></script>
+  </body>
+</html>

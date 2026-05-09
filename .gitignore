@@ -1,0 +1,21 @@
+# OS / IDE
+.DS_Store
+.swift-module-cache/
+.vscode/
+.idea/
+
+# Project tooling
+.claude/
+node_modules/
+
+# Local debug screenshots / Figma scratch
+.figma-*
+.clients-*.png
+.works-*.png
+
+# Large local archives
+*.zip
+
+# Misc
+*.log
+*.tmp
