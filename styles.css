@@ -4,6 +4,13 @@
   --cover-gutter: 20px;
 }
 
+@media (max-width: 720px) {
+  :root {
+    --page-gutter: 16px;
+    --cover-gutter: 16px;
+  }
+}
+
 @media (min-width: 1920px) {
   :root {
     --page-gutter: 160px;
@@ -568,12 +575,17 @@ summary:focus-visible {
   box-sizing: border-box;
 }
 
+html {
+  overflow-x: clip;
+}
+
 body {
   margin: 0;
   min-height: 100vh;
   font-family: "Onest", Arial, sans-serif;
   background: var(--page-bg);
   color: var(--text-primary);
+  overflow-x: clip;
 }
 
 .services-page {
@@ -5335,7 +5347,7 @@ body.is-brief-modal-open {
   .services,
   .clients-network,
   .shop {
-    padding-inline: 12px;
+    padding-inline: var(--page-gutter);
   }
 
   .cover {
@@ -6017,7 +6029,7 @@ body.is-brief-modal-open {
 
   .faq {
     margin-top: 140px;
-    padding-inline: 12px;
+    padding-inline: var(--page-gutter);
   }
 
   .faq-title {
@@ -6471,7 +6483,7 @@ body.is-brief-modal-open {
 
 @media (max-width: 720px) {
   .shop {
-    padding-inline: 12px;
+    padding-inline: var(--page-gutter);
   }
 
   .shop-title {
@@ -7095,7 +7107,7 @@ body.is-brief-modal-open {
 
   .store {
     row-gap: 20px;
-    padding-inline: 12px;
+    padding-inline: var(--page-gutter);
   }
 
   .store-title {
@@ -7188,7 +7200,7 @@ body.is-brief-modal-open {
   }
 
   .choice {
-    padding-inline: 12px;
+    padding-inline: var(--page-gutter);
   }
 
   .choice-head {
