@@ -377,6 +377,24 @@ summary:focus-visible {
   transform: translate(0, 0);
 }
 
+@media (max-width: 720px) {
+  .cookie-banner.variant-corner {
+    left: 12px;
+    right: 12px;
+    bottom: calc(env(safe-area-inset-bottom, 0px) + 110px);
+    max-width: none;
+    padding: 14px 16px;
+    gap: 10px;
+  }
+  .cookie-banner.variant-corner .cookie-banner-text {
+    font-size: 12px;
+  }
+  /* When cookie banner is visible, give body extra padding so sticky CTA doesn't sit under it */
+  body:has(.cookie-banner.is-shown) .mobile-sticky-cta {
+    z-index: 100;
+  }
+}
+
 .cookie-banner.variant-corner .cookie-banner-text {
   font-size: 13px;
   line-height: 1.5;
@@ -2560,7 +2578,10 @@ body {
 
 .clients-network-steps.is-reveal-ready .clients-network-step {
   opacity: 0;
-  transform: translateY(28px);
+  transform: translateY(40px);
+  transition:
+    opacity 720ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 720ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .clients-network-steps.is-reveal-ready .clients-network-step.is-visible {
@@ -2569,15 +2590,15 @@ body {
 }
 
 .clients-network-steps.is-reveal-ready .clients-network-step:nth-child(2) {
-  transition-delay: 90ms;
+  transition-delay: 220ms;
 }
 
 .clients-network-steps.is-reveal-ready .clients-network-step:nth-child(3) {
-  transition-delay: 180ms;
+  transition-delay: 440ms;
 }
 
 .clients-network-steps.is-reveal-ready .clients-network-step:nth-child(4) {
-  transition-delay: 270ms;
+  transition-delay: 660ms;
 }
 
 .clients-network-step::before {
@@ -5389,11 +5410,13 @@ body.is-brief-modal-open {
   }
 
   .cover-alt {
-    --cover-alt-title-top: 164px;
+    --cover-alt-title-top: 64px;
+    min-height: 0;
     grid-template-columns: 1fr;
-    grid-template-rows: auto 1fr auto;
-    row-gap: 16px;
-    padding-bottom: 32px;
+    grid-template-rows: auto auto auto;
+    row-gap: 24px;
+    padding-top: 40px;
+    padding-bottom: 40px;
   }
 
   .cover-alt-media {

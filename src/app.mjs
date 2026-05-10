@@ -185,12 +185,16 @@ function initScrollProgress() {
 function initMobileStickyCta() {
   const cta = document.querySelector("[data-mobile-sticky-cta]");
   if (!cta) return;
-  const cover = document.querySelector(".cover");
+  const covers = document.querySelectorAll(".cover");
+  const lastCover = covers[covers.length - 1] || null;
   const footer = document.querySelector(".footer-contact");
   let ticking = false;
   function update() {
     const y = window.scrollY;
-    const past = cover ? y > cover.offsetHeight - 100 : y > 600;
+    const coverBottom = lastCover
+      ? lastCover.offsetTop + lastCover.offsetHeight
+      : 600;
+    const past = y > coverBottom + 80;
     const nearFooter = footer
       ? footer.getBoundingClientRect().top - window.innerHeight < 60
       : false;
@@ -379,10 +383,27 @@ function initCookieBanner() {
   if (!banner) return;
   const KEY = "cookie-consent-v1";
   if (localStorage.getItem(KEY) === "accepted") return;
-  setTimeout(() => {
+
+  let shown = false;
+  let listenerArmed = false;
+  let fallbackTimer = null;
+  const reveal = () => {
+    if (shown) return;
+    shown = true;
     banner.classList.add("is-shown");
     banner.setAttribute("aria-hidden", "false");
-  }, 600);
+    window.removeEventListener("scroll", onScroll);
+    if (fallbackTimer) clearTimeout(fallbackTimer);
+  };
+  const onScroll = () => {
+    if (!listenerArmed) return;
+    if (window.scrollY > 200) reveal();
+  };
+  window.addEventListener("scroll", onScroll, { passive: true });
+  // Arm the scroll trigger only after the browser has finished restoring scroll
+  setTimeout(() => { listenerArmed = true; }, 600);
+  fallbackTimer = setTimeout(reveal, 12000);
+
   banner.querySelector("[data-cookie-accept]")?.addEventListener("click", () => {
     localStorage.setItem(KEY, "accepted");
     banner.classList.remove("is-shown");
