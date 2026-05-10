@@ -121,7 +121,6 @@ if (faqItems.length > 0) {
 initAnchorLinks();
 initFloatHeader();
 initScrollProgress();
-initMobileStickyCta();
 initFiltersByContent();
 initFilterUrlState();
 initStorePriceContrast();
@@ -180,39 +179,6 @@ function initScrollProgress() {
   computeTarget();
   current = target;
   bar.style.setProperty("--progress", current.toFixed(4));
-}
-
-function initMobileStickyCta() {
-  const cta = document.querySelector("[data-mobile-sticky-cta]");
-  if (!cta) return;
-  const covers = document.querySelectorAll(".cover");
-  const lastCover = covers[covers.length - 1] || null;
-  const footer = document.querySelector(".footer-contact");
-  let ticking = false;
-  function update() {
-    const y = window.scrollY;
-    const coverBottom = lastCover
-      ? lastCover.offsetTop + lastCover.offsetHeight
-      : 600;
-    const past = y > coverBottom + 80;
-    const nearFooter = footer
-      ? footer.getBoundingClientRect().top - window.innerHeight < 60
-      : false;
-    if (past && !nearFooter) cta.classList.add("is-visible");
-    else cta.classList.remove("is-visible");
-    ticking = false;
-  }
-  window.addEventListener(
-    "scroll",
-    () => {
-      if (!ticking) {
-        requestAnimationFrame(update);
-        ticking = true;
-      }
-    },
-    { passive: true }
-  );
-  update();
 }
 
 function initFiltersByContent() {
