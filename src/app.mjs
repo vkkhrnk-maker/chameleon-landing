@@ -130,6 +130,7 @@ initBriefFormPolish();
 initFloatHeaderHideOnModal();
 initCookieBanner();
 initCoverCtaSpotlight();
+initStoreDetailModal();
 
 function initFiltersByContent() {
   // Hide filter tabs that have zero matching cards
@@ -1411,6 +1412,68 @@ function initCoverCtaSpotlight() {
       cta.style.setProperty("--cta-spot-x", "50%");
       cta.style.setProperty("--cta-spot-y", "50%");
     });
+  });
+}
+
+function initStoreDetailModal() {
+  const modal = document.querySelector("[data-store-detail-modal]");
+  if (!modal) return;
+  const dialog = modal.querySelector(".store-detail-modal-dialog");
+  const titleEl = modal.querySelector("[data-store-detail-title]");
+  const descEl = modal.querySelector("[data-store-detail-description]");
+  const priceEl = modal.querySelector("[data-store-detail-price]");
+  const imgEl = modal.querySelector("[data-store-detail-image]");
+  let lastFocused = null;
+
+  const open = (data) => {
+    titleEl.textContent = data.title || "";
+    descEl.textContent = data.description || "";
+    priceEl.textContent = data.price || "";
+    if (data.image) {
+      imgEl.src = data.image;
+      imgEl.alt = data.title || "";
+      imgEl.parentElement.hidden = false;
+    } else {
+      imgEl.parentElement.hidden = true;
+    }
+    lastFocused = document.activeElement;
+    modal.hidden = false;
+    requestAnimationFrame(() => {
+      modal.classList.add("is-open");
+      modal.setAttribute("aria-hidden", "false");
+      document.body.classList.add("is-store-detail-open");
+    });
+    dialog.querySelector(".store-detail-modal-close")?.focus();
+  };
+
+  const close = () => {
+    modal.classList.remove("is-open");
+    modal.setAttribute("aria-hidden", "true");
+    document.body.classList.remove("is-store-detail-open");
+    setTimeout(() => {
+      modal.hidden = true;
+      lastFocused?.focus?.();
+    }, 280);
+  };
+
+  document.querySelectorAll("[data-store-detail]").forEach((btn) => {
+    btn.addEventListener("click", (e) => {
+      e.preventDefault();
+      open({
+        title: btn.dataset.title,
+        description: btn.dataset.description,
+        price: btn.dataset.price,
+        image: btn.dataset.image,
+      });
+    });
+  });
+
+  modal.querySelectorAll("[data-store-detail-close]").forEach((el) => {
+    el.addEventListener("click", close);
+  });
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && modal.classList.contains("is-open")) close();
   });
 }
 

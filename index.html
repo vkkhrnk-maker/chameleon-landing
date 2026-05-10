@@ -10,7 +10,7 @@
       href="https://fonts.googleapis.com/css2?family=Onest:wght@500&family=JetBrains+Mono:wght@400;500&display=swap&subset=cyrillic,latin"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="./styles.css?v=20260510-iter28" />
+    <link rel="stylesheet" href="./styles.css?v=20260510-iter29" />
     <style>
       .store {
         margin-top: 140px;
@@ -1331,16 +1331,16 @@
             </div>
             <div class="store-card-info">
               <h3 class="store-card-name">Эмблема Mitsubishi из&nbsp;карбона</h3>
-              <p class="store-card-meta">Глянцевый плёночный карбон, повторяет геометрию оригинала. Под все модели Mitsubishi</p>
+              <p class="store-card-meta" hidden>Глянцевый плёночный карбон, повторяет геометрию оригинала. Под все модели Mitsubishi</p>
               <p class="store-card-price">от 4 500 ₽</p>
             </div>
             <div class="store-card-action-wrap">
               <button
                 class="store-card-action"
                 type="button"
-                data-telegram-link="https://t.me/katerpillar_89"
+                data-store-detail data-image="./assets/figma/store/carbon-emblem.webp" data-title="Эмблема Mitsubishi из карбона" data-price="от 4 500 ₽" data-description="Глянцевый плёночный карбон, повторяет геометрию оригинала. Под все модели Mitsubishi."
               >
-                Заказать
+                Подробнее
               </button>
             </div>
           </article>
@@ -1355,16 +1355,16 @@
             </div>
             <div class="store-card-info">
               <h3 class="store-card-name">Накладки на&nbsp;крылья из&nbsp;карбона</h3>
-              <p class="store-card-meta">Аэродинамические элементы, готовый комплект под установку. Сатиновое или глянцевое плетение</p>
+              <p class="store-card-meta" hidden>Аэродинамические элементы, готовый комплект под установку. Сатиновое или глянцевое плетение</p>
               <p class="store-card-price">от 8 900 ₽ / пара</p>
             </div>
             <div class="store-card-action-wrap">
               <button
                 class="store-card-action"
                 type="button"
-                data-telegram-link="https://t.me/katerpillar_89"
+                data-store-detail data-image="./assets/figma/store/carbon-spoiler.webp" data-title="Накладки на крылья из карбона" data-price="от 8 900 ₽ / пара" data-description="Аэродинамические элементы, готовый комплект под установку. Сатиновое или глянцевое плетение."
               >
-                Заказать
+                Подробнее
               </button>
             </div>
           </article>
@@ -1379,16 +1379,16 @@
             </div>
             <div class="store-card-info">
               <h3 class="store-card-name">Накладка зеркала из&nbsp;карбона</h3>
-              <p class="store-card-meta">Заводская посадка по&nbsp;форме корпуса, защитный лак. Под популярные авто</p>
+              <p class="store-card-meta" hidden>Заводская посадка по&nbsp;форме корпуса, защитный лак. Под популярные авто</p>
               <p class="store-card-price">от 3 500 ₽ / шт</p>
             </div>
             <div class="store-card-action-wrap">
               <button
                 class="store-card-action"
                 type="button"
-                data-telegram-link="https://t.me/katerpillar_89"
+                data-store-detail data-image="./assets/figma/store/carbon-mirror.webp" data-title="Накладка зеркала из карбона" data-price="от 3 500 ₽ / шт" data-description="Заводская посадка по форме корпуса, защитный лак. Под популярные авто."
               >
-                Заказать
+                Подробнее
               </button>
             </div>
           </article>
@@ -1437,7 +1437,7 @@
                 <div class="choice-card-visual-asset choice-card-visual-asset-doc">
                   <img loading="lazy" decoding="async"
                     class="choice-card-visual-img choice-card-visual-img-doc"
-                    src="./assets/figma/choice-doc.png"
+                    src="./assets/figma/choice-icon-doc.webp"
                     alt=""
                   />
                 </div>
@@ -1457,7 +1457,7 @@
                 <div class="choice-card-visual-asset choice-card-visual-asset-shield">
                   <img loading="lazy" decoding="async"
                     class="choice-card-visual-img choice-card-visual-img-shield"
-                    src="./assets/figma/choice-shield.png"
+                    src="./assets/figma/choice-icon-shield.webp"
                     alt=""
                   />
                 </div>
@@ -1478,7 +1478,7 @@
                 <div class="choice-card-visual-asset choice-card-visual-asset-brilliant">
                   <img loading="lazy" decoding="async"
                     class="choice-card-visual-img choice-card-visual-img-brilliant"
-                    src="./assets/figma/choice-premium.png"
+                    src="./assets/figma/choice-icon-diamond.webp"
                     alt=""
                   />
                 </div>
@@ -1498,7 +1498,7 @@
                 <div class="choice-card-visual-asset choice-card-visual-asset-star">
                   <img loading="lazy" decoding="async"
                     class="choice-card-visual-img choice-card-visual-img-star"
-                    src="./assets/figma/choice-discount.png"
+                    src="./assets/figma/choice-icon-star.webp"
                     alt=""
                   />
                 </div>
@@ -2225,6 +2225,44 @@
       </section>
     </div>
 
+    <div class="store-detail-modal" data-store-detail-modal aria-hidden="true" hidden>
+      <div class="store-detail-modal-backdrop" data-store-detail-close></div>
+      <section
+        class="store-detail-modal-dialog"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="store-detail-modal-title"
+      >
+        <button class="store-detail-modal-close" type="button" data-store-detail-close aria-label="Закрыть">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M6 6L18 18M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </button>
+
+        <div class="store-detail-modal-image-wrap">
+          <img class="store-detail-modal-image" data-store-detail-image src="" alt="" loading="lazy" decoding="async" />
+        </div>
+
+        <div class="store-detail-modal-content">
+          <h3 id="store-detail-modal-title" class="store-detail-modal-title" data-store-detail-title></h3>
+          <p class="store-detail-modal-description" data-store-detail-description></p>
+          <p class="store-detail-modal-price" data-store-detail-price></p>
+
+          <button
+            class="cover-cta store-detail-modal-cta"
+            type="button"
+            data-telegram-link="https://t.me/katerpillar_89"
+            aria-label="Получить консультацию"
+          >
+            <span class="cover-cta-label">Получить консультацию</span>
+            <span class="cover-cta-icon" aria-hidden="true">
+              <img class="cover-cta-fire" src="./assets/figma/cover-fire.svg" alt="" />
+            </span>
+          </button>
+        </div>
+      </section>
+    </div>
+
     <div class="cookie-banner variant-corner" data-cookie-banner aria-hidden="true">
       <p class="cookie-banner-text">
         Мы используем cookie для&nbsp;аналитики и&nbsp;улучшения сайта. Подробнее в&nbsp;<a href="./privacy.html">политике конфиденциальности</a>
@@ -2234,6 +2272,6 @@
       </button>
     </div>
 
-    <script type="module" src="./src/app.mjs?v=20260510-iter23"></script>
+    <script type="module" src="./src/app.mjs?v=20260510-iter29"></script>
   </body>
 </html>
