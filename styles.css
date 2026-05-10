@@ -5548,9 +5548,9 @@ body.is-brief-modal-open {
   }
 
   .clients-network-cta {
-    width: min(100%, 284px);
+    width: min(100%, 340px);
     min-height: 104px;
-    padding: 24px 28px;
+    padding: 24px 24px;
     border-radius: 28px;
   }
 
@@ -5948,10 +5948,10 @@ body.is-brief-modal-open {
   .cover-cta,
   .choice-cta,
   .clients-network-cta {
-    width: min(100%, 284px);
-    max-width: 284px;
+    width: min(100%, 340px);
+    max-width: 340px;
     min-height: 104px;
-    padding: 24px 28px;
+    padding: 24px 24px;
     border-radius: 28px;
   }
 
