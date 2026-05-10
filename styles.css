@@ -6044,8 +6044,7 @@ body.is-brief-modal-open {
   }
 
   .faq-answer {
-    padding: 0 16px 24px;
-    font-size: 13px;
+    padding: 0 16px 24px !important;
   }
 
   .site-footer {
@@ -7208,61 +7207,69 @@ body.is-brief-modal-open {
     --choice-glow-scale: 0.54;
   }
 
+  /* Mobile choice card: title -> centered icon -> text (Figma 127:4884) */
   .choice-card {
     flex-basis: 100%;
     width: 100%;
-    min-height: 360px;
+    min-height: 0;
     overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    padding: 24px;
+    gap: 16px;
   }
 
   .choice-card-copy {
-    left: 16px;
-    top: 16px;
-    bottom: 16px;
-    gap: 0;
-    width: calc(100% - 130px);
+    position: static;
+    display: contents;
   }
 
   .choice-card-title {
+    order: 1;
+    width: 100%;
     font-size: 22px;
-  }
-
-  .choice-card-text {
-    font-size: 13px;
+    text-align: left;
   }
 
   .choice-card-visual {
-    right: -16px;
-    width: 188px;
-    height: 280px;
+    position: static;
+    order: 2;
+    align-self: center;
+    width: 180px;
+    height: 180px;
+    margin: 8px 0;
   }
 
-  .choice-card-visual-shield {
-    right: -16px;
-  }
-
-  .choice-card-visual-brilliant {
-    right: -16px;
-  }
-
+  .choice-card-visual-shield,
+  .choice-card-visual-brilliant,
   .choice-card-visual-star {
-    right: -16px;
+    right: auto;
+  }
+
+  .choice-card-text {
+    order: 3;
+    width: 100%;
+    text-align: left;
   }
 
   .choice-card-visual-glow {
-    left: 18px;
-    top: 44px;
-    width: 126px;
-    height: 126px;
+    left: 50%;
+    top: 30px;
+    width: 120px;
+    height: 120px;
+    transform: translateX(-50%) rotate(-10deg);
     filter: blur(28px);
   }
 
-  .choice-card-visual-asset-doc,
-  .choice-card-visual-asset-shield,
-  .choice-card-visual-asset-star,
-  .choice-card-visual-asset-brilliant {
-    width: 142px;
-    height: 142px;
+  /* Keep asset cropped via overflow:hidden + absolute img sprite */
+  .choice-card-visual {
+    overflow: hidden;
+    position: relative;
+  }
+
+  .choice-card-visual-asset {
+    width: 180px;
+    height: 180px;
   }
 
   .choice-cta {
