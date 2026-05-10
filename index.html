@@ -10,28 +10,22 @@
       href="https://fonts.googleapis.com/css2?family=Onest:wght@500&family=JetBrains+Mono:wght@400;500&display=swap&subset=cyrillic,latin"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="./styles.css?v=20260509-iter10" />
+    <link rel="stylesheet" href="./styles.css?v=20260510-iter14" />
     <style>
       .store {
         margin-top: 140px;
-        display: grid;
-        grid-template-columns: minmax(0, 1fr) 341px;
-        grid-template-areas:
-          "title title"
-          "toolbar cta"
-          "slider slider";
-        column-gap: 40px;
-        row-gap: 32px;
-        padding-inline: clamp(20px, calc(-140px + 12.5vw), 100px);
+        display: flex;
+        flex-direction: column;
+        gap: 40px;
       }
 
       .store-title {
-        grid-area: title;
-        margin: 0 0 40px;
+        margin: 0;
+        max-width: 920px;
         font-family: "Onest", Arial, sans-serif;
         font-size: clamp(4.5rem, 7.25vw, 5.5rem);
         font-weight: 500;
-        line-height: 0.9659;
+        line-height: 0.95;
         letter-spacing: -0.03em;
       }
 
@@ -114,7 +108,7 @@
 
       .store-grid {
         display: grid;
-        grid-template-columns: repeat(4, minmax(0, 1fr));
+        grid-template-columns: repeat(3, minmax(0, 1fr));
         gap: 4px;
         align-items: stretch;
       }
@@ -148,10 +142,8 @@
       .store-card {
         display: flex;
         flex-direction: column;
-        flex: 0 0 calc((100vw - (var(--page-gutter) * 2) - 12px) / 4);
-        width: calc((100vw - (var(--page-gutter) * 2) - 12px) / 4);
         min-width: 0;
-        min-height: 462px;
+        min-height: 520px;
         background: #ffffff;
         overflow: hidden;
       }
@@ -263,12 +255,6 @@
 
       @media (max-width: 1100px) {
         .store {
-          grid-template-columns: 1fr;
-          grid-template-areas:
-            "title"
-            "toolbar"
-            "slider"
-            "cta";
           row-gap: 24px;
         }
 
@@ -313,9 +299,7 @@
         }
 
         .store-card {
-          flex-basis: min(320px, calc((100vw - (var(--page-gutter) * 2)) - 80px));
-          width: min(320px, calc((100vw - (var(--page-gutter) * 2)) - 80px));
-          min-height: 420px;
+          min-height: 460px;
         }
       }
 
@@ -378,8 +362,6 @@
         }
 
         .store-card {
-          flex-basis: calc(100vw - 56px);
-          width: calc(100vw - 56px);
           min-height: 396px;
         }
 
@@ -435,12 +417,12 @@
         <a class="float-header-link" href="#business" data-anchor>Бизнес</a>
         <a class="float-header-link" href="#contacts" data-anchor>Контакты</a>
       </nav>
-      <button class="float-header-cta" type="button" data-brief-open>Получить расчёт</button>
+      <button class="float-header-cta" type="button" data-telegram-link="https://t.me/katerpillar_89">Получить консультацию</button>
     </div>
 
-    <button class="mobile-sticky-cta" type="button" data-brief-open data-mobile-sticky-cta>
-      <span>Получить расчёт</span>
-      <span class="mobile-sticky-cta-note">бесплатно, за 24 часа</span>
+    <button class="mobile-sticky-cta" type="button" data-telegram-link="https://t.me/katerpillar_89" data-mobile-sticky-cta>
+      <span>Получить консультацию</span>
+      <span class="mobile-sticky-cta-note">бесплатно, в Telegram</span>
     </button>
 
     <main class="services-page">
@@ -512,10 +494,10 @@
           <button
             class="cover-cta cover-alt-cta"
             type="button"
-            data-brief-open
-            aria-label="Получить расчёт"
+            data-telegram-link="https://t.me/katerpillar_89"
+            aria-label="Получить консультацию"
           >
-            <span class="cover-cta-label">Получить расчёт</span>
+            <span class="cover-cta-label">Получить консультацию</span>
             <span class="cover-cta-icon" aria-hidden="true">
               <img
                 class="cover-cta-fire"
@@ -524,7 +506,7 @@
               />
             </span>
           </button>
-          <p class="cover-cta-note cover-alt-cta-note">Бесплатно, за&nbsp;24 часа</p>
+          <p class="cover-cta-note cover-alt-cta-note">Бесплатно, в&nbsp;Telegram</p>
         </div>
 
         <h2 id="cover-alt-title" class="cover-alt-title" aria-label="Мы делаем аквапринт">
@@ -1224,37 +1206,10 @@
                 rel="noopener noreferrer"
                 aria-label="Хамелеон на Яндекс Картах — г. Ухта"
               ></a>
-              <img loading="lazy" decoding="async"
-                class="clients-network-marker clients-network-marker-1"
-                src="./assets/figma/russia-marker.png"
-                alt=""
-              />
-              <img loading="lazy" decoding="async"
-                class="clients-network-marker clients-network-marker-2"
-                src="./assets/figma/russia-marker.png"
-                alt=""
-              />
-              <img loading="lazy" decoding="async"
-                class="clients-network-marker clients-network-marker-3"
-                src="./assets/figma/russia-marker.png"
-                alt=""
-              />
-              <img loading="lazy" decoding="async"
-                class="clients-network-marker clients-network-marker-4"
-                src="./assets/figma/russia-marker.png"
-                alt=""
-              />
-              <img loading="lazy" decoding="async"
-                class="clients-network-marker clients-network-marker-5"
-                src="./assets/figma/russia-marker.png"
-                alt=""
-              />
-              <img loading="lazy" decoding="async"
-                class="clients-network-marker clients-network-marker-6"
-                src="./assets/figma/russia-marker.png"
-                alt=""
-              />
             </div>
+            <p class="clients-network-map-caption">
+              Студия в&nbsp;Ухте&nbsp;— нажмите точку, чтобы открыть Яндекс&nbsp;Карты. Доставляем по&nbsp;всей России.
+            </p>
           </div>
 
           <ol class="clients-network-steps" aria-label="Этапы работы" data-drag-scroll>
@@ -1307,138 +1262,97 @@
       </section>
 
       <section id="store" class="store" aria-labelledby="store-title">
-        <h2 id="store-title" class="store-title">Магазин</h2>
-
-        <div class="store-toolbar">
-          <div class="store-tabs" role="tablist" aria-label="Категории магазина">
-            <button class="store-tab is-active" type="button" data-filter="all" role="tab" aria-selected="true">
-              Все работы
+        <div class="store-header">
+          <div class="store-header-text">
+            <h2 id="store-title" class="store-title">Карбоновые изделия<br />собственного производства</h2>
+          </div>
+          <div class="store-header-cta">
+            <button
+              class="store-cta"
+              type="button"
+              data-telegram-link="https://t.me/katerpillar_89"
+            >
+              Не нашли то, что искали?
             </button>
-            <button class="store-tab" type="button" data-filter="aquaprint" role="tab" aria-selected="false">
-              Аквапринт
-            </button>
-            <button class="store-tab" type="button" data-filter="antichrome" role="tab" aria-selected="false">
-              Антихром
-            </button>
-            <button class="store-tab" type="button" data-filter="vacuum" role="tab" aria-selected="false">
-              Вакуумная инфузия
-            </button>
-            <button class="store-tab" type="button" data-filter="carbon" role="tab" aria-selected="false">
-              Ламинация карбоном
-            </button>
-            <button class="store-tab" type="button" data-filter="other" role="tab" aria-selected="false">
-              Другое
-            </button>
+            <p class="store-cta-note">Есть детали в наличии и под заказ</p>
           </div>
         </div>
 
-        <div class="store-slider-shell" data-drag-scroll>
-          <div class="store-slider-track">
-          <article class="store-card store-card-featured" data-categories="aquaprint other">
+        <div class="store-grid">
+          <article class="store-card store-card-featured">
             <div class="store-card-image-wrap">
               <img loading="lazy" decoding="async"
-                class="store-card-image store-card-image-helmet"
-                src="./assets/figma/store-1.webp"
-                alt=""
+                class="store-card-image"
+                src="./assets/figma/store/carbon-emblem.webp"
+                alt="Карбоновая эмблема Mitsubishi"
               />
-              <span class="service-badge service-badge-accent store-card-badge-accent">рекомендуем</span>
+              <span class="service-badge service-badge-accent store-card-badge-accent">хит</span>
             </div>
             <div class="store-card-info">
-              <p class="store-card-name">Шлем мото с&nbsp;аквапринтом</p>
-              <p class="store-card-price">14 900 ₽</p>
+              <h3 class="store-card-name">Эмблема Mitsubishi из&nbsp;карбона</h3>
+              <p class="store-card-meta">Глянцевый плёночный карбон, повторяет геометрию оригинала. Под все модели Mitsubishi</p>
+              <p class="store-card-price">от 4 500 ₽</p>
             </div>
-              <div class="store-card-action-wrap">
-                <button
-                  class="store-card-action"
-                  type="button"
-                  data-telegram-link="https://t.me/katerpillar_89"
-                >
-                  Подробнее
-                </button>
-              </div>
+            <div class="store-card-action-wrap">
+              <button
+                class="store-card-action"
+                type="button"
+                data-telegram-link="https://t.me/katerpillar_89"
+              >
+                Заказать
+              </button>
+            </div>
           </article>
 
-          <article class="store-card" data-categories="antichrome carbon">
+          <article class="store-card">
             <div class="store-card-image-wrap">
               <img loading="lazy" decoding="async"
-                class="store-card-image store-card-image-wheel"
-                src="./assets/figma/store-2.webp"
-                alt=""
+                class="store-card-image"
+                src="./assets/figma/store/carbon-spoiler.webp"
+                alt="Карбоновые накладки на крылья"
               />
             </div>
             <div class="store-card-info">
-              <p class="store-card-name">Колёсный диск с&nbsp;аквапринтом</p>
-              <p class="store-card-price">21 500 ₽</p>
+              <h3 class="store-card-name">Накладки на&nbsp;крылья из&nbsp;карбона</h3>
+              <p class="store-card-meta">Аэродинамические элементы, готовый комплект под установку. Сатиновое или глянцевое плетение</p>
+              <p class="store-card-price">от 8 900 ₽ / пара</p>
             </div>
-              <div class="store-card-action-wrap">
-                <button
-                  class="store-card-action"
-                  type="button"
-                  data-telegram-link="https://t.me/katerpillar_89"
-                >
-                  Подробнее
-                </button>
-              </div>
+            <div class="store-card-action-wrap">
+              <button
+                class="store-card-action"
+                type="button"
+                data-telegram-link="https://t.me/katerpillar_89"
+              >
+                Заказать
+              </button>
+            </div>
           </article>
 
-          <article class="store-card" data-categories="aquaprint vacuum">
+          <article class="store-card">
             <div class="store-card-image-wrap">
               <img loading="lazy" decoding="async"
-                class="store-card-image store-card-image-helmet"
-                src="./assets/figma/store-3.webp"
-                alt=""
+                class="store-card-image"
+                src="./assets/figma/store/carbon-mirror.webp"
+                alt="Карбоновая накладка на зеркало"
               />
             </div>
             <div class="store-card-info">
-              <p class="store-card-name">Шлем мото арт-серия</p>
-              <p class="store-card-price">15 750 ₽</p>
+              <h3 class="store-card-name">Накладка зеркала из&nbsp;карбона</h3>
+              <p class="store-card-meta">Заводская посадка по&nbsp;форме корпуса, защитный лак. Под популярные авто</p>
+              <p class="store-card-price">от 3 500 ₽ / шт</p>
             </div>
-              <div class="store-card-action-wrap">
-                <button
-                  class="store-card-action"
-                  type="button"
-                  data-telegram-link="https://t.me/katerpillar_89"
-                >
-                  Подробнее
-                </button>
-              </div>
+            <div class="store-card-action-wrap">
+              <button
+                class="store-card-action"
+                type="button"
+                data-telegram-link="https://t.me/katerpillar_89"
+              >
+                Заказать
+              </button>
+            </div>
           </article>
-
-          <article class="store-card" data-categories="antichrome other">
-            <div class="store-card-image-wrap">
-              <img loading="lazy" decoding="async"
-                class="store-card-image store-card-image-wheel"
-                src="./assets/figma/store-4.webp"
-                alt=""
-              />
-            </div>
-            <div class="store-card-info">
-              <p class="store-card-name">Колёсный диск R18</p>
-              <p class="store-card-price">19 900 ₽</p>
-            </div>
-              <div class="store-card-action-wrap">
-                <button
-                  class="store-card-action"
-                  type="button"
-                  data-telegram-link="https://t.me/katerpillar_89"
-                >
-                  Подробнее
-                </button>
-              </div>
-          </article>
-          </div>
         </div>
 
-        <div class="store-cta-block">
-          <button
-            class="store-cta"
-            type="button"
-            data-feedback-message="Кнопка нажата. Здесь можно подключить подбор деталей."
-          >
-            Не нашли то, что искали?
-          </button>
-          <p class="store-cta-note">Есть детали в наличии и под заказ</p>
-        </div>
       </section>
 
       <section class="choice-scroll" aria-labelledby="choice-title">
@@ -1463,7 +1377,7 @@
                 <h3 class="choice-card-title">Работаем официально, по договору</h3>
                 <p class="choice-card-text">
                   Гарантируем прозрачность условий, фиксируем сроки и&nbsp;объём работ,
-                  соблюдаем договорённости на каждом этапе.
+                  соблюдаем договорённости на каждом этапе
                 </p>
               </div>
               <div class="choice-card-visual choice-card-visual-doc" aria-hidden="true">
@@ -1483,7 +1397,7 @@
                 <h3 class="choice-card-title">Даём пожизненную гарантию</h3>
                 <p class="choice-card-text">
                   Берём ответственность за результат. При необходимости проводим
-                  обслуживание и поддержку без ограничений по времени.
+                  обслуживание и поддержку без ограничений по времени
                 </p>
               </div>
               <div class="choice-card-visual choice-card-visual-shield" aria-hidden="true">
@@ -1504,7 +1418,7 @@
                 <p class="choice-card-text">
                   Подбираем состав, цвет и&nbsp;тип покрытия под вашу задачу &mdash;
                   от автотюнинга до интерьерных решений. Согласуем образец до
-                  старта работ.
+                  старта работ
                 </p>
               </div>
               <div class="choice-card-visual choice-card-visual-brilliant" aria-hidden="true">
@@ -1524,7 +1438,7 @@
                 <h3 class="choice-card-title">Сопровождаем после сдачи проекта</h3>
                 <p class="choice-card-text">
                   Остаёмся на связи после сдачи: проконсультируем по&nbsp;уходу,
-                  поможем с&nbsp;обслуживанием и&nbsp;плановой реставрацией покрытия.
+                  поможем с&nbsp;обслуживанием и&nbsp;плановой реставрацией покрытия
                 </p>
               </div>
               <div class="choice-card-visual choice-card-visual-star" aria-hidden="true">
@@ -2077,7 +1991,7 @@
       </div>
 
       <div class="site-footer-bar">
-        <a href="#" class="site-footer-legal">Политика конфиденциальности</a>
+        <a href="./privacy.html" class="site-footer-legal">Политика конфиденциальности</a>
         <p class="site-footer-credit">Разработка сайта</p>
       </div>
     </footer>
@@ -2225,11 +2139,13 @@
 
           <div class="brief-form-footer">
             <p class="brief-form-note">
-              Нажимая “Отправить”, вы соглашаетесь с&nbsp;<a
+              Нажимая «Отправить», вы соглашаетесь с&nbsp;<a
                 class="brief-form-note-link"
-                href="#"
+                href="./privacy.html"
+                target="_blank"
+                rel="noopener"
               >
-                политикой конфиденциальности
+                политикой&nbsp;конфиденциальности
               </a>
             </p>
 
@@ -2262,12 +2178,23 @@
         </div>
 
         <div class="success-modal-copy">
-          <h3 id="success-modal-title" class="success-modal-title">Спасибо за заявку</h3>
-          <p class="success-modal-note">Мы свяжемся с&nbsp;вами в&nbsp;ближайшее время</p>
+          <h3 id="success-modal-title" class="success-modal-title">Открываем Telegram</h3>
+          <p class="success-modal-note">
+            Заявка готова в&nbsp;чате с&nbsp;Евгением. Если приложили файлы&nbsp;— отправьте их следующим сообщением.
+          </p>
         </div>
       </section>
     </div>
 
-    <script type="module" src="./src/app.mjs?v=20260509-iter9"></script>
+    <div class="cookie-banner variant-corner" data-cookie-banner aria-hidden="true">
+      <p class="cookie-banner-text">
+        Мы используем cookie для&nbsp;аналитики и&nbsp;улучшения сайта. Подробнее в&nbsp;<a href="./privacy.html">политике конфиденциальности</a>
+      </p>
+      <button class="cookie-banner-accept" type="button" data-cookie-accept>
+        Принять
+      </button>
+    </div>
+
+    <script type="module" src="./src/app.mjs?v=20260510-iter14"></script>
   </body>
 </html>

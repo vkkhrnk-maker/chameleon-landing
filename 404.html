@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Страница не найдена — Хамелеон</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Onest:wght@500;600&family=JetBrains+Mono:wght@400;500&display=swap&subset=cyrillic,latin"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css?v=20260510-iter13" />
+    <style>
+      .nf-page {
+        position: relative;
+        min-height: 100vh;
+        background: var(--page-bg);
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .nf-glow {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        background:
+          radial-gradient(circle at 50% 45%, rgba(139, 235, 102, 0.55) 0%, transparent 38%),
+          radial-gradient(circle at 35% 60%, rgba(170, 255, 137, 0.35) 0%, transparent 50%),
+          radial-gradient(circle at 65% 40%, rgba(72, 250, 128, 0.35) 0%, transparent 45%);
+        filter: blur(16px);
+      }
+
+      .nf-bg {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: "Onest", Arial, sans-serif;
+        font-weight: 600;
+        font-size: clamp(280px, 48vw, 720px);
+        line-height: 0.8;
+        letter-spacing: -0.05em;
+        color: rgba(255, 255, 255, 0.85);
+        text-shadow: 0 0 80px rgba(255, 255, 255, 0.5);
+        user-select: none;
+        pointer-events: none;
+      }
+
+      .nf-card {
+        position: relative;
+        z-index: 2;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 28px;
+        padding: 24px 32px;
+        text-align: center;
+      }
+
+      .nf-text {
+        margin: 0;
+        font-family: "Onest", Arial, sans-serif;
+        font-size: clamp(28px, 3vw, 36px);
+        font-weight: 500;
+        line-height: 1.15;
+        letter-spacing: -0.02em;
+        color: #0b0b0b;
+      }
+
+      .nf-cta {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        height: 64px;
+        padding: 0 48px;
+        background: var(--cta-bg);
+        color: #0b0b0b;
+        font-family: "JetBrains Mono", "Roboto Mono", monospace;
+        font-size: 16px;
+        line-height: 1;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        text-decoration: none;
+        border-radius: 16px;
+        box-shadow: 0 12px 32px rgba(139, 235, 102, 0.32);
+        transition:
+          background-color 160ms ease,
+          transform 160ms ease,
+          box-shadow 160ms ease;
+      }
+
+      .nf-cta:hover,
+      .nf-cta:focus-visible {
+        background: var(--cta-bg-hover);
+        transform: translateY(-2px);
+        box-shadow: 0 18px 40px rgba(139, 235, 102, 0.4);
+        outline: none;
+      }
+
+      @media (max-width: 720px) {
+        .nf-bg {
+          font-size: clamp(220px, 70vw, 360px);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="nf-page">
+      <div class="nf-glow" aria-hidden="true"></div>
+      <div class="nf-bg" aria-hidden="true">404</div>
+      <div class="nf-card">
+        <p class="nf-text">Не нашли такую страницу</p>
+        <a class="nf-cta" href="./index.html">На главную</a>
+      </div>
+    </main>
+  </body>
+</html>

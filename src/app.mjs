@@ -129,30 +129,57 @@ initWorksModal();
 initCarouselHints();
 initHeroParallax();
 initBriefFormPolish();
+initFloatHeaderHideOnModal();
+initCookieBanner();
+initCoverCtaSpotlight();
 
 function initScrollProgress() {
   const bar = document.querySelector("[data-scroll-progress]");
   if (!bar) return;
-  let ticking = false;
-  function update() {
+
+  let target = 0;
+  let current = 0;
+  let rafId = null;
+
+  const computeTarget = () => {
     const docH = document.documentElement.scrollHeight - window.innerHeight;
-    const pct = docH > 0 ? Math.min(100, Math.max(0, (window.scrollY / docH) * 100)) : 0;
-    bar.style.setProperty("--progress", pct + "%");
+    target = docH > 0 ? Math.min(1, Math.max(0, window.scrollY / docH)) : 0;
     if (window.scrollY > 80) bar.classList.add("is-visible");
     else bar.classList.remove("is-visible");
-    ticking = false;
-  }
+  };
+
+  const tick = () => {
+    current += (target - current) * 0.18;
+    if (Math.abs(target - current) < 0.0005) {
+      current = target;
+      bar.style.setProperty("--progress", current.toFixed(4));
+      rafId = null;
+      return;
+    }
+    bar.style.setProperty("--progress", current.toFixed(4));
+    rafId = requestAnimationFrame(tick);
+  };
+
+  const requestTick = () => {
+    if (rafId == null) rafId = requestAnimationFrame(tick);
+  };
+
   window.addEventListener(
     "scroll",
     () => {
-      if (!ticking) {
-        requestAnimationFrame(update);
-        ticking = true;
-      }
+      computeTarget();
+      requestTick();
     },
     { passive: true }
   );
-  update();
+  window.addEventListener("resize", () => {
+    computeTarget();
+    requestTick();
+  });
+
+  computeTarget();
+  current = target;
+  bar.style.setProperty("--progress", current.toFixed(4));
 }
 
 function initMobileStickyCta() {
@@ -344,13 +371,40 @@ function initPhoneMask() {
         input.value = formatted;
       }
     });
-    input.addEventListener("focus", () => {
-      if (!input.value) input.value = "+7 ";
-    });
-    input.addEventListener("blur", () => {
-      if (input.value === "+7 " || input.value === "+7") input.value = "";
-    });
   });
+}
+
+function initCookieBanner() {
+  const banner = document.querySelector("[data-cookie-banner]");
+  if (!banner) return;
+  const KEY = "cookie-consent-v1";
+  if (localStorage.getItem(KEY) === "accepted") return;
+  setTimeout(() => {
+    banner.classList.add("is-shown");
+    banner.setAttribute("aria-hidden", "false");
+  }, 600);
+  banner.querySelector("[data-cookie-accept]")?.addEventListener("click", () => {
+    localStorage.setItem(KEY, "accepted");
+    banner.classList.remove("is-shown");
+    banner.setAttribute("aria-hidden", "true");
+    setTimeout(() => {
+      banner.style.display = "none";
+    }, 380);
+  });
+}
+
+function initFloatHeaderHideOnModal() {
+  const modal = document.querySelector(".brief-modal");
+  const float = document.querySelector("[data-float-header]");
+  if (!modal || !float) return;
+  const observer = new MutationObserver(() => {
+    if (modal.hasAttribute("hidden")) {
+      float.classList.remove("is-hidden-by-modal");
+    } else {
+      float.classList.add("is-hidden-by-modal");
+    }
+  });
+  observer.observe(modal, { attributes: true, attributeFilter: ["hidden"] });
 }
 
 function initWorksModal() {
@@ -767,6 +821,45 @@ function initBriefModal() {
       return;
     }
 
+    const data = new FormData(briefForm);
+    const serviceLabels = {
+      aquaprint: "Аквапринт",
+      antichrome: "Антихром",
+      painting: "Покраска",
+      restoration: "Реставрация",
+      other: "Другое",
+    };
+    const objectLabels = {
+      auto: "Авто",
+      moto: "Мото",
+      wheels: "Диски",
+      interior: "Салон/интерьер",
+      other: "Другое",
+    };
+    const lines = ["Заявка с сайта «Хамелеон»"];
+    const service = data.get("service");
+    const object = data.get("object");
+    if (service) lines.push(`Услуга: ${serviceLabels[service] || service}`);
+    if (object) lines.push(`Объект: ${objectLabels[object] || object}`);
+    const name = (data.get("name") || "").toString().trim();
+    const contact = (data.get("contact") || "").toString().trim();
+    const task = (data.get("task") || "").toString().trim();
+    if (name) lines.push(`Имя: ${name}`);
+    if (contact) lines.push(`Контакт: ${contact}`);
+    if (task) lines.push(`Задача: ${task}`);
+
+    const fileCount = briefFileInput?.files?.length || 0;
+    if (fileCount > 0) {
+      lines.push(`Вложений: ${fileCount} (отправлю следующим сообщением)`);
+    }
+
+    const tgUrl = `https://t.me/katerpillar_89?text=${encodeURIComponent(lines.join("\n"))}`;
+    try {
+      window.open(tgUrl, "_blank", "noopener,noreferrer");
+    } catch (err) {
+      window.location.href = tgUrl;
+    }
+
     closeModal(briefModal);
 
     window.setTimeout(() => {
@@ -828,6 +921,11 @@ function initMotionSystem() {
     kind: "card",
     baseDelay: 80,
     stagger: 70,
+  });
+  registerMotion(".choice-slider-track > .choice-card", {
+    kind: "card",
+    baseDelay: 80,
+    stagger: 120,
   });
   registerMotion(".testimonials-scroll-title", { kind: "heading" });
   registerMotion(".testimonials-scroll-subtitle", { kind: "copy", baseDelay: 120 });
@@ -1357,6 +1455,26 @@ function initChoiceForcedScroll() {
   window.addEventListener("load", recalc);
   window.addEventListener("resize", recalc);
   window.addEventListener("scroll", requestUpdate, { passive: true });
+}
+
+function initCoverCtaSpotlight() {
+  const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (prefersReducedMotion) return;
+
+  document.querySelectorAll(".cover-cta").forEach((cta) => {
+    cta.addEventListener("pointermove", (event) => {
+      const bounds = cta.getBoundingClientRect();
+      const x = ((event.clientX - bounds.left) / bounds.width) * 100;
+      const y = ((event.clientY - bounds.top) / bounds.height) * 100;
+      cta.style.setProperty("--cta-spot-x", `${x}%`);
+      cta.style.setProperty("--cta-spot-y", `${y}%`);
+    });
+
+    cta.addEventListener("pointerleave", () => {
+      cta.style.setProperty("--cta-spot-x", "50%");
+      cta.style.setProperty("--cta-spot-y", "50%");
+    });
+  });
 }
 
 function initFaq() {
