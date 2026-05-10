@@ -1140,23 +1140,26 @@ body {
   display: none;
 }
 
-.service-card:hover .service-card-preview,
-.service-card:focus-within .service-card-preview {
-  opacity: 1;
-}
+/* Service-card hover reveal — only on devices with real hover (desktop) */
+@media (hover: hover) and (pointer: fine) {
+  .service-card:hover .service-card-preview,
+  .service-card:focus-within .service-card-preview {
+    opacity: 1;
+  }
 
-.service-card:hover .badge-list,
-.service-card:focus-within .badge-list {
-  opacity: 0;
-  transform: translateY(-6px);
-}
+  .service-card:hover .badge-list,
+  .service-card:focus-within .badge-list {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
 
-.service-card:hover .service-description,
-.service-card:focus-within .service-description {
-  opacity: 1;
-  max-height: 8.4em;
-  pointer-events: auto;
-  transform: translateY(0);
+  .service-card:hover .service-description,
+  .service-card:focus-within .service-description {
+    opacity: 1;
+    max-height: 8.4em;
+    pointer-events: auto;
+    transform: translateY(0);
+  }
 }
 
 .badge-list,
@@ -5378,7 +5381,7 @@ body.is-brief-modal-open {
 
   .cover-alt-title {
     grid-column: 1;
-    grid-row: 3;
+    grid-row: 2;
     align-self: start;
     width: 100%;
     --cover-alt-title-size: clamp(3.1rem, 16vw, 5.8rem);
@@ -5398,10 +5401,10 @@ body.is-brief-modal-open {
 
   .cover-alt-lead {
     grid-column: 1;
-    grid-row: 2;
+    grid-row: 3;
     align-self: start;
     justify-self: center;
-    width: min(300px, 100%);
+    width: min(320px, 100%);
     margin: 0;
     text-align: center;
   }
@@ -7205,7 +7208,7 @@ body.is-brief-modal-open {
     order: 1;
     width: 100%;
     font-size: 22px;
-    text-align: left;
+    text-align: center;
   }
 
   .choice-card-visual {
@@ -7226,7 +7229,7 @@ body.is-brief-modal-open {
   .choice-card-text {
     order: 3;
     width: 100%;
-    text-align: left;
+    text-align: center;
   }
 
   .choice-card-visual-glow {
@@ -7525,5 +7528,67 @@ body.is-store-detail-open {
   }
   .store-detail-modal-price {
     font-size: 28px;
+  }
+}
+
+/* ============================================================ */
+/* Mobile: tighter section spacing                              */
+/* ============================================================ */
+@media (max-width: 720px) {
+  .works,
+  .clients-network,
+  .shop,
+  .store,
+  .choice-scroll,
+  .about,
+  .business,
+  .testimonials-scroll,
+  .faq,
+  .footer-contact {
+    margin-top: 80px !important;
+  }
+
+  /* Services section: tighter gap before the "Получить консультацию" CTA card */
+  .services-grid {
+    gap: 12px !important;
+  }
+
+  /* Cover-alt: shrink bottom padding, content already laid out */
+  .cover-alt {
+    padding-bottom: 16px !important;
+  }
+}
+
+/* Footer mobile: center alignment + tighter spacing */
+@media (max-width: 720px) {
+  .site-footer-main {
+    padding: 56px var(--page-gutter) 32px !important;
+  }
+
+  .footer-contact-meta {
+    text-align: center;
+    align-items: center;
+    justify-items: center;
+  }
+
+  .footer-contact-address,
+  .footer-contact-phone {
+    text-align: center;
+    align-items: center;
+  }
+
+  .site-footer-bar {
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    text-align: center;
+    gap: 12px 20px;
+    padding: 16px var(--page-gutter);
+  }
+
+  .site-footer-legal,
+  .site-footer-credit {
+    text-align: center;
   }
 }
