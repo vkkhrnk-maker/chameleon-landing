@@ -9,6 +9,23 @@
     --page-gutter: 16px;
     --cover-gutter: 16px;
   }
+
+  /* Unified body-text size on mobile (was a mix of 13/14/16/18) */
+  .about-intro-text,
+  .service-description,
+  .choice-card-text,
+  .clients-network-note,
+  .clients-network-step-text,
+  .business-card-text,
+  .faq-answer,
+  .store-card-meta,
+  .testimonials-scroll-subtitle,
+  .cover-lead,
+  .cover-alt-lead,
+  .hero-subtitle {
+    font-size: 15px !important;
+    line-height: 1.45 !important;
+  }
 }
 
 @media (min-width: 1920px) {
