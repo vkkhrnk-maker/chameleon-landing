@@ -120,7 +120,6 @@ if (faqItems.length > 0) {
 
 initAnchorLinks();
 initFloatHeader();
-initScrollProgress();
 initFiltersByContent();
 initFilterUrlState();
 initStorePriceContrast();
@@ -131,55 +130,6 @@ initBriefFormPolish();
 initFloatHeaderHideOnModal();
 initCookieBanner();
 initCoverCtaSpotlight();
-
-function initScrollProgress() {
-  const bar = document.querySelector("[data-scroll-progress]");
-  if (!bar) return;
-
-  let target = 0;
-  let current = 0;
-  let rafId = null;
-
-  const computeTarget = () => {
-    const docH = document.documentElement.scrollHeight - window.innerHeight;
-    target = docH > 0 ? Math.min(1, Math.max(0, window.scrollY / docH)) : 0;
-    if (window.scrollY > 80) bar.classList.add("is-visible");
-    else bar.classList.remove("is-visible");
-  };
-
-  const tick = () => {
-    current += (target - current) * 0.18;
-    if (Math.abs(target - current) < 0.0005) {
-      current = target;
-      bar.style.setProperty("--progress", current.toFixed(4));
-      rafId = null;
-      return;
-    }
-    bar.style.setProperty("--progress", current.toFixed(4));
-    rafId = requestAnimationFrame(tick);
-  };
-
-  const requestTick = () => {
-    if (rafId == null) rafId = requestAnimationFrame(tick);
-  };
-
-  window.addEventListener(
-    "scroll",
-    () => {
-      computeTarget();
-      requestTick();
-    },
-    { passive: true }
-  );
-  window.addEventListener("resize", () => {
-    computeTarget();
-    requestTick();
-  });
-
-  computeTarget();
-  current = target;
-  bar.style.setProperty("--progress", current.toFixed(4));
-}
 
 function initFiltersByContent() {
   // Hide filter tabs that have zero matching cards
