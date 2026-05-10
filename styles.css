@@ -1446,6 +1446,17 @@ body {
     box-shadow 160ms ease;
 }
 
+/* When .cover-cta lives inside .services-grid (services-cta modifier),
+   slot it into the same grid area as the old .cta-card */
+.cover-cta.services-cta {
+  grid-area: cta;
+  grid-column: auto;
+  grid-row: auto;
+  align-self: stretch;
+  justify-self: stretch;
+  width: 100%;
+}
+
 .cta-card:hover {
   background: var(--cta-bg-hover);
 }
@@ -5873,9 +5884,26 @@ body.is-brief-modal-open {
   .service-card:nth-child(1),
   .service-card:nth-child(2),
   .service-card-wide,
-  .cta-card {
+  .cta-card,
+  .cover-cta.services-cta {
     grid-column: auto;
+  }
+
+  .service-card,
+  .service-card:nth-child(1),
+  .service-card:nth-child(2),
+  .service-card-wide,
+  .cta-card {
     min-height: 300px;
+  }
+
+  .cover-cta.services-cta {
+    justify-self: center;
+    align-self: start;
+    width: 100%;
+    max-width: 340px;
+    min-height: 104px;
+    height: 104px;
   }
 
   .cta-card {
