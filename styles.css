@@ -2,12 +2,25 @@
   color-scheme: light;
   --page-gutter: 20px;
   --cover-gutter: 20px;
+
+  /* Spacing tokens */
+  --card-padding: 20px;
+  --card-gap: 12px;
+  --card-action-gap: 16px;
+
+  /* Type tokens */
+  --body-size: 16px;
+  --body-line: 1.45;
 }
 
 @media (max-width: 720px) {
   :root {
     --page-gutter: 16px;
     --cover-gutter: 16px;
+    --card-padding: 16px;
+    --card-gap: 12px;
+    --card-action-gap: 12px;
+    --body-size: 15px;
   }
 
   /* Unified body-text size on mobile (was a mix of 13/14/16/18) */
@@ -5381,7 +5394,7 @@ body.is-brief-modal-open {
 
   .cover-alt-title {
     grid-column: 1;
-    grid-row: 2;
+    grid-row: 3;
     align-self: start;
     width: 100%;
     --cover-alt-title-size: clamp(3.1rem, 16vw, 5.8rem);
@@ -5401,7 +5414,7 @@ body.is-brief-modal-open {
 
   .cover-alt-lead {
     grid-column: 1;
-    grid-row: 3;
+    grid-row: 2;
     align-self: start;
     justify-self: center;
     width: min(320px, 100%);
@@ -7590,5 +7603,47 @@ body.is-store-detail-open {
   .site-footer-legal,
   .site-footer-credit {
     text-align: center;
+  }
+}
+
+/* ============================================================ */
+/* Card padding tokens — apply to ALL card variants             */
+/* ============================================================ */
+.service-card,
+.cta-card,
+.choice-card,
+.business-card,
+.faq-trigger,
+.faq-panel .faq-answer {
+  --_p: var(--card-padding);
+}
+
+.service-card { padding: var(--card-padding); }
+.business-card { padding: var(--card-padding); }
+.faq-trigger  { padding: var(--card-padding); }
+
+/* Store card: image wrap + info + action all use same padding */
+.store-card-info { padding: var(--card-padding) !important; gap: 8px !important; }
+.store-card-action-wrap { padding: 0 var(--card-padding) var(--card-padding) !important; }
+
+/* Choice card already uses padding via mobile rule, ensure consistency */
+@media (max-width: 720px) {
+  .choice-card { padding: var(--card-padding) !important; gap: var(--card-gap) !important; }
+  .service-card { padding: var(--card-padding) !important; }
+  .business-card { padding: var(--card-padding) !important; }
+  .faq-trigger { padding: var(--card-padding) !important; }
+  .faq-answer { padding: 0 var(--card-padding) var(--card-padding) !important; }
+}
+
+/* Store card mobile: pack content tightly, no vertical spread */
+@media (max-width: 720px) {
+  .store-card {
+    min-height: 0 !important;
+  }
+  .store-card-action-wrap {
+    margin-top: 0 !important;
+  }
+  .store-card-info {
+    gap: 6px !important;
   }
 }
