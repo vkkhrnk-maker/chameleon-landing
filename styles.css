@@ -26,6 +26,7 @@
     font-size: 15px !important;
     line-height: 1.45 !important;
   }
+
 }
 
 @media (min-width: 1920px) {
@@ -4834,6 +4835,7 @@ body.is-brief-modal-open {
     grid-row: 2;
     grid-column: 1;
     width: min(100%, 560px);
+    max-width: 100%;
     margin-top: 0;
     justify-self: center;
     text-align: center;
@@ -7334,19 +7336,28 @@ body.is-brief-modal-open {
 }
 
 @media (max-width: 767px) {
+  /* Reset all section titles' margin to 0 — gap is set on the parent */
   .store-title,
   .services-title,
   .clients-network-title,
   .about-title,
   .faq-title,
   .business-title,
-  .footer-contact-title {
-    margin-bottom: 32px !important;
+  .footer-contact-title,
+  .works-title,
+  .choice-title,
+  .testimonials-scroll-title {
+    margin-bottom: 0 !important;
   }
 
-  .works-header,
-  .choice-head {
-    gap: 32px !important;
-    margin-bottom: 32px !important;
-  }
+  /* Then set 32px gap on each section's container so title→content is uniform */
+  .about-top { gap: 32px !important; }
+  .services { gap: 32px; display: flex; flex-direction: column; }
+  .works-header { gap: 32px !important; margin-bottom: 32px !important; }
+  .store { gap: 32px !important; }
+  .clients-network-copy { gap: 32px !important; }
+  .choice-head { margin-bottom: 32px !important; min-height: 0 !important; }
+  .business-layout { gap: 32px !important; }
+  .faq { display: flex; flex-direction: column; gap: 32px !important; }
+  .footer-contact { gap: 32px !important; }
 }
