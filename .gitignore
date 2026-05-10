@@ -12,6 +12,7 @@ node_modules/
 .figma-*
 .clients-*.png
 .works-*.png
+assets/image*.png
 
 # Large local archives
 *.zip
