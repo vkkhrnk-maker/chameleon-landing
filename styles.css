@@ -7224,19 +7224,24 @@ body.is-brief-modal-open {
     text-align: center;
   }
 
+  .choice-card-visual,
+  .choice-card-visual-shield,
+  .choice-card-visual-brilliant,
+  .choice-card-visual-star,
+  .choice-card-visual-doc {
+    position: static !important;
+    top: auto !important;
+    right: auto !important;
+    left: auto !important;
+    bottom: auto !important;
+  }
+
   .choice-card-visual {
-    position: static;
     order: 2;
     align-self: center;
     width: 180px;
     height: 180px;
     margin: 8px 0;
-  }
-
-  .choice-card-visual-shield,
-  .choice-card-visual-brilliant,
-  .choice-card-visual-star {
-    right: auto;
   }
 
   .choice-card-text {
@@ -7254,10 +7259,9 @@ body.is-brief-modal-open {
     filter: blur(28px);
   }
 
-  /* Keep asset cropped via overflow:hidden + absolute img sprite */
   .choice-card-visual {
     overflow: hidden;
-    position: relative;
+    position: relative !important;
   }
 
   .choice-card-visual-asset {
@@ -7646,4 +7650,62 @@ body.is-store-detail-open {
   .store-card-info {
     gap: 6px !important;
   }
+}
+
+/* ============================================================ */
+/* Business cards — new layout: title+arrow on top, price bottom */
+/* ============================================================ */
+.business-card {
+  /* Override: make whole card a button */
+  appearance: none;
+  -webkit-appearance: none;
+  border: 0;
+  text-align: left;
+  cursor: pointer;
+  font: inherit;
+  color: inherit;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.business-card-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  width: 100%;
+}
+
+.business-card-arrow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  width: 48px;
+  height: 48px;
+  border-radius: 999px;
+  background: #0b0b0b;
+  color: #ffffff;
+  transition:
+    transform 160ms ease,
+    background-color 160ms ease;
+}
+
+.business-card-arrow svg { width: 20px; height: 20px; }
+
+.business-card:hover .business-card-arrow,
+.business-card:focus-visible .business-card-arrow {
+  transform: translateY(-2px);
+  background: #1a1a1a;
+}
+
+.business-card-text {
+  flex: 1 1 auto;
+}
+
+.business-card-price {
+  display: block;
+  margin-top: auto;
 }
