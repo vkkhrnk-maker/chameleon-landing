@@ -1768,7 +1768,7 @@ body {
   z-index: 1;
   max-width: 1193px;
   margin: 0 auto;
-  font-size: clamp(4.5rem, 9.4vw, 8rem);
+  font-size: clamp(4.5rem, 7.25vw, 5.5rem);
   font-weight: 500;
   line-height: 0.86;
   letter-spacing: -0.03em;
@@ -6766,7 +6766,7 @@ body.is-brief-modal-open {
   display: flex;
   flex-direction: column;
   min-width: 0;
-  min-height: 520px;
+  min-height: 460px;
   background: #ffffff;
   overflow: hidden;
   transition:
@@ -6827,8 +6827,8 @@ body.is-brief-modal-open {
 
 .store-card-info {
   display: grid;
-  gap: 12px;
-  padding: 20px;
+  gap: 16px;
+  padding: 20px 20px 8px;
 }
 
 .store-card-name {
@@ -6854,7 +6854,7 @@ body.is-brief-modal-open {
 
 .store-card-action-wrap {
   margin-top: auto;
-  padding: 0 16px 16px;
+  padding: 12px 16px 16px;
 }
 
 .store-card-action {
@@ -7217,12 +7217,13 @@ body.is-brief-modal-open {
     will-change: transform;
   }
 
-  /* Stagger UP: each new card sticks slightly LOWER, so previous cards
-     peek out at the TOP (stack grows upward into the visible area). */
-  .choice-card:nth-child(1) { top: 40px;  z-index: 1; }
-  .choice-card:nth-child(2) { top: 56px;  z-index: 2; }
-  .choice-card:nth-child(3) { top: 72px;  z-index: 3; }
-  .choice-card:nth-child(4) { top: 88px;  z-index: 4; }
+  /* Stagger so each new card sticks HIGHER than the previous — newest
+     ends up on top of the stack, older cards peek out at the BOTTOM,
+     visually the stack accumulates upward. */
+  .choice-card:nth-child(1) { top: 88px; z-index: 1; }
+  .choice-card:nth-child(2) { top: 72px; z-index: 2; }
+  .choice-card:nth-child(3) { top: 56px; z-index: 3; }
+  .choice-card:nth-child(4) { top: 40px; z-index: 4; }
 
   .choice-slider-track {
     gap: 16px;
@@ -8095,12 +8096,13 @@ body.is-mobile-menu-open {
     font-size: 16px;
   }
 
-  /* Stagger UP: each new card sticks slightly LOWER, so previous cards
-     peek out at the TOP (stack grows upward into the visible area). */
-  .choice-card:nth-child(1) { top: 128px; }
-  .choice-card:nth-child(2) { top: 144px; }
-  .choice-card:nth-child(3) { top: 160px; }
-  .choice-card:nth-child(4) { top: 176px; }
+  /* Stagger so each new card sticks HIGHER than the previous — newest
+     ends up on top of the stack, older cards peek out at the BOTTOM,
+     visually the stack accumulates upward. */
+  .choice-card:nth-child(1) { top: 176px; }
+  .choice-card:nth-child(2) { top: 160px; }
+  .choice-card:nth-child(3) { top: 144px; }
+  .choice-card:nth-child(4) { top: 128px; }
 
   /* Hide the legacy stuff that was for forced horizontal scroll */
   .choice-cta {
