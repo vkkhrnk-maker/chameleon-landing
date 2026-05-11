@@ -4599,8 +4599,7 @@ body.is-brief-modal-open {
   }
 
   .cover {
-    min-height: 100vh;
-    min-height: 100dvh;
+    min-height: 100svh;
   }
 
   .cover-header {
@@ -5299,8 +5298,7 @@ body.is-brief-modal-open {
     grid-template-columns: 1fr;
     grid-template-rows: auto 1fr auto auto;
     row-gap: 16px;
-    min-height: 100vh;
-    min-height: 100dvh;
+    min-height: 100svh;
     padding-top: 12px;
     padding-bottom: 12px;
   }
@@ -5368,8 +5366,8 @@ body.is-brief-modal-open {
 
   .cover-alt {
     --cover-alt-title-top: 0px;
-    min-height: 100vh;
-    min-height: 100dvh;
+    /* svh = small viewport — stable on mobile, doesn't jitter when URL bar collapses */
+    min-height: 100svh;
     grid-template-columns: 1fr;
     grid-template-rows: auto auto 1fr auto;
     row-gap: 24px;
@@ -7213,6 +7211,14 @@ body.is-brief-modal-open {
     flex-direction: column;
     padding: 24px;
     gap: 16px;
+    /* Disable desktop tilt/lift on mobile so cards don't overlap on scroll */
+    --choice-tilt: 0deg !important;
+    --choice-y: 0px !important;
+    transform: none !important;
+  }
+
+  .choice-slider-track {
+    gap: 8px;
   }
 
   .choice-card-copy {
@@ -7242,9 +7248,11 @@ body.is-brief-modal-open {
   .choice-card-visual {
     order: 2;
     align-self: center;
-    width: 220px;
-    height: 220px;
-    margin: 8px 0;
+    width: 140px;
+    height: 140px;
+    margin: 4px 0;
+    background: transparent !important;
+    overflow: visible !important;
   }
 
   .choice-card-text {
@@ -7263,13 +7271,14 @@ body.is-brief-modal-open {
   }
 
   .choice-card-visual {
-    overflow: hidden;
+    overflow: visible !important;
     position: relative !important;
   }
 
   .choice-card-visual-asset {
-    width: 220px;
-    height: 220px;
+    width: 140px;
+    height: 140px;
+    overflow: visible;
   }
 
   .choice-cta {
@@ -7719,6 +7728,7 @@ body.is-store-detail-open {
 .about-telegram-avatars {
   display: inline-flex;
   align-items: center;
+  margin-bottom: 12px;
 }
 
 .about-telegram-avatar {
@@ -7730,6 +7740,7 @@ body.is-store-detail-open {
   border-radius: 999px;
   overflow: hidden;
   flex: 0 0 auto;
+  margin-bottom: 0 !important;
 }
 
 .about-telegram-avatar-photo {
