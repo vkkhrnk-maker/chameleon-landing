@@ -7670,12 +7670,14 @@ body.is-store-detail-open {
   gap: 16px;
 }
 
-.business-card-top {
+/* Business card v2: title -> text -> footer (price left + arrow right) */
+.business-card-footer {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   justify-content: space-between;
   gap: 16px;
   width: 100%;
+  margin-top: auto;
 }
 
 .business-card-arrow {
