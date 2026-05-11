@@ -8103,3 +8103,49 @@ body.is-mobile-menu-open {
     display: none;
   }
 }
+
+/* ============================================================ */
+/* Services CTA — desktop full-cell card (Figma node 127-4014).
+   Icon top-right, label bottom-left, fills the bottom-right cell. */
+/* ============================================================ */
+@media (min-width: 1101px) {
+  .cover-cta.services-cta {
+    align-self: stretch;
+    justify-self: stretch;
+    width: 100%;
+    height: 100%;
+    min-height: 0;
+    padding: 24px;
+    border-radius: 40px;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: space-between;
+    gap: 16px;
+    overflow: hidden;
+  }
+
+  .cover-cta.services-cta .cover-cta-icon {
+    order: 1;
+    margin-left: auto;
+    margin-right: 0;
+  }
+
+  .cover-cta.services-cta .cover-cta-label {
+    order: 2;
+    width: 100%;
+    text-align: left;
+    font-family: "Onest", "TT Commons Pro Trl", sans-serif;
+    font-size: 29px;
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    text-transform: none;
+    white-space: normal;
+  }
+
+  /* Close the gap between hero and services so the services grid
+     encroaches into hero's bottom space instead of leaving a "hole". */
+  .services {
+    margin-top: 32px;
+  }
+}
