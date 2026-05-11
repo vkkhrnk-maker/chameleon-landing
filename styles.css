@@ -5570,7 +5570,7 @@ body.is-brief-modal-open {
   .hero {
     min-height: 0;
     margin-top: 80px !important;
-    padding-block: 0;
+    padding-block: 30px 0;
     padding-inline: var(--page-gutter);
     overflow-x: clip;
     overflow-y: visible;
@@ -7212,14 +7212,14 @@ body.is-brief-modal-open {
     transform: none !important;
     /* Stack effect: each card sticks at top of viewport on scroll */
     position: sticky;
-    box-shadow: 0 -16px 40px rgba(11, 11, 11, 0.04);
   }
 
-  /* Stagger DOWN + z-index so later cards stack ON TOP of previous as you scroll */
+  /* Stagger DOWN + z-index so later cards stack ON TOP of previous as you scroll.
+     Last card is not sticky so it scrolls away cleanly into the next section. */
   .choice-card:nth-child(1) { top: 40px;  z-index: 1; }
   .choice-card:nth-child(2) { top: 56px;  z-index: 2; }
   .choice-card:nth-child(3) { top: 72px;  z-index: 3; }
-  .choice-card:nth-child(4) { top: 88px;  z-index: 4; }
+  .choice-card:nth-child(4) { position: relative; z-index: 4; }
 
   .choice-slider-track {
     gap: 16px;
@@ -8034,7 +8034,6 @@ body.is-mobile-menu-open {
     position: sticky;
     background: var(--surface);
     border: 1px solid var(--surface-border);
-    box-shadow: 0 -24px 48px rgba(11, 11, 11, 0.05);
   }
 
   /* Layout inside the card: title at top (centered), icon centered, text below */
@@ -8091,11 +8090,12 @@ body.is-mobile-menu-open {
     font-size: 16px;
   }
 
-  /* Stagger top so later cards cover earlier */
+  /* Stagger top so later cards cover earlier.
+     Last card is not sticky so it scrolls away cleanly into the next section. */
   .choice-card:nth-child(1) { top: 160px; }
   .choice-card:nth-child(2) { top: 144px; }
   .choice-card:nth-child(3) { top: 128px; }
-  .choice-card:nth-child(4) { top: 112px; }
+  .choice-card:nth-child(4) { position: relative; }
 
   /* Hide the legacy stuff that was for forced horizontal scroll */
   .choice-cta {
