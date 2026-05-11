@@ -5606,18 +5606,29 @@ body.is-brief-modal-open {
 
   .hero {
     min-height: 0;
-    padding-block: 64px 32px;
+    margin-top: 80px !important;
+    padding-block: 0 32px;
+    padding-inline: var(--page-gutter);
     overflow-x: clip;
     overflow-y: visible;
   }
 
   .hero-content {
     gap: 20px;
-    width: min(100%, calc(100vw - 24px));
-    max-width: none;
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
     padding-inline: 0;
+    margin-inline: auto;
     box-sizing: border-box;
     --hero-glow-scale: 0.54;
+  }
+
+  .hero-title {
+    /* prevent long words from forcing the parent wider than viewport */
+    overflow-wrap: break-word;
+    word-break: normal;
+    hyphens: manual;
   }
 
   .hero-ellipses {
@@ -5629,10 +5640,12 @@ body.is-brief-modal-open {
 
   .hero-title {
     width: 100%;
-    max-width: none;
-    font-size: clamp(3rem, 15vw, 4.5rem);
-    line-height: 0.92;
+    max-width: 100%;
+    min-width: 0;
+    font-size: clamp(2.5rem, 12vw, 3.5rem);
+    line-height: 0.95;
     text-align: center;
+    overflow-wrap: break-word;
   }
 
   .hero-subtitle {
