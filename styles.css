@@ -1481,7 +1481,8 @@ body {
 }
 
 /* When .cover-cta lives inside .services-grid (services-cta modifier),
-   slot it into the same grid area as the old .cta-card */
+   slot it into the same grid area as the old .cta-card.
+   Match Figma node 127-3997: full-pill shape, label hugs left, icon hugs right. */
 .cover-cta.services-cta {
   grid-area: cta;
   grid-column: auto;
@@ -1490,8 +1491,17 @@ body {
   justify-self: end;
   width: auto;
   max-width: 100%;
-  min-height: 104px;
+  min-height: 96px;
   height: auto;
+  padding: 20px 20px 20px 32px;
+  border-radius: 999px;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+/* Push the icon to the far right edge of the pill (Figma) */
+.cover-cta.services-cta .cover-cta-icon {
+  margin-left: auto;
 }
 
 .cta-card:hover {
@@ -8009,12 +8019,13 @@ body.is-mobile-menu-open {
   .choice-card {
     flex: 0 0 auto !important;
     width: 100% !important;
-    min-height: 480px;
+    min-height: 520px;
     max-width: 100%;
-    padding: 40px !important;
+    padding: 48px 40px !important;
     display: flex !important;
     flex-direction: column !important;
-    gap: 24px !important;
+    /* Larger gap so the title / illustration / description visibly breathe */
+    gap: 40px !important;
     --choice-tilt: 0deg !important;
     --choice-y: 0px !important;
     transform: none !important;
@@ -8026,7 +8037,7 @@ body.is-mobile-menu-open {
     box-shadow: 0 -24px 48px rgba(11, 11, 11, 0.05);
   }
 
-  /* Layout inside the card: title at top, icon centered, text below */
+  /* Layout inside the card: title at top (centered), icon centered, text below */
   .choice-card-copy {
     position: static !important;
     display: contents;
@@ -8035,12 +8046,14 @@ body.is-mobile-menu-open {
   .choice-card-title {
     order: 1;
     width: 100%;
-    text-align: left;
+    text-align: center;
     font-size: clamp(28px, 2.4vw, 36px);
   }
 
   .choice-card-visual {
-    position: static !important;
+    /* relative so the absolutely-positioned asset is centered against this 240×240
+       box, not against the card (which made the asset float into the text) */
+    position: relative !important;
     order: 2;
     align-self: center;
     width: 240px;
