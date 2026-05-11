@@ -98,9 +98,10 @@ if (choiceSliderShell) {
   initHorizontalDragScroll(choiceSliderShell);
 }
 
-if (choiceSection && choiceSliderShell) {
-  initChoiceForcedScroll();
-}
+// Choice section now uses CSS sticky-stack on desktop (no JS forced scroll)
+// if (choiceSection && choiceSliderShell) {
+//   initChoiceForcedScroll();
+// }
 
 if (aboutTelegramButton) {
   initMagneticTelegram();

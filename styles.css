@@ -2268,11 +2268,11 @@ body {
 
 .about-stat-accent {
   background:
-    radial-gradient(circle at var(--stat-x1, 0%) var(--stat-y1, 0%), #ff8a4a 0%, transparent 60%),
-    radial-gradient(circle at var(--stat-x2, 100%) var(--stat-y2, 10%), #ff4d6d 0%, transparent 60%),
-    radial-gradient(circle at var(--stat-x3, 100%) var(--stat-y3, 100%), #4a7eff 0%, transparent 65%),
-    radial-gradient(circle at var(--stat-x4, 0%) var(--stat-y4, 100%), #ffd664 0%, transparent 60%),
-    linear-gradient(135deg, #ff8a4a 0%, #ff4d6d 35%, #b66dff 65%, #4a7eff 100%);
+    radial-gradient(circle at var(--stat-x1, 0%) var(--stat-y1, 0%), #d4ffc2 0%, transparent 60%),
+    radial-gradient(circle at var(--stat-x2, 100%) var(--stat-y2, 10%), #aaff89 0%, transparent 60%),
+    radial-gradient(circle at var(--stat-x3, 100%) var(--stat-y3, 100%), #62d149 0%, transparent 65%),
+    radial-gradient(circle at var(--stat-x4, 0%) var(--stat-y4, 100%), #d4ffc2 0%, transparent 60%),
+    var(--cta-bg);
   animation: about-stat-shift 16s ease-in-out infinite alternate;
 }
 
@@ -2941,9 +2941,9 @@ body {
 .business-card-franchise {
   min-height: 300px;
   background:
-    radial-gradient(78% 110% at 10% 100%, rgba(214, 217, 169, 0.95) 0%, rgba(214, 217, 169, 0) 56%),
-    radial-gradient(88% 110% at 100% 0%, rgba(222, 123, 236, 0.95) 0%, rgba(222, 123, 236, 0) 58%),
-    linear-gradient(135deg, #f8b26c 0%, #f4a76c 23%, #e487b1 57%, #76bdf3 100%);
+    radial-gradient(78% 110% at 10% 100%, rgba(212, 255, 194, 0.85) 0%, rgba(212, 255, 194, 0) 60%),
+    radial-gradient(88% 110% at 100% 0%, rgba(170, 255, 137, 0.55) 0%, rgba(170, 255, 137, 0) 60%),
+    var(--cta-bg);
 }
 
 .business-card-training {
@@ -3578,10 +3578,9 @@ body {
 
 .footer-contact-card-brief {
   background:
-    radial-gradient(76% 84% at 9% 100%, rgba(244, 231, 163, 0.95) 0%, rgba(244, 231, 163, 0) 46%),
-    radial-gradient(72% 90% at 100% 100%, rgba(99, 174, 250, 0.92) 0%, rgba(99, 174, 250, 0) 44%),
-    radial-gradient(62% 84% at 74% 0%, rgba(243, 118, 210, 0.88) 0%, rgba(243, 118, 210, 0) 54%),
-    linear-gradient(135deg, #f7a160 0%, #f08da6 52%, #8ca7ff 100%);
+    radial-gradient(76% 84% at 9% 100%, rgba(212, 255, 194, 0.85) 0%, rgba(212, 255, 194, 0) 60%),
+    radial-gradient(72% 90% at 100% 100%, rgba(170, 255, 137, 0.55) 0%, rgba(170, 255, 137, 0) 60%),
+    var(--cta-bg);
   cursor: pointer;
 }
 
@@ -7216,34 +7215,37 @@ body.is-brief-modal-open {
   }
 
   /* Mobile choice card: title -> centered icon -> text (Figma 127:4884)
-     With sticky stack effect — cards slide up over previous on scroll */
+     With sticky stack effect — newer cards slide OVER previous on scroll */
   .choice-card {
     flex-basis: auto;
     width: 100%;
-    min-height: 460px;
+    min-height: 0;
+    height: auto;
     overflow: hidden;
     display: flex;
     flex-direction: column;
     padding: 24px;
     gap: 16px;
+    /* Match service-card framing for consistency */
+    background: var(--surface);
+    border: 1px solid var(--surface-border);
     /* Disable desktop tilt/lift on mobile */
     --choice-tilt: 0deg !important;
     --choice-y: 0px !important;
     transform: none !important;
     /* Stack effect: each card sticks at top of viewport on scroll */
     position: sticky;
-    top: 16px;
-    box-shadow: 0 -16px 40px rgba(11, 11, 11, 0.06);
+    box-shadow: 0 -16px 40px rgba(11, 11, 11, 0.04);
   }
 
-  /* Stagger top offset slightly so previous cards peek out the top edge */
-  .choice-card:nth-child(1) { top: 16px; }
-  .choice-card:nth-child(2) { top: 24px; }
-  .choice-card:nth-child(3) { top: 32px; }
-  .choice-card:nth-child(4) { top: 40px; }
+  /* Reverse stagger: later cards stick HIGHER so they cover the previous */
+  .choice-card:nth-child(1) { top: 40px; }
+  .choice-card:nth-child(2) { top: 32px; }
+  .choice-card:nth-child(3) { top: 24px; }
+  .choice-card:nth-child(4) { top: 16px; }
 
   .choice-slider-track {
-    gap: 12px;
+    gap: 16px;
     overflow: visible;
   }
 
@@ -7951,4 +7953,147 @@ body.is-store-detail-open {
 
 body.is-mobile-menu-open {
   overflow: hidden;
+}
+
+/* ============================================================ */
+/* Choice section — desktop split-screen sticky reveal          */
+/* ============================================================ */
+@media (min-width: 1101px) {
+  .choice-scroll {
+    height: auto !important;
+    margin-top: 180px;
+    padding-bottom: 80px;
+  }
+
+  .choice-scroll-sticky {
+    position: static;
+    min-height: 0;
+    display: block;
+  }
+
+  .choice {
+    display: grid;
+    grid-template-columns: minmax(360px, 1fr) minmax(0, 1.4fr);
+    gap: clamp(40px, 6vw, 96px);
+    align-items: start;
+    padding: 0 var(--page-gutter);
+  }
+
+  .choice-head {
+    position: sticky;
+    top: 96px;
+    margin: 0;
+    width: 100%;
+    min-height: 0;
+    text-align: left;
+  }
+
+  .choice-title {
+    text-align: left;
+    margin: 0;
+    max-width: 100%;
+  }
+
+  /* Override slider mechanics — use vertical sticky stack on desktop */
+  .choice-slider-shell {
+    overflow: visible !important;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    cursor: default !important;
+    scroll-snap-type: none !important;
+    touch-action: auto !important;
+  }
+
+  .choice-slider-track {
+    flex-direction: column !important;
+    gap: 24px !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    padding: 0 !important;
+    transform: none !important;
+  }
+
+  .choice-card {
+    flex: 0 0 auto !important;
+    width: 100% !important;
+    min-height: 480px;
+    max-width: 100%;
+    padding: 40px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 24px !important;
+    --choice-tilt: 0deg !important;
+    --choice-y: 0px !important;
+    transform: none !important;
+    opacity: 1 !important;
+    /* Sticky stack: each card slides over previous */
+    position: sticky;
+    background: var(--surface);
+    border: 1px solid var(--surface-border);
+    box-shadow: 0 -24px 48px rgba(11, 11, 11, 0.05);
+  }
+
+  /* Layout inside the card: title at top, icon centered, text below */
+  .choice-card-copy {
+    position: static !important;
+    display: contents;
+  }
+
+  .choice-card-title {
+    order: 1;
+    width: 100%;
+    text-align: left;
+    font-size: clamp(28px, 2.4vw, 36px);
+  }
+
+  .choice-card-visual {
+    position: static !important;
+    order: 2;
+    align-self: center;
+    width: 240px;
+    height: 240px;
+    margin: 0;
+    overflow: visible !important;
+    background: transparent !important;
+    top: auto !important;
+    right: auto !important;
+    left: auto !important;
+  }
+
+  .choice-card-visual-asset {
+    position: absolute !important;
+    left: 50% !important;
+    top: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    width: 240px !important;
+    height: 240px !important;
+  }
+
+  .choice-card-visual-img {
+    position: static !important;
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: contain !important;
+  }
+
+  .choice-card-text {
+    order: 3;
+    width: 100%;
+    max-width: 520px;
+    margin: 0 auto;
+    text-align: center;
+    font-size: 16px;
+  }
+
+  /* Stagger top so later cards cover earlier */
+  .choice-card:nth-child(1) { top: 160px; }
+  .choice-card:nth-child(2) { top: 144px; }
+  .choice-card:nth-child(3) { top: 128px; }
+  .choice-card:nth-child(4) { top: 112px; }
+
+  /* Hide the legacy stuff that was for forced horizontal scroll */
+  .choice-cta {
+    display: none;
+  }
 }
