@@ -2267,49 +2267,7 @@ body {
 }
 
 .about-stat-accent {
-  background:
-    radial-gradient(circle at var(--stat-x1, 0%) var(--stat-y1, 0%), #d4ffc2 0%, transparent 60%),
-    radial-gradient(circle at var(--stat-x2, 100%) var(--stat-y2, 10%), #aaff89 0%, transparent 60%),
-    radial-gradient(circle at var(--stat-x3, 100%) var(--stat-y3, 100%), #62d149 0%, transparent 65%),
-    radial-gradient(circle at var(--stat-x4, 0%) var(--stat-y4, 100%), #d4ffc2 0%, transparent 60%),
-    var(--cta-bg);
-  animation: about-stat-shift 16s ease-in-out infinite alternate;
-}
-
-@property --stat-x1 { syntax: '<percentage>'; inherits: false; initial-value: 0%; }
-@property --stat-y1 { syntax: '<percentage>'; inherits: false; initial-value: 0%; }
-@property --stat-x2 { syntax: '<percentage>'; inherits: false; initial-value: 100%; }
-@property --stat-y2 { syntax: '<percentage>'; inherits: false; initial-value: 10%; }
-@property --stat-x3 { syntax: '<percentage>'; inherits: false; initial-value: 100%; }
-@property --stat-y3 { syntax: '<percentage>'; inherits: false; initial-value: 100%; }
-@property --stat-x4 { syntax: '<percentage>'; inherits: false; initial-value: 0%; }
-@property --stat-y4 { syntax: '<percentage>'; inherits: false; initial-value: 100%; }
-
-@keyframes about-stat-shift {
-  0% {
-    --stat-x1: 0%; --stat-y1: 0%;
-    --stat-x2: 100%; --stat-y2: 10%;
-    --stat-x3: 100%; --stat-y3: 100%;
-    --stat-x4: 0%; --stat-y4: 100%;
-  }
-  50% {
-    --stat-x1: 15%; --stat-y1: 25%;
-    --stat-x2: 85%; --stat-y2: 0%;
-    --stat-x3: 80%; --stat-y3: 85%;
-    --stat-x4: 20%; --stat-y4: 90%;
-  }
-  100% {
-    --stat-x1: 5%; --stat-y1: 15%;
-    --stat-x2: 95%; --stat-y2: 25%;
-    --stat-x3: 95%; --stat-y3: 95%;
-    --stat-x4: 10%; --stat-y4: 95%;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .about-stat-accent {
-    animation: none;
-  }
+  background: var(--cta-bg);
 }
 
 .about-stat-accent .about-stat-value,
@@ -2940,10 +2898,7 @@ body {
 
 .business-card-franchise {
   min-height: 300px;
-  background:
-    radial-gradient(78% 110% at 10% 100%, rgba(212, 255, 194, 0.85) 0%, rgba(212, 255, 194, 0) 60%),
-    radial-gradient(88% 110% at 100% 0%, rgba(170, 255, 137, 0.55) 0%, rgba(170, 255, 137, 0) 60%),
-    var(--cta-bg);
+  background: var(--cta-bg);
 }
 
 .business-card-training {
@@ -3577,10 +3532,9 @@ body {
 }
 
 .footer-contact-card-brief {
-  background:
-    radial-gradient(76% 84% at 9% 100%, rgba(212, 255, 194, 0.85) 0%, rgba(212, 255, 194, 0) 60%),
-    radial-gradient(72% 90% at 100% 100%, rgba(170, 255, 137, 0.55) 0%, rgba(170, 255, 137, 0) 60%),
-    var(--cta-bg);
+  /* Light-green shade matching the privacy-policy bar, so the card pops
+     off the surrounding brand-green footer background */
+  background: #a7ff85;
   cursor: pointer;
 }
 
@@ -5459,7 +5413,7 @@ body.is-brief-modal-open {
   .business {
     margin-top: 140px;
     padding-top: 0;
-    padding-bottom: 64px;
+    padding-bottom: 0;
   }
 
   .business-layout {
@@ -5524,8 +5478,8 @@ body.is-brief-modal-open {
   }
 
   .clients-network {
-    padding-top: 48px;
-    padding-bottom: 72px;
+    padding-top: 0;
+    padding-bottom: 0;
   }
 
   .clients-network-layout {
@@ -5606,7 +5560,7 @@ body.is-brief-modal-open {
   .hero {
     min-height: 0;
     margin-top: 80px !important;
-    padding-block: 0 32px;
+    padding-block: 0;
     padding-inline: var(--page-gutter);
     overflow-x: clip;
     overflow-y: visible;
@@ -5903,7 +5857,8 @@ body.is-brief-modal-open {
       "card-4"
       "card-5"
       "cta";
-    grid-auto-rows: minmax(220px, auto);
+    /* auto rows so the CTA doesn't leave a 116px tail under itself */
+    grid-auto-rows: auto;
   }
 
   .service-card,
@@ -6151,20 +6106,31 @@ body.is-brief-modal-open {
     height: 24vh;
   }
 
-  .testimonials-scroll-title {
-    position: absolute;
-    top: 50%;
-    left: 50%;
+  /* Mobile: pull the title out of the centered "stage" layout so the visual
+     gap to the previous section matches every other block (~127px). The
+     horizontal card animation below it still works because cards-layer is
+     absolutely positioned. */
+  .testimonials-scroll-title,
+  .testimonials-scroll-title.motion-reveal,
+  .testimonials-scroll-title.motion-reveal.is-in-view {
+    position: relative;
+    top: auto;
+    left: auto;
     width: calc(100vw - 24px);
-    margin: 0;
-    transform: translate(-50%, -50%);
+    margin: 0 auto;
+    transform: none;
     text-align: center;
+    z-index: 2;
   }
 
   .testimonials-scroll-subtitle {
-    top: calc(50% + 126px);
+    position: relative;
+    top: auto;
+    left: auto;
     width: min(100%, 320px);
+    margin: 16px auto 0;
     font-size: 14px;
+    z-index: 2;
   }
 
   .testimonials-cards-layer {
@@ -7145,9 +7111,10 @@ body.is-brief-modal-open {
   }
 
   .store-cta {
-    min-height: 52px;
-    padding: 8px 20px;
-    font-size: 13px;
+    min-height: 104px;
+    padding: 24px 28px;
+    font-size: 16px;
+    border-radius: 28px;
   }
 
   .store-cta-note {
@@ -7215,7 +7182,7 @@ body.is-brief-modal-open {
   }
 
   /* Mobile choice card: title -> centered icon -> text (Figma 127:4884)
-     With sticky stack effect — newer cards slide OVER previous on scroll */
+     With sticky stack effect — newer cards stack ON TOP of previous on scroll */
   .choice-card {
     flex-basis: auto;
     width: 100%;
@@ -7224,8 +7191,8 @@ body.is-brief-modal-open {
     overflow: hidden;
     display: flex;
     flex-direction: column;
-    padding: 24px;
-    gap: 16px;
+    padding: 28px 24px;
+    gap: 24px;
     /* Match service-card framing for consistency */
     background: var(--surface);
     border: 1px solid var(--surface-border);
@@ -7238,11 +7205,11 @@ body.is-brief-modal-open {
     box-shadow: 0 -16px 40px rgba(11, 11, 11, 0.04);
   }
 
-  /* Reverse stagger: later cards stick HIGHER so they cover the previous */
-  .choice-card:nth-child(1) { top: 40px; }
-  .choice-card:nth-child(2) { top: 32px; }
-  .choice-card:nth-child(3) { top: 24px; }
-  .choice-card:nth-child(4) { top: 16px; }
+  /* Stagger DOWN + z-index so later cards stack ON TOP of previous as you scroll */
+  .choice-card:nth-child(1) { top: 40px;  z-index: 1; }
+  .choice-card:nth-child(2) { top: 56px;  z-index: 2; }
+  .choice-card:nth-child(3) { top: 72px;  z-index: 3; }
+  .choice-card:nth-child(4) { top: 88px;  z-index: 4; }
 
   .choice-slider-track {
     gap: 16px;
@@ -7596,6 +7563,9 @@ body.is-store-detail-open {
 /* Mobile: tighter section spacing                              */
 /* ============================================================ */
 @media (max-width: 720px) {
+  /* Uniform 100px gap between ALL top-level blocks on mobile */
+  .hero,
+  .services,
   .works,
   .clients-network,
   .shop,
@@ -7605,13 +7575,34 @@ body.is-store-detail-open {
   .business,
   .testimonials-scroll,
   .faq,
-  .footer-contact {
-    margin-top: 80px !important;
+  .site-footer {
+    margin-top: 100px !important;
   }
 
-  /* Services section: tighter gap before the "Получить консультацию" CTA card */
+  /* Footer-contact is INSIDE .site-footer-main, no extra margin needed */
+  .footer-contact {
+    margin-top: 0 !important;
+  }
+
+  /* Drop the 16px tail padding on <main> so faq→footer is exactly 100, not 116 */
+  .services-page {
+    padding-bottom: 0 !important;
+  }
+
+  /* Kill stray bottom padding inside sections so the gap stays exactly 100 */
+  .clients-network,
+  .business {
+    padding-bottom: 0 !important;
+  }
+
+  /* Hero used to add an internal padding-block that doubled the gap. */
+  .hero {
+    padding-block: 0 !important;
+  }
+
+  /* Services section: same tight gap as desktop */
   .services-grid {
-    gap: 12px !important;
+    gap: 4px !important;
   }
 
   /* Cover-alt: shrink bottom padding, content already laid out */
@@ -7676,7 +7667,8 @@ body.is-store-detail-open {
 
 /* Choice card already uses padding via mobile rule, ensure consistency */
 @media (max-width: 720px) {
-  .choice-card { padding: var(--card-padding) !important; gap: var(--card-gap) !important; }
+  /* Choice cards need extra breathing room around title / icon / text */
+  .choice-card { padding: 28px 24px !important; gap: 24px !important; }
   .service-card { padding: var(--card-padding) !important; }
   .business-card { padding: var(--card-padding) !important; }
   .faq-trigger { padding: var(--card-padding) !important; }
