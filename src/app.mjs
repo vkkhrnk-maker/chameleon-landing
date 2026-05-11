@@ -131,6 +131,7 @@ initFloatHeaderHideOnModal();
 initCookieBanner();
 initCoverCtaSpotlight();
 initStoreDetailModal();
+initMobileMenu();
 
 function initFiltersByContent() {
   // Hide filter tabs that have zero matching cards
@@ -1412,6 +1413,60 @@ function initCoverCtaSpotlight() {
       cta.style.setProperty("--cta-spot-x", "50%");
       cta.style.setProperty("--cta-spot-y", "50%");
     });
+  });
+}
+
+function initMobileMenu() {
+  const menu = document.querySelector("[data-mobile-menu]");
+  if (!menu) return;
+
+  const burgers = document.querySelectorAll(".cover-burger");
+  if (burgers.length === 0) return;
+
+  let lastFocused = null;
+
+  const open = () => {
+    lastFocused = document.activeElement;
+    menu.hidden = false;
+    requestAnimationFrame(() => {
+      menu.classList.add("is-open");
+      menu.setAttribute("aria-hidden", "false");
+      document.body.classList.add("is-mobile-menu-open");
+    });
+    menu.querySelector(".mobile-menu-close")?.focus();
+  };
+
+  const close = () => {
+    menu.classList.remove("is-open");
+    menu.setAttribute("aria-hidden", "true");
+    document.body.classList.remove("is-mobile-menu-open");
+    setTimeout(() => {
+      menu.hidden = true;
+      lastFocused?.focus?.();
+    }, 280);
+  };
+
+  burgers.forEach((burger) => {
+    burger.addEventListener("click", (e) => {
+      // On mobile take over from the legacy dropdown
+      if (window.innerWidth <= 720) {
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        open();
+      }
+    }, true);
+  });
+
+  menu.querySelectorAll("[data-mobile-menu-close]").forEach((el) => {
+    el.addEventListener("click", close);
+  });
+
+  menu.querySelectorAll("[data-mobile-menu-link]").forEach((el) => {
+    el.addEventListener("click", () => close());
+  });
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && menu.classList.contains("is-open")) close();
   });
 }
 

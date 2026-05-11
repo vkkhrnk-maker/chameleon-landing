@@ -79,6 +79,50 @@
         line-height: 1.6;
         letter-spacing: 0.015em;
         color: rgba(11, 11, 11, 0.84);
+        overflow-wrap: anywhere;
+        word-break: break-word;
+      }
+
+      .policy-content a {
+        color: var(--cta-bg);
+        text-decoration: none;
+        transition: color 160ms ease;
+      }
+
+      .policy-content a:hover,
+      .policy-content a:focus-visible {
+        color: var(--cta-bg-hover);
+        text-decoration: underline;
+      }
+
+      @media (max-width: 720px) {
+        .policy-page {
+          padding: 32px var(--page-gutter) 64px;
+        }
+
+        .policy-back {
+          width: 48px;
+          height: 48px;
+          margin-bottom: 24px;
+        }
+
+        .policy-title {
+          font-size: 36px;
+        }
+
+        .policy-meta {
+          margin-bottom: 32px;
+        }
+
+        .policy-content {
+          font-size: 14px;
+          line-height: 1.55;
+        }
+
+        .policy-content h2 {
+          margin: 32px 0 12px;
+          font-size: 20px;
+        }
       }
 
       .policy-content h2 {
