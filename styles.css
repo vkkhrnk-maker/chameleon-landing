@@ -7985,14 +7985,6 @@ body.is-mobile-menu-open {
     padding: 0 var(--page-gutter);
   }
 
-  /* Pad the slider column so the grid row (which sizes its tracks to
-     the tallest column) stretches past the cards' natural end —
-     extends the .choice-head sticky containing block so the title
-     stays pinned until the section actually finishes scrolling. */
-  .choice-slider-shell {
-    padding-bottom: 200px;
-  }
-
   .choice-head {
     position: sticky;
     top: 96px;
@@ -8008,12 +8000,15 @@ body.is-mobile-menu-open {
     max-width: 100%;
   }
 
-  /* Override slider mechanics — use vertical sticky stack on desktop */
+  /* Override slider mechanics — use vertical sticky stack on desktop.
+     Keep a bottom padding so the slider column outlasts the cards'
+     natural end; the grid row stretches to match and the .choice-head
+     stays sticky through the rest of the section. */
   .choice-slider-shell {
     overflow: visible !important;
     width: 100% !important;
     margin: 0 !important;
-    padding: 0 !important;
+    padding: 0 0 200px !important;
     cursor: default !important;
     scroll-snap-type: none !important;
     touch-action: auto !important;
