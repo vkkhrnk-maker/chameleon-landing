@@ -5605,7 +5605,8 @@ body.is-brief-modal-open {
   }
 
   .hero {
-    min-height: max(480px, 90svh);
+    min-height: 0;
+    padding-block: 64px 32px;
     overflow-x: clip;
     overflow-y: visible;
   }
@@ -7201,24 +7202,40 @@ body.is-brief-modal-open {
     --choice-glow-scale: 0.54;
   }
 
-  /* Mobile choice card: title -> centered icon -> text (Figma 127:4884) */
+  /* Mobile choice card: title -> centered icon -> text (Figma 127:4884)
+     With sticky stack effect — cards slide up over previous on scroll */
   .choice-card {
-    flex-basis: 100%;
+    flex-basis: auto;
     width: 100%;
-    min-height: 0;
+    min-height: 460px;
     overflow: hidden;
     display: flex;
     flex-direction: column;
     padding: 24px;
     gap: 16px;
-    /* Disable desktop tilt/lift on mobile so cards don't overlap on scroll */
+    /* Disable desktop tilt/lift on mobile */
     --choice-tilt: 0deg !important;
     --choice-y: 0px !important;
     transform: none !important;
+    /* Stack effect: each card sticks at top of viewport on scroll */
+    position: sticky;
+    top: 16px;
+    box-shadow: 0 -16px 40px rgba(11, 11, 11, 0.06);
   }
 
+  /* Stagger top offset slightly so previous cards peek out the top edge */
+  .choice-card:nth-child(1) { top: 16px; }
+  .choice-card:nth-child(2) { top: 24px; }
+  .choice-card:nth-child(3) { top: 32px; }
+  .choice-card:nth-child(4) { top: 40px; }
+
   .choice-slider-track {
-    gap: 8px;
+    gap: 12px;
+    overflow: visible;
+  }
+
+  .choice-slider-shell {
+    overflow: visible !important;
   }
 
   .choice-card-copy {
