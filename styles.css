@@ -1486,9 +1486,12 @@ body {
   grid-area: cta;
   grid-column: auto;
   grid-row: auto;
-  align-self: stretch;
-  justify-self: stretch;
-  width: 100%;
+  align-self: end;
+  justify-self: end;
+  width: auto;
+  max-width: 100%;
+  min-height: 104px;
+  height: auto;
 }
 
 .cta-card:hover {
@@ -2220,7 +2223,7 @@ body {
   align-self: stretch;
   display: grid;
   gap: 16px;
-  max-width: 240px;
+  max-width: 380px;
   margin-top: 0;
   padding-top: 8px;
   text-align: left;
@@ -7239,8 +7242,8 @@ body.is-brief-modal-open {
   .choice-card-visual {
     order: 2;
     align-self: center;
-    width: 180px;
-    height: 180px;
+    width: 220px;
+    height: 220px;
     margin: 8px 0;
   }
 
@@ -7265,8 +7268,8 @@ body.is-brief-modal-open {
   }
 
   .choice-card-visual-asset {
-    width: 180px;
-    height: 180px;
+    width: 220px;
+    height: 220px;
   }
 
   .choice-cta {
@@ -7710,4 +7713,45 @@ body.is-store-detail-open {
 .business-card-price {
   display: block;
   margin-top: auto;
+}
+
+/* About Telegram avatars: photo + TG icon overlapping (mobile only) */
+.about-telegram-avatars {
+  display: inline-flex;
+  align-items: center;
+}
+
+.about-telegram-avatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 64px;
+  border-radius: 999px;
+  overflow: hidden;
+  flex: 0 0 auto;
+}
+
+.about-telegram-avatar-photo {
+  background: #efefef;
+  border: 2px solid var(--page-bg, #ebebeb);
+  margin-right: -16px;
+  /* Hidden on desktop, only the TG icon shows */
+  display: none;
+}
+
+@media (max-width: 720px) {
+  .about-telegram-avatar-photo {
+    display: inline-flex;
+  }
+  .about-telegram-avatar.about-telegram-icon {
+    border: 2px solid var(--page-bg, #ebebeb);
+  }
+}
+
+.about-telegram-avatar-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
 }
