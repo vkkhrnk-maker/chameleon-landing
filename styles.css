@@ -7982,7 +7982,15 @@ body.is-mobile-menu-open {
     grid-template-columns: minmax(360px, 1fr) minmax(0, 1.4fr);
     gap: clamp(40px, 6vw, 96px);
     align-items: start;
-    padding: 0 var(--page-gutter) 200px;
+    padding: 0 var(--page-gutter);
+  }
+
+  /* Pad the slider column so the grid row (which sizes its tracks to
+     the tallest column) stretches past the cards' natural end —
+     extends the .choice-head sticky containing block so the title
+     stays pinned until the section actually finishes scrolling. */
+  .choice-slider-shell {
+    padding-bottom: 200px;
   }
 
   .choice-head {
