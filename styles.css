@@ -8210,7 +8210,15 @@ body.is-mobile-menu-open {
     z-index: 1;
     padding-top: 80px;
     padding-bottom: 80px;
-    background: var(--page-bg);
+    background: var(--surface);
     margin-top: 0;
+  }
+
+  /* When sitting on the white services panel, swap the card surface
+     so cards read as recessed gray tiles instead of disappearing
+     into the white background. */
+  .services .service-card {
+    background: var(--page-bg);
+    border-color: #d8d8d8;
   }
 }
