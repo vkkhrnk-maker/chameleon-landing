@@ -8057,15 +8057,16 @@ body.is-mobile-menu-open {
 
   .choice-slider-track {
     flex-direction: column !important;
-    gap: 24px !important;
+    gap: 0 !important;
     width: 100% !important;
     min-width: 0 !important;
     padding: 0 !important;
     transform: none !important;
   }
 
-  /* Full-width green tile, matches Figma 173:4367.
-     Internal layout: text left (~460w), icon right (~392w). */
+  /* Full-width tile per Figma 173:4367.
+     Internal layout: text left (~460w), icon right (~392w).
+     No rounded corners — sharp full-bleed edges. */
   .choice-card {
     flex: 0 0 auto !important;
     width: 100% !important;
@@ -8080,16 +8081,22 @@ body.is-mobile-menu-open {
     --choice-y: 0px !important;
     transform: translateZ(0) !important;
     opacity: 1 !important;
-    /* Brand green per Figma; rounded corners */
-    background: var(--cta-bg) !important;
     border: none !important;
-    border-radius: 32px !important;
+    border-radius: 0 !important;
     overflow: hidden;
     /* Sticky stack — each card peels over the previous on scroll */
     position: sticky;
     transition: none !important;
     will-change: transform;
     backface-visibility: hidden;
+  }
+
+  /* Alternate fill: odd cards green, even cards white */
+  .choice-card:nth-child(odd) {
+    background: var(--cta-bg) !important;
+  }
+  .choice-card:nth-child(even) {
+    background: var(--surface) !important;
   }
 
   .choice-card-copy {
@@ -8151,13 +8158,13 @@ body.is-mobile-menu-open {
     position: absolute !important;
     left: 50% !important;
     top: 50% !important;
-    width: 238px !important;
-    height: 238px !important;
+    width: 280px !important;
+    height: 280px !important;
     background: #d4ffc2 !important;
-    border-radius: 56px !important;
-    filter: blur(57px) !important;
+    border-radius: 60% !important;
+    filter: blur(72px) !important;
     transform: translate(-50%, -50%) rotate(-10deg) !important;
-    opacity: 0.9 !important;
+    opacity: 0.85 !important;
     pointer-events: none;
   }
 
@@ -8166,9 +8173,13 @@ body.is-mobile-menu-open {
     left: 50% !important;
     top: 50% !important;
     transform: translate(-50%, -50%) !important;
-    width: 290px !important;
-    height: 290px !important;
+    /* Bigger icons per request — was 290 */
+    width: 340px !important;
+    height: 340px !important;
     z-index: 1;
+    /* Softer / more diffuse shadow under the 3D-rendered icon */
+    filter: drop-shadow(0 24px 48px rgba(11, 11, 11, 0.12))
+            drop-shadow(0 8px 16px rgba(11, 11, 11, 0.06)) !important;
   }
 
   .choice-card-visual-img {
