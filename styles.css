@@ -8208,9 +8208,20 @@ body.is-mobile-menu-open {
   .services {
     position: relative;
     z-index: 1;
-    padding-top: 80px;
-    padding-bottom: 80px;
+    /* match the 140px inter-section rhythm used by .works / .about
+       / .clients-network / .business so the overlap panel doesn't
+       break the page's vertical breathing pattern */
+    padding-top: 140px;
+    padding-bottom: 140px;
     background: var(--surface);
+    margin-top: 0;
+  }
+
+  /* Works follows services right after the overlay panel ends —
+     services already provides 140px padding-bottom, so drop works'
+     default 140px margin-top to keep one consistent gap instead of
+     stacking them (would have produced a 280px void). */
+  .services + .works {
     margin-top: 0;
   }
 
@@ -8230,8 +8241,17 @@ body.is-mobile-menu-open {
     position: relative;
     z-index: 2;
     margin-top: -100vh;
-    padding-top: 80px;
+    /* match the 140px inter-section rhythm */
+    padding-top: 140px;
+    padding-bottom: 140px;
     background: var(--surface);
+  }
+
+  /* Same logic as services + works: business provides its own
+     140px bottom padding, so drop the faq's default 140px margin-top
+     to keep one consistent gap. */
+  .business + .faq {
+    margin-top: 0;
   }
 
   /* The training card is rgba(255,255,255,0.75) — readable on the gray
