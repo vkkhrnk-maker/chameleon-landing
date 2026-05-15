@@ -1685,7 +1685,10 @@ body {
   flex-direction: column;
   gap: 12px;
   width: 100%;
-  padding: 20px 24px 24px;
+  /* Symmetric top/bottom — no title wraps to 2 lines in the current
+     content, so the extra 4px on the bottom (was 24) read as a
+     lopsided gap. */
+  padding: 20px 24px;
   border-radius: 16px;
   background: #ffffff;
 }
@@ -3387,10 +3390,13 @@ body {
   width: 100%;
   min-height: 108px;
   display: flex;
-  align-items: flex-start;
+  /* center cross-axis so the question sits in the vertical middle
+     of the 108px row; align-items: flex-start used to leave a
+     bigger gap below the question text than above it. */
+  align-items: center;
   justify-content: space-between;
   gap: 24px;
-  padding: 38px 24px;
+  padding: 28px 24px;
   border: 0;
   background: transparent;
   color: var(--text-primary);
@@ -5713,11 +5719,7 @@ body.is-brief-modal-open {
   .works-slide-info,
   .works-slide-info-dark-badges {
     gap: 8px;
-    /* Visual optical trim: title has line-height 1.15 which leaves
-       ~3-4px of empty space below the last glyph baseline, making
-       the bottom feel larger than the top. Trim 4px off the bottom
-       to optically balance against the badges row up top. */
-    padding: 14px 16px 10px;
+    padding: 14px 16px;
   }
 
   .works-slide-title {
@@ -8050,16 +8052,25 @@ body.is-mobile-menu-open {
     z-index: auto;
   }
 
-  /* Hide the glow ellipses entirely on desktop. They were 401x401
-     absolute children of .choice-head, extending FAR beyond the head's
-     243px height and creating a visible gradient blob over the cards
-     below — read as "weird gradient on background". Title now lives
-     in a clean opaque pinned strip. */
+  /* Hide the glow ellipses entirely on desktop. */
   .choice-glow,
   .choice-glow-left,
   .choice-glow-center,
   .choice-glow-right {
     display: none !important;
+  }
+
+  /* Disable infinite drift animations on every glow element used in
+     sticky-pinned contexts (hero, testimonials). While the parent is
+     pinned, an animating child forces the compositor layer to
+     re-rasterize every frame which makes text on/around the sticky
+     element jitter sub-pixel. Glows still render in their starting
+     position — just static. */
+  .testimonials-glow,
+  .testimonials-glow-left,
+  .testimonials-glow-center,
+  .testimonials-glow-right {
+    animation: none !important;
   }
 
   .choice-title {

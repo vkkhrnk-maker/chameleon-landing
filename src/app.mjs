@@ -1286,13 +1286,12 @@ function initTestimonialsScroll() {
 
     testimonialsCardsLayer.style.width = `${trackWidth}px`;
     sectionTop = testimonialsSection.offsetTop;
-    // Cards animate over 50% of the section's scrollable distance. The
-    // remaining 50% is a "title-only pinned" window — that's when the
-    // .business panel below naezzhaet over the still-pinned title.
-    // 50/50 gives business enough room to cover the viewport mostly
-    // before the sticky releases.
+    // Cards animate over 60% of the section's scrollable distance —
+    // the remaining 40% is a "title-only pinned" window for the
+    // business panel below to naezzhaet over. 0.6 (was 0.5) slows
+    // the horizontal card scroll down so it doesn't whip past.
     scrollableDistance = Math.max(
-      (testimonialsSection.offsetHeight - window.innerHeight) * 0.5,
+      (testimonialsSection.offsetHeight - window.innerHeight) * 0.6,
       1
     );
     endX = -(trackWidth + window.innerWidth * (window.innerWidth <= 720 ? 0.12 : 0.2));
