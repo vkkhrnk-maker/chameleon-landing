@@ -5119,13 +5119,22 @@ body.is-brief-modal-open {
   .works,
   .clients-network,
   .shop,
+  .store,
   .choice-scroll,
   .about,
   .business,
   .testimonials-scroll,
-  .faq,
-  .footer-contact {
+  .faq {
     margin-top: 180px;
+  }
+
+  /* site-footer already provides a large padded green bar with its own
+     breathing space — let the footer-contact section sit naturally
+     inside the footer-main padding instead of adding another 180px on
+     top (was producing a ~440px gap from .faq's bottom to the contact
+     title). */
+  .footer-contact {
+    margin-top: 0;
   }
 }
 
