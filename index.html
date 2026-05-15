@@ -120,16 +120,47 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        gap: 8px;
+        /* Was 8px — too tight between the big CTA pill and the note. */
+        gap: 24px;
       }
 
       .store-footer-cta .store-cta {
-        width: 100%;
-        max-width: 340px;
+        /* Match the big consultation-button component (.clients-network-cta
+           / .cover-cta) used elsewhere on the page: large rounded pill,
+           brand green, dark text. Single "primary action" component
+           across the whole site. */
+        width: auto;
+        max-width: 100%;
+        min-width: 284px;
+        min-height: 128px;
+        padding: 32px 40px;
+        border-radius: 32px;
+        background: var(--cta-bg);
+        color: var(--text-primary);
+      }
+
+      .store-footer-cta .store-cta:hover,
+      .store-footer-cta .store-cta:focus-visible {
+        background: var(--cta-bg-hover);
+        color: var(--text-primary);
+        transform: translateY(-2px);
       }
 
       .store-footer-cta .store-cta-note {
         text-align: center;
+      }
+
+      /* Mobile: match the smaller clients-network-cta size (104h, 28r). */
+      @media (max-width: 720px) {
+        .store-footer-cta .store-cta {
+          min-width: 0;
+          min-height: 104px;
+          padding: 24px;
+          border-radius: 28px;
+        }
+        .store-footer-cta {
+          gap: 16px;
+        }
       }
 
       .store-slider-shell {
