@@ -3029,7 +3029,11 @@ body {
 
 .testimonials-scroll {
   position: relative;
-  height: 220vh;
+  /* Was 220vh — bumped to 280vh so the cards have their full
+     animation window AND the .business panel below has room to
+     naezzhaet over the still-pinned title before the sticky
+     releases (cards finish at 50%, business overlaps from there). */
+  height: 280vh;
   margin-top: 80px;
   overflow-x: clip;
 }
@@ -8297,15 +8301,14 @@ body.is-mobile-menu-open {
   }
 
   /* Mirror the hero ↔ services pattern for testimonials ↔ business.
-     The cards JS now ends the testimonial card slide-by at 60% of
-     the section's scrollable distance, leaving a 40% "title-only
-     pinned" window. Pull business up -38vh so it enters the viewport
-     just after cards complete and naezzhaet over the still-pinned
-     title for a substantial chunk before the sticky releases. */
+     The cards JS ends the testimonial card slide-by at 50% of the
+     section's scrollable distance, leaving a 50% "title-only pinned"
+     window. Pull business up -75vh so it covers most of the viewport
+     while the testimonials title is still pinned. */
   .business {
     position: relative;
     z-index: 2;
-    margin-top: -38vh;
+    margin-top: -75vh;
     /* match the 140px inter-section rhythm */
     padding-top: 140px;
     padding-bottom: 140px;
@@ -8326,6 +8329,14 @@ body.is-mobile-menu-open {
      to the bold green franchise card. */
   .business .business-card-training {
     background: var(--page-bg);
+  }
+
+  /* Preserve the dark hover state (was being overridden because my
+     page-bg rule above had equal specificity to .business-card:hover
+     and won by source-order). Restore the black-on-hover behavior. */
+  .business .business-card-training:hover,
+  .business .business-card-training:focus-within {
+    background: #0b0b0b;
   }
 
   /* .store has its own base rule with margin-top: 140 later in source
