@@ -5691,7 +5691,11 @@ body.is-brief-modal-open {
   .works-slide-info,
   .works-slide-info-dark-badges {
     gap: 8px;
-    padding: 14px 16px;
+    /* Visual optical trim: title has line-height 1.15 which leaves
+       ~3-4px of empty space below the last glyph baseline, making
+       the bottom feel larger than the top. Trim 4px off the bottom
+       to optically balance against the badges row up top. */
+    padding: 14px 16px 10px;
   }
 
   .works-slide-title {
@@ -5906,6 +5910,12 @@ body.is-brief-modal-open {
     max-width: 340px;
     min-height: 104px;
     height: 104px;
+    /* Match the rounded-card style of the other Получить консультацию
+       buttons on mobile (.cover-alt-cta, .clients-network-cta — both
+       use border-radius: 28px and 24px padding). The base 999px pill
+       was a desktop-original style. */
+    padding: 24px;
+    border-radius: 28px;
   }
 
   .cta-card {
