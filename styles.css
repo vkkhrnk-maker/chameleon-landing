@@ -8221,4 +8221,24 @@ body.is-mobile-menu-open {
     background: var(--page-bg);
     border-color: #d8d8d8;
   }
+
+  /* Mirror the hero ↔ services pattern for testimonials ↔ business:
+     testimonials-scroll already pins its content for 220vh of scroll;
+     pull business up by ~100vh with a higher z-index so the business
+     panel slides UP over the still-pinned testimonials. */
+  .business {
+    position: relative;
+    z-index: 2;
+    margin-top: -100vh;
+    padding-top: 80px;
+    background: var(--surface);
+  }
+
+  /* The training card is rgba(255,255,255,0.75) — readable on the gray
+     page bg, but disappears against a white business panel. Give it
+     the page-bg gray so it reads as the "secondary option" tile next
+     to the bold green franchise card. */
+  .business .business-card-training {
+    background: var(--page-bg);
+  }
 }
