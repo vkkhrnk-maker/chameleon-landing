@@ -8034,18 +8034,20 @@ body.is-mobile-menu-open {
     position: relative;
   }
 
+  /* Title is in normal flow — no sticky pinning, no background
+     strip. The pinned variant created a visible page-bg slab that
+     cards visually disappeared behind as they scrolled up past it.
+     Now title scrolls naturally above the cards-stack; cards still
+     sticky-stack on their own. */
   .choice-head {
-    position: sticky;
-    top: 64px;
+    position: relative;
     width: 100%;
     margin: 0 auto;
     min-height: 0;
     text-align: center;
-    z-index: 10;
-    /* Page-bg behind title so cards scrolling up don't peek
-       through the title's letter shapes */
-    background: var(--page-bg);
-    padding-bottom: 24px;
+    background: transparent;
+    padding-bottom: 0;
+    z-index: auto;
   }
 
   /* Hide the glow ellipses entirely on desktop. They were 401x401
@@ -8236,13 +8238,14 @@ body.is-mobile-menu-open {
     object-fit: contain !important;
   }
 
-  /* Sticky stack lives BELOW the pinned title. Title pins at top: 64
-     and is ~220-245px tall + 24px padding, so cards stick at top:340
-     and stagger 12px each so the older ones peek out at the bottom. */
-  .choice-card:nth-child(1) { top: 340px; z-index: 1; }
-  .choice-card:nth-child(2) { top: 352px; z-index: 2; }
-  .choice-card:nth-child(3) { top: 364px; z-index: 3; }
-  .choice-card:nth-child(4) { top: 376px; z-index: 4; }
+  /* Cards sticky-stack just below the float header (top:16, 48 tall →
+     header bottom at 64). Title is no longer pinned so cards land
+     near the top of viewport. Stagger 12px each so older cards peek
+     out from underneath the newer ones. */
+  .choice-card:nth-child(1) { top: 64px;  z-index: 1; }
+  .choice-card:nth-child(2) { top: 76px;  z-index: 2; }
+  .choice-card:nth-child(3) { top: 88px;  z-index: 3; }
+  .choice-card:nth-child(4) { top: 100px; z-index: 4; }
 
   /* Hide the legacy stuff that was for forced horizontal scroll */
   .choice-cta {
