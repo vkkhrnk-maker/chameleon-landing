@@ -7992,22 +7992,21 @@ body.is-mobile-menu-open {
     width: 100%;
     min-height: 0;
     text-align: left;
-    /* Isolate the head so the choice-glow keyframe animations don't
-       force the sticky title to re-rasterize every frame (the real
-       cause of the title text jitter during scroll). */
-    contain: layout style;
-    isolation: isolate;
   }
 
-  /* Each glow gets its own compositor layer so its 18-22s drift
-     animation doesn't piggyback on the title's paint. */
-  .choice-glow {
-    will-change: transform;
-    contain: layout style paint;
+  /* Stop the choice-glow drift animations on desktop. While the head
+     is sticky, animating siblings cause the whole compositor layer to
+     repaint every frame which makes the title letterforms jitter.
+     Glows still render in their resting position. */
+  .choice-glow,
+  .choice-glow-left,
+  .choice-glow-center,
+  .choice-glow-right {
+    animation: none !important;
   }
 
-  /* Snap the title text itself to a fresh layer too — keeps the
-     letterforms pixel-stable while the parent is sticky. */
+  /* Snap the title text to its own GPU layer so it stays
+     pixel-stable while the parent is sticky. */
   .choice-title {
     will-change: transform;
     transform: translateZ(0);
@@ -8175,10 +8174,11 @@ body.is-mobile-menu-open {
 
   /* Services merges into hero on desktop:
      - The "Услуги" heading is redundant — hero's title + subtitle
-       ("Авто, мото, спортинвентарь, интерьерные решения") already
-       describes what this section is, so hide the duplicate H1.
-     - Pull the grid up so it visually overlaps hero's empty bottom
-       area — the two sections read as one continuous block. */
+       describe what this section is, so hide the duplicate H1.
+     - Hero pins to the viewport (sticky top:0) while .services
+       scrolls UP over it — true "наезжающий" overlap, not a static
+       margin. The .hero-services-stack wrapper bounds hero's sticky
+       lifetime so it releases when services has fully scrolled past. */
   .services-title {
     position: absolute;
     width: 1px;
@@ -8191,12 +8191,22 @@ body.is-mobile-menu-open {
     border: 0;
   }
 
+  .hero-services-stack {
+    position: relative;
+  }
+
+  .hero {
+    position: sticky;
+    top: 0;
+    z-index: 0;
+  }
+
   .services {
     position: relative;
     z-index: 1;
-    margin-top: -180px;
-    padding-top: 24px;
+    padding-top: 80px;
     padding-bottom: 80px;
     background: #e3e3e3;
+    margin-top: 0;
   }
 }
