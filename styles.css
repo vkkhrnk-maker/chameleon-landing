@@ -7982,7 +7982,9 @@ body.is-mobile-menu-open {
 }
 
 /* ============================================================ */
-/* Choice section — desktop split-screen sticky reveal          */
+/* Choice section — desktop sticky stack matching Figma 173-3985 */
+/* Full-width green tiles, title centered above, cards stack on  */
+/* top of each other as you scroll.                              */
 /* ============================================================ */
 @media (min-width: 1101px) {
   .choice-scroll {
@@ -7997,27 +7999,25 @@ body.is-mobile-menu-open {
     display: block;
   }
 
+  /* Vertical layout: centered title on top, cards stack below */
   .choice {
-    display: grid;
-    grid-template-columns: minmax(360px, 1fr) minmax(0, 1.4fr);
-    gap: clamp(40px, 6vw, 96px);
-    align-items: start;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 56px;
     padding: 0 var(--page-gutter);
   }
 
   .choice-head {
-    position: sticky;
-    top: 64px;
-    margin: 0;
+    position: relative;
     width: 100%;
+    margin: 0 auto;
     min-height: 0;
-    text-align: left;
+    text-align: center;
   }
 
-  /* Stop the choice-glow drift animations on desktop. While the head
-     is sticky, animating siblings cause the whole compositor layer to
-     repaint every frame which makes the title letterforms jitter.
-     Glows still render in their resting position. */
+  /* Stop the glow drift animations — they were the source of title
+     jitter during scroll on prior layouts; keep them off here too. */
   .choice-glow,
   .choice-glow-left,
   .choice-glow-center,
@@ -8025,29 +8025,27 @@ body.is-mobile-menu-open {
     animation: none !important;
   }
 
-  /* Snap the title text to its own GPU layer so it stays
-     pixel-stable while the parent is sticky. */
   .choice-title {
+    text-align: center;
+    margin: 0 auto;
+    max-width: 1024px;
+    /* Big centered title per Figma — 3 lines, very large */
+    font-size: clamp(72px, 7.5vw, 128px) !important;
+    line-height: 0.92 !important;
+    letter-spacing: -0.03em !important;
     will-change: transform;
     transform: translateZ(0);
     backface-visibility: hidden;
   }
 
-  .choice-title {
-    text-align: left;
-    margin: 0;
-    max-width: 100%;
-  }
-
-  /* Override slider mechanics — use vertical sticky stack on desktop.
-     Keep a bottom padding so the slider column outlasts the cards'
-     natural end; the grid row stretches to match and the .choice-head
-     stays sticky through the rest of the section. */
+  /* Slider shell becomes the stacking container. Bottom padding
+     extends so the last card has room to "peel" past the viewport
+     before the section finishes. */
   .choice-slider-shell {
     overflow: visible !important;
     width: 100% !important;
     margin: 0 !important;
-    padding: 0 0 200px !important;
+    padding: 0 0 240px !important;
     cursor: default !important;
     scroll-snap-type: none !important;
     touch-action: auto !important;
@@ -8062,53 +8060,79 @@ body.is-mobile-menu-open {
     transform: none !important;
   }
 
+  /* Full-width green tile, matches Figma 173:4367.
+     Internal layout: text left (~460w), icon right (~392w). */
   .choice-card {
     flex: 0 0 auto !important;
     width: 100% !important;
-    min-height: 520px;
+    min-height: 551px;
     max-width: 100%;
-    padding: 48px 40px !important;
-    display: flex !important;
-    flex-direction: column !important;
-    /* Larger gap so the title / illustration / description visibly breathe */
+    padding: 40px !important;
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
     gap: 40px !important;
+    align-items: stretch !important;
     --choice-tilt: 0deg !important;
     --choice-y: 0px !important;
-    /* translateZ(0) instead of "none" so the card gets its own GPU
-       compositor layer — keeps the sticky card pixel-stable while
-       scrolling (was the missing piece causing the jitter). */
     transform: translateZ(0) !important;
     opacity: 1 !important;
-    /* Sticky stack: each card slides over previous */
+    /* Brand green per Figma; rounded corners */
+    background: var(--cta-bg) !important;
+    border: none !important;
+    border-radius: 32px !important;
+    overflow: hidden;
+    /* Sticky stack — each card peels over the previous on scroll */
     position: sticky;
-    background: var(--surface);
-    border: 1px solid var(--surface-border);
     transition: none !important;
     will-change: transform;
     backface-visibility: hidden;
   }
 
-  /* Layout inside the card: title at top (centered), icon centered, text below */
   .choice-card-copy {
     position: static !important;
-    display: contents;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: space-between !important;
+    gap: 24px;
+    width: 100%;
+    height: 100%;
   }
 
   .choice-card-title {
-    order: 1;
+    order: 0;
     width: 100%;
-    text-align: center;
-    font-size: clamp(28px, 2.4vw, 36px);
+    max-width: 460px;
+    text-align: left;
+    /* Big 53px title per Figma */
+    font-size: clamp(40px, 3.5vw, 53px);
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    color: var(--text-primary, #0b0b0b);
   }
 
+  .choice-card-text {
+    order: 1;
+    width: 100%;
+    max-width: 460px;
+    margin: 0;
+    text-align: left;
+    /* Mono description per Figma */
+    font-family: "JetBrains Mono", "TT Commons Pro Mono Trl", "Roboto Mono", monospace;
+    font-size: 17px;
+    line-height: 1.4;
+    color: rgba(11, 11, 11, 0.6);
+  }
+
+  /* Icon column — right side of card, large with soft green glow */
   .choice-card-visual {
-    /* relative so the absolutely-positioned asset is centered against this 240×240
-       box, not against the card (which made the asset float into the text) */
     position: relative !important;
-    order: 2;
     align-self: center;
-    width: 240px;
-    height: 240px;
+    justify-self: end;
+    width: 100%;
+    max-width: 392px;
+    height: 100%;
+    min-height: 392px;
     margin: 0;
     overflow: visible !important;
     background: transparent !important;
@@ -8117,13 +8141,30 @@ body.is-mobile-menu-open {
     left: auto !important;
   }
 
+  /* Soft pale-green glow halo behind the icon */
+  .choice-card-visual-glow {
+    display: block !important;
+    position: absolute !important;
+    left: 50% !important;
+    top: 50% !important;
+    width: 238px !important;
+    height: 238px !important;
+    background: #d4ffc2 !important;
+    border-radius: 56px !important;
+    filter: blur(57px) !important;
+    transform: translate(-50%, -50%) rotate(-10deg) !important;
+    opacity: 0.9 !important;
+    pointer-events: none;
+  }
+
   .choice-card-visual-asset {
     position: absolute !important;
     left: 50% !important;
     top: 50% !important;
     transform: translate(-50%, -50%) !important;
-    width: 240px !important;
-    height: 240px !important;
+    width: 290px !important;
+    height: 290px !important;
+    z-index: 1;
   }
 
   .choice-card-visual-img {
@@ -8133,23 +8174,12 @@ body.is-mobile-menu-open {
     object-fit: contain !important;
   }
 
-  .choice-card-text {
-    order: 3;
-    width: 100%;
-    max-width: 520px;
-    margin: 0 auto;
-    text-align: center;
-    font-size: 16px;
-  }
-
-  /* First card lands at top: 64 — exactly opposite the title.
-     Each subsequent card sticks 8px lower so the stack stays tight
-     to the title area but still gives a visible peek between
-     cards. */
-  .choice-card:nth-child(1) { top: 64px; }
-  .choice-card:nth-child(2) { top: 72px; }
-  .choice-card:nth-child(3) { top: 80px; }
-  .choice-card:nth-child(4) { top: 88px; }
+  /* Sticky stack: each new card lands at the same top so it slides
+     over the previous one. Small stagger so older cards peek out. */
+  .choice-card:nth-child(1) { top: 96px;  z-index: 1; }
+  .choice-card:nth-child(2) { top: 108px; z-index: 2; }
+  .choice-card:nth-child(3) { top: 120px; z-index: 3; }
+  .choice-card:nth-child(4) { top: 132px; z-index: 4; }
 
   /* Hide the legacy stuff that was for forced horizontal scroll */
   .choice-cta {
