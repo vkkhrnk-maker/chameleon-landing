@@ -5119,7 +5119,6 @@ body.is-brief-modal-open {
   .works,
   .clients-network,
   .shop,
-  .store,
   .choice-scroll,
   .about,
   .business,
@@ -8287,5 +8286,13 @@ body.is-mobile-menu-open {
      to the bold green franchise card. */
   .business .business-card-training {
     background: var(--page-bg);
+  }
+
+  /* .store has its own base rule with margin-top: 140 later in source
+     than the 1440+ rule that lifts other sections to 180px, so it
+     was winning. Restore the 180px rhythm here (this block is at
+     end-of-file, beats the base rule by source order). */
+  .store {
+    margin-top: 180px;
   }
 }
