@@ -98,10 +98,11 @@ if (choiceSliderShell) {
   initHorizontalDragScroll(choiceSliderShell);
 }
 
-// Choice section now uses CSS sticky-stack on desktop (no JS forced scroll)
-// if (choiceSection && choiceSliderShell) {
-//   initChoiceForcedScroll();
-// }
+// Choice section: click-cycling pile of cards on desktop
+const choiceCardsAll = document.querySelectorAll(".choice-slider-track > .choice-card");
+if (choiceCardsAll.length > 0) {
+  initChoicePile();
+}
 
 if (aboutTelegramButton) {
   initMagneticTelegram();
@@ -1325,6 +1326,54 @@ function initTestimonialsScroll() {
   window.addEventListener("load", recalc);
   window.addEventListener("resize", recalc);
   window.addEventListener("scroll", requestUpdate, { passive: true });
+}
+
+function initChoicePile() {
+  const cards = [...document.querySelectorAll(".choice-slider-track > .choice-card")];
+  if (cards.length === 0) return;
+
+  // Reverse order: HTML has card 1 first, but we want the LAST card on
+  // top of the visible pile (the rest peek out behind/below it).
+  // Assign positions where the LAST DOM card gets pos 0 (top).
+  const total = cards.length;
+
+  const setPositions = () => {
+    cards.forEach((card, idx) => {
+      // Pos starts: first DOM card → bottom (total-1), last DOM card → top (0)
+      const pos = (total - 1 - idx + getRotation()) % total;
+      card.dataset.choicePos = String(pos);
+    });
+  };
+
+  let rotation = 0;
+  const getRotation = () => rotation;
+
+  setPositions();
+
+  cards.forEach((card) => {
+    card.addEventListener("click", () => {
+      // Only cycle on desktop where the pile layout is active.
+      if (window.innerWidth <= 1100) return;
+      cycleDeck();
+    });
+  });
+
+  function cycleDeck() {
+    // Find current top card (pos 0)
+    const topCard = cards.find((c) => c.dataset.choicePos === "0");
+    if (!topCard) return;
+
+    // Animate top card flying off to the right
+    topCard.dataset.choiceAnim = "off";
+
+    setTimeout(() => {
+      // After fly-off animation, rotate the pile so the next card is on top
+      rotation = (rotation + 1) % total;
+      // Clear the anim flag BEFORE re-positioning so the card snaps to its new spot
+      delete topCard.dataset.choiceAnim;
+      setPositions();
+    }, 300);
+  }
 }
 
 function initChoiceForcedScroll() {
