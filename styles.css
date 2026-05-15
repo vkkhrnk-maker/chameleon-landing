@@ -5124,11 +5124,29 @@ body.is-brief-modal-open {
   .clients-network,
   .shop,
   .choice-scroll,
-  .about,
   .business,
-  .testimonials-scroll,
-  .faq {
+  .testimonials-scroll {
     margin-top: 180px;
+  }
+
+  /* "Волновой" ритм: после каждого sticky/overlap-момента — больше
+     дыхания, чтобы глаз успел отдохнуть и подготовиться к следующему
+     "событию" страницы. Sticky/overlap moments are:
+     1. hero → services (services panel pins over hero)
+     2. choice section (title pinned + 4 cards stacked)
+     3. testimonials → business (business slides over pinned title)
+     The section IMMEDIATELY following each gets extra breath. */
+  .works {
+    /* Right after the hero/services overlap — needs room to breathe */
+    margin-top: 240px;
+  }
+  .about {
+    /* Right after the choice section's heavy sticky stack */
+    margin-top: 240px;
+  }
+  .faq {
+    /* Right after the testimonials/business overlap */
+    margin-top: 240px;
   }
 
   /* site-footer already provides a large padded green bar with its own
