@@ -7992,9 +7992,23 @@ body.is-mobile-menu-open {
     width: 100%;
     min-height: 0;
     text-align: left;
-    /* Promote to its own compositor layer so the sticky title doesn't
-       sub-pixel-jitter during scroll (was visibly shaking on Mac
-       Retina + smooth scroll). */
+    /* Isolate the head so the choice-glow keyframe animations don't
+       force the sticky title to re-rasterize every frame (the real
+       cause of the title text jitter during scroll). */
+    contain: layout style;
+    isolation: isolate;
+  }
+
+  /* Each glow gets its own compositor layer so its 18-22s drift
+     animation doesn't piggyback on the title's paint. */
+  .choice-glow {
+    will-change: transform;
+    contain: layout style paint;
+  }
+
+  /* Snap the title text itself to a fresh layer too — keeps the
+     letterforms pixel-stable while the parent is sticky. */
+  .choice-title {
     will-change: transform;
     transform: translateZ(0);
     backface-visibility: hidden;
