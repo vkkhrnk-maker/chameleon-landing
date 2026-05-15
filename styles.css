@@ -8176,23 +8176,35 @@ body.is-mobile-menu-open {
     white-space: normal;
   }
 
-  /* Services merges into hero on desktop:
-     - The "Услуги" heading is redundant — hero's title + subtitle
-       describe what this section is, so hide the duplicate H1.
-     - Hero pins to the viewport (sticky top:0) while .services
-       scrolls UP over it — true "наезжающий" overlap, not a static
-       margin. The .hero-services-stack wrapper bounds hero's sticky
-       lifetime so it releases when services has fully scrolled past. */
+  /* Services merges into hero on desktop. Hero pins (sticky top:0)
+     while .services scrolls UP over it — true "наезжающий" overlap.
+     The .hero-services-stack wrapper bounds hero's sticky lifetime
+     so it releases when services has fully scrolled past.
+
+     The services title becomes a small monospace eyebrow ("01 /
+     УСЛУГИ") that's the FIRST thing to appear as the white panel
+     slides up over hero — a deliberate "section label peeks out"
+     reveal, like Apple/Linear/Stripe section transitions. */
   .services-title {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    margin: -1px;
-    padding: 0;
-    overflow: hidden;
-    clip: rect(0 0 0 0);
-    white-space: nowrap;
-    border: 0;
+    /* override the large desktop section title styles */
+    font-size: 13px !important;
+    font-weight: 400 !important;
+    line-height: 1.4 !important;
+    letter-spacing: 0.08em !important;
+    max-width: 100% !important;
+    text-align: left !important;
+    /* small monospace eyebrow */
+    font-family: "JetBrains Mono", "TT Commons Pro Mono Trl", "Roboto Mono", monospace;
+    text-transform: uppercase;
+    color: rgba(11, 11, 11, 0.5);
+    margin: 0 0 56px;
+  }
+
+  .services-title::before {
+    content: "01 /";
+    margin-right: 8px;
+    color: var(--text-primary, #0b0b0b);
+    font-weight: 500;
   }
 
   .hero-services-stack {
