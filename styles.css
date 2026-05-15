@@ -8096,9 +8096,8 @@ body.is-mobile-menu-open {
     display: none;
   }
 
-  /* Cards: tight pile (one on top of another with small offsets).
-     User clicks the top card → it slides off to the right, the next
-     card becomes the top. JS handles state via [data-choice-pos]. */
+  /* Cards: absolutely positioned, fanned out with rotation. Hover any
+     card to bring it forward, flat, and slightly enlarged. */
   .choice-card {
     flex: none !important;
     position: absolute !important;
@@ -8120,58 +8119,40 @@ body.is-mobile-menu-open {
     border: none !important;
     border-radius: 0 !important;
     overflow: hidden;
-    transform-origin: center center;
-    transition: transform 500ms cubic-bezier(0.22, 1, 0.36, 1),
-                opacity 220ms ease,
-                box-shadow 500ms cubic-bezier(0.22, 1, 0.36, 1) !important;
+    transform-origin: center bottom;
+    transition: transform 480ms cubic-bezier(0.22, 1, 0.36, 1),
+                box-shadow 480ms cubic-bezier(0.22, 1, 0.36, 1) !important;
     will-change: transform;
     backface-visibility: hidden;
     cursor: pointer;
-    box-shadow: 0 12px 30px rgba(11, 11, 11, 0.08);
+    box-shadow: 0 12px 30px rgba(11, 11, 11, 0.06);
   }
 
-  /* Pile state, driven by data-choice-pos (0 = top, 3 = bottom).
-     The JS assigns the attribute on load and cycles on click. */
-  .choice-card[data-choice-pos="0"] {
-    transform: translate(0, 0) scale(1);
-    z-index: 4;
-  }
-  .choice-card[data-choice-pos="1"] {
-    transform: translate(-12px, 14px) scale(0.96);
-    z-index: 3;
-  }
-  .choice-card[data-choice-pos="2"] {
-    transform: translate(-24px, 28px) scale(0.92);
-    z-index: 2;
-  }
-  .choice-card[data-choice-pos="3"] {
-    transform: translate(-36px, 42px) scale(0.88);
+  /* Fan layout: cards rotated and offset left/right around center.
+     z-index ascending so the rightmost card sits on top initially. */
+  .choice-card:nth-child(1) {
+    transform: translateX(-180px) rotate(-6deg) scale(0.95);
     z-index: 1;
   }
-
-  /* The card actively flying off the pile when clicked */
-  .choice-card[data-choice-anim="off"] {
-    transform: translateX(120%) rotate(8deg) !important;
-    opacity: 0 !important;
-    z-index: 5 !important;
-  }
-
-  /* Initial fallback if JS hasn't run yet — use nth-child order */
-  .choice-card:not([data-choice-pos]):nth-child(1) {
-    transform: translate(-36px, 42px) scale(0.88);
-    z-index: 1;
-  }
-  .choice-card:not([data-choice-pos]):nth-child(2) {
-    transform: translate(-24px, 28px) scale(0.92);
+  .choice-card:nth-child(2) {
+    transform: translateX(-60px) rotate(-2deg) scale(0.97);
     z-index: 2;
   }
-  .choice-card:not([data-choice-pos]):nth-child(3) {
-    transform: translate(-12px, 14px) scale(0.96);
+  .choice-card:nth-child(3) {
+    transform: translateX(60px) rotate(2deg) scale(0.97);
     z-index: 3;
   }
-  .choice-card:not([data-choice-pos]):nth-child(4) {
-    transform: translate(0, 0) scale(1);
+  .choice-card:nth-child(4) {
+    transform: translateX(180px) rotate(6deg) scale(0.95);
     z-index: 4;
+  }
+
+  /* Hover any card → flatten, center, lift slightly, bring to front */
+  .choice-card:hover,
+  .choice-card:focus-within {
+    transform: translateX(0) translateY(-12px) rotate(0deg) scale(1.02) !important;
+    z-index: 10 !important;
+    box-shadow: 0 28px 64px rgba(11, 11, 11, 0.15);
   }
 
   /* Alternate fill: odd cards green, even cards white */
