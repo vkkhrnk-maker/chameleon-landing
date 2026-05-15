@@ -324,7 +324,8 @@ summary:focus-visible {
 
 /* Variant 2 — square card in bottom-left corner, no rounding */
 .cookie-banner.variant-corner {
-  left: 24px;
+  /* Align with section content edge (matches --page-gutter) */
+  left: var(--page-gutter);
   right: auto;
   bottom: 24px;
   max-width: 320px;
@@ -5131,6 +5132,7 @@ body.is-brief-modal-open {
 @media (min-width: 1920px) {
   :root {
     --page-gutter: 40px;
+    --cover-gutter: 40px;
   }
 
   .cover-alt {
@@ -8181,30 +8183,19 @@ body.is-mobile-menu-open {
      The .hero-services-stack wrapper bounds hero's sticky lifetime
      so it releases when services has fully scrolled past.
 
-     The services title becomes a small monospace eyebrow ("01 /
-     УСЛУГИ") that's the FIRST thing to appear as the white panel
-     slides up over hero — a deliberate "section label peeks out"
-     reveal, like Apple/Linear/Stripe section transitions. */
+     The duplicate "Услуги" heading is redundant — hero's title +
+     subtitle describe what this section is — so hide it
+     (visually-hidden, still accessible to screen readers). */
   .services-title {
-    /* override the large desktop section title styles */
-    font-size: 13px !important;
-    font-weight: 400 !important;
-    line-height: 1.4 !important;
-    letter-spacing: 0.08em !important;
-    max-width: 100% !important;
-    text-align: left !important;
-    /* small monospace eyebrow */
-    font-family: "JetBrains Mono", "TT Commons Pro Mono Trl", "Roboto Mono", monospace;
-    text-transform: uppercase;
-    color: rgba(11, 11, 11, 0.5);
-    margin: 0 0 56px;
-  }
-
-  .services-title::before {
-    content: "01 /";
-    margin-right: 8px;
-    color: var(--text-primary, #0b0b0b);
-    font-weight: 500;
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+    border: 0;
   }
 
   .hero-services-stack {
@@ -8215,6 +8206,20 @@ body.is-mobile-menu-open {
     position: sticky;
     top: 0;
     z-index: 0;
+  }
+
+  /* Hero is sticky-pinned for ~700px of scroll while services
+     naezzhaet. The infinite drift animations on .hero-glow elements
+     cause the pinned hero's compositor layer to repaint every frame
+     during that pin period — which made text on adjacent sticky
+     elements (.choice-head etc.) jitter sub-pixel. Same fix as
+     .choice-glow earlier: pause the animations on desktop, the glow
+     ellipses still render in their starting positions. */
+  .hero-glow,
+  .hero-glow-left,
+  .hero-glow-center,
+  .hero-glow-right {
+    animation: none !important;
   }
 
   .services {
@@ -8229,15 +8234,11 @@ body.is-mobile-menu-open {
     margin-top: 0;
   }
 
-  /* Works follows services right after the overlay panel ends —
-     services already provides 140px padding-bottom, so drop works'
-     default 140px margin-top to keep one consistent gap instead of
-     stacking them (would have produced a 280px void).
-     Note: .services lives inside .hero-services-stack, so works is a
-     sibling of the wrapper, not of .services. */
-  .hero-services-stack + .works {
-    margin-top: 0;
-  }
+  /* (Was resetting works' margin-top to 0 here to keep the gap at a
+     single 140px rhythm, but together with the panel's own
+     padding-bottom the visual gap felt under-spaced. Let works keep
+     its default 140px margin-top — consistent with the business →
+     faq spacing we restored.) */
 
   /* When sitting on the white services panel, swap the card surface
      so cards read as recessed gray tiles instead of disappearing
