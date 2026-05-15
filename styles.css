@@ -8054,7 +8054,10 @@ body.is-mobile-menu-open {
     gap: 40px !important;
     --choice-tilt: 0deg !important;
     --choice-y: 0px !important;
-    transform: none !important;
+    /* translateZ(0) instead of "none" so the card gets its own GPU
+       compositor layer — keeps the sticky card pixel-stable while
+       scrolling (was the missing piece causing the jitter). */
+    transform: translateZ(0) !important;
     opacity: 1 !important;
     /* Sticky stack: each card slides over previous */
     position: sticky;
@@ -8062,6 +8065,7 @@ body.is-mobile-menu-open {
     border: 1px solid var(--surface-border);
     transition: none !important;
     will-change: transform;
+    backface-visibility: hidden;
   }
 
   /* Layout inside the card: title at top (centered), icon centered, text below */
@@ -8118,14 +8122,14 @@ body.is-mobile-menu-open {
     font-size: 16px;
   }
 
-  /* Stagger so each new card sticks HIGHER than the previous — newest
-     ends up on top of the stack, older cards peek out at the BOTTOM.
-     All values 32px lower than before so the stack sits closer to the
-     viewport's top edge and aligns with the title (top: 64). */
-  .choice-card:nth-child(1) { top: 112px; }
-  .choice-card:nth-child(2) { top: 96px; }
+  /* First card lands at top: 64 — exactly opposite the title.
+     Each subsequent card sticks 8px lower so the stack stays tight
+     to the title area but still gives a visible peek between
+     cards. */
+  .choice-card:nth-child(1) { top: 64px; }
+  .choice-card:nth-child(2) { top: 72px; }
   .choice-card:nth-child(3) { top: 80px; }
-  .choice-card:nth-child(4) { top: 64px; }
+  .choice-card:nth-child(4) { top: 88px; }
 
   /* Hide the legacy stuff that was for forced horizontal scroll */
   .choice-cta {
