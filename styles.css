@@ -7987,11 +7987,17 @@ body.is-mobile-menu-open {
 
   .choice-head {
     position: sticky;
-    top: 96px;
+    top: 64px;
     margin: 0;
     width: 100%;
     min-height: 0;
     text-align: left;
+    /* Promote to its own compositor layer so the sticky title doesn't
+       sub-pixel-jitter during scroll (was visibly shaking on Mac
+       Retina + smooth scroll). */
+    will-change: transform;
+    transform: translateZ(0);
+    backface-visibility: hidden;
   }
 
   .choice-title {
@@ -8100,13 +8106,13 @@ body.is-mobile-menu-open {
   }
 
   /* Stagger so each new card sticks HIGHER than the previous — newest
-     ends up on top of the stack, older cards peek out at the BOTTOM,
-     visually the stack accumulates upward. Last card lands at top: 96
-     so it lines up with the title's top edge (.choice-head top: 96). */
-  .choice-card:nth-child(1) { top: 144px; }
-  .choice-card:nth-child(2) { top: 128px; }
-  .choice-card:nth-child(3) { top: 112px; }
-  .choice-card:nth-child(4) { top: 96px; }
+     ends up on top of the stack, older cards peek out at the BOTTOM.
+     All values 32px lower than before so the stack sits closer to the
+     viewport's top edge and aligns with the title (top: 64). */
+  .choice-card:nth-child(1) { top: 112px; }
+  .choice-card:nth-child(2) { top: 96px; }
+  .choice-card:nth-child(3) { top: 80px; }
+  .choice-card:nth-child(4) { top: 64px; }
 
   /* Hide the legacy stuff that was for forced horizontal scroll */
   .choice-cta {
