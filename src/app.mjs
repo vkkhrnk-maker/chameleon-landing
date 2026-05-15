@@ -1286,7 +1286,14 @@ function initTestimonialsScroll() {
 
     testimonialsCardsLayer.style.width = `${trackWidth}px`;
     sectionTop = testimonialsSection.offsetTop;
-    scrollableDistance = Math.max(testimonialsSection.offsetHeight - window.innerHeight, 1);
+    // Cards animate over 70% of the section's scrollable distance. The
+    // remaining 30% is a "title-only pinned" window — that's when the
+    // .business panel below can naezzhaet over the still-pinned title
+    // without cutting the cards off mid-flight.
+    scrollableDistance = Math.max(
+      (testimonialsSection.offsetHeight - window.innerHeight) * 0.7,
+      1
+    );
     endX = -(trackWidth + window.innerWidth * (window.innerWidth <= 720 ? 0.12 : 0.2));
     update();
   };

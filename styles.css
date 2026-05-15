@@ -8233,14 +8233,17 @@ body.is-mobile-menu-open {
     border-color: #d8d8d8;
   }
 
-  /* Mirror the hero ↔ services pattern for testimonials ↔ business:
-     testimonials-scroll already pins its content for 220vh of scroll;
-     pull business up by ~100vh with a higher z-index so the business
-     panel slides UP over the still-pinned testimonials. */
+  /* Mirror the hero ↔ services pattern for testimonials ↔ business.
+     The cards JS now ends the testimonial card slide-by at 70% of
+     the section's scrollable distance, leaving a 30% "title-only
+     pinned" window. Pull business up just enough to enter the
+     viewport AFTER cards complete but BEFORE the sticky releases —
+     so cards fly through fully, then business naezzhaet over the
+     still-pinned title. */
   .business {
     position: relative;
     z-index: 2;
-    margin-top: -100vh;
+    margin-top: -25vh;
     /* match the 140px inter-section rhythm */
     padding-top: 140px;
     padding-bottom: 140px;
