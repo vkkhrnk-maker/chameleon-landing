@@ -8220,8 +8220,10 @@ body.is-mobile-menu-open {
   /* Works follows services right after the overlay panel ends —
      services already provides 140px padding-bottom, so drop works'
      default 140px margin-top to keep one consistent gap instead of
-     stacking them (would have produced a 280px void). */
-  .services + .works {
+     stacking them (would have produced a 280px void).
+     Note: .services lives inside .hero-services-stack, so works is a
+     sibling of the wrapper, not of .services. */
+  .hero-services-stack + .works {
     margin-top: 0;
   }
 
