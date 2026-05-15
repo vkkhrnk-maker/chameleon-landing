@@ -8263,12 +8263,13 @@ body.is-mobile-menu-open {
     background: var(--surface);
   }
 
-  /* Same logic as services + works: business provides its own
-     140px bottom padding, so drop the faq's default 140px margin-top
-     to keep one consistent gap. */
-  .business + .faq {
-    margin-top: 0;
-  }
+  /* (Was resetting .business + .faq margin-top to 0 to keep a single
+     140px gap, but the business-cards column doesn't fill its grid
+     row → ~40px of natural slack at the bottom + the eyebrow takes
+     real estate. The visual result felt cramped. Let faq keep its
+     default 140px margin-top so we get ~280px of total breathing
+     between the last business card and the FAQ title, matching the
+     pre-overlap rhythm.) */
 
   /* The training card is rgba(255,255,255,0.75) — readable on the gray
      page bg, but disappears against a white business panel. Give it
