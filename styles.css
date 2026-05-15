@@ -8003,21 +8003,31 @@ body.is-mobile-menu-open {
     display: block;
   }
 
-  /* Vertical layout: centered title on top, cards stack below */
+  /* Vertical layout: centered title on top, cards stack below.
+     Title is sticky so it stays pinned while cards scroll up
+     underneath it — user sees both the section heading AND the
+     stack of cards at the same time. */
   .choice {
     display: flex;
     flex-direction: column;
     align-items: stretch;
-    gap: 56px;
+    gap: 48px;
     padding: 0 var(--page-gutter);
+    position: relative;
   }
 
   .choice-head {
-    position: relative;
+    position: sticky;
+    top: 64px;
     width: 100%;
     margin: 0 auto;
     min-height: 0;
     text-align: center;
+    z-index: 10;
+    /* Page-bg behind title so cards scrolling up don't peek
+       through the title's letter shapes */
+    background: var(--page-bg);
+    padding-bottom: 24px;
   }
 
   /* Stop the glow drift animations — they were the source of title
@@ -8033,8 +8043,10 @@ body.is-mobile-menu-open {
     text-align: center;
     margin: 0 auto;
     max-width: 1024px;
-    /* Big centered title per Figma — 3 lines, very large */
-    font-size: clamp(72px, 7.5vw, 128px) !important;
+    /* Slightly smaller than the original 128px max so the pinned
+       title doesn't eat too much of the viewport while cards scroll
+       under it. Still big per Figma but leaves room for cards. */
+    font-size: clamp(56px, 5.5vw, 88px) !important;
     line-height: 0.92 !important;
     letter-spacing: -0.03em !important;
     will-change: transform;
@@ -8189,12 +8201,13 @@ body.is-mobile-menu-open {
     object-fit: contain !important;
   }
 
-  /* Sticky stack: each new card lands at the same top so it slides
-     over the previous one. Small stagger so older cards peek out. */
-  .choice-card:nth-child(1) { top: 96px;  z-index: 1; }
-  .choice-card:nth-child(2) { top: 108px; z-index: 2; }
-  .choice-card:nth-child(3) { top: 120px; z-index: 3; }
-  .choice-card:nth-child(4) { top: 132px; z-index: 4; }
+  /* Sticky stack lives BELOW the pinned title. Title pins at top: 64
+     and is ~220-245px tall + 24px padding, so cards stick at top:340
+     and stagger 12px each so the older ones peek out at the bottom. */
+  .choice-card:nth-child(1) { top: 340px; z-index: 1; }
+  .choice-card:nth-child(2) { top: 352px; z-index: 2; }
+  .choice-card:nth-child(3) { top: 364px; z-index: 3; }
+  .choice-card:nth-child(4) { top: 376px; z-index: 4; }
 
   /* Hide the legacy stuff that was for forced horizontal scroll */
   .choice-cta {
