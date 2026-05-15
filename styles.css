@@ -8004,9 +8004,9 @@ body.is-mobile-menu-open {
 }
 
 /* ============================================================ */
-/* Choice section — desktop hover-revealed fan stack            */
-/* Cards lie as a deck; hovering any card brings it to front.   */
-/* No scroll-tied animation — user controls reveal manually.    */
+/* Choice section — desktop sticky stack matching Figma 173-3985 */
+/* Full-width green tiles, title centered above, cards stack on  */
+/* top of each other as you scroll.                              */
 /* ============================================================ */
 @media (min-width: 1101px) {
   .choice-scroll {
@@ -8021,7 +8021,10 @@ body.is-mobile-menu-open {
     display: block;
   }
 
-  /* Vertical layout: centered title on top, then the deck container */
+  /* Vertical layout: centered title on top, cards stack below.
+     Title is sticky so it stays pinned while cards scroll up
+     underneath it — user sees both the section heading AND the
+     stack of cards at the same time. */
   .choice {
     display: flex;
     flex-direction: column;
@@ -8031,20 +8034,25 @@ body.is-mobile-menu-open {
     position: relative;
   }
 
-  /* Title is back to normal (non-sticky) — no scroll interaction
-     anymore, so no need to pin it. */
   .choice-head {
-    position: relative;
+    position: sticky;
+    top: 64px;
     width: 100%;
     margin: 0 auto;
     min-height: 0;
     text-align: center;
-    background: transparent;
-    padding-bottom: 0;
-    z-index: auto;
+    z-index: 10;
+    /* Page-bg behind title so cards scrolling up don't peek
+       through the title's letter shapes */
+    background: var(--page-bg);
+    padding-bottom: 24px;
   }
 
-  /* Hide the glow ellipses entirely on desktop. */
+  /* Hide the glow ellipses entirely on desktop. They were 401x401
+     absolute children of .choice-head, extending FAR beyond the head's
+     243px height and creating a visible gradient blob over the cards
+     below — read as "weird gradient on background". Title now lives
+     in a clean opaque pinned strip. */
   .choice-glow,
   .choice-glow-left,
   .choice-glow-center,
@@ -8056,7 +8064,10 @@ body.is-mobile-menu-open {
     text-align: center;
     margin: 0 auto;
     max-width: 1024px;
-    font-size: clamp(72px, 7.5vw, 128px) !important;
+    /* Slightly smaller than the original 128px max so the pinned
+       title doesn't eat too much of the viewport while cards scroll
+       under it. Still big per Figma but leaves room for cards. */
+    font-size: clamp(56px, 5.5vw, 88px) !important;
     line-height: 0.92 !important;
     letter-spacing: -0.03em !important;
     will-change: transform;
@@ -8064,12 +8075,12 @@ body.is-mobile-menu-open {
     backface-visibility: hidden;
   }
 
-  /* Shell is the deck container. Fixed height (~one card + headroom). */
+  /* Slider shell — no padding here (cards are sticky-bound by their
+     immediate parent, the slider-track, not the shell, so the
+     bottom buffer has to live on the track). */
   .choice-slider-shell {
-    position: relative !important;
     overflow: visible !important;
     width: 100% !important;
-    height: 620px !important;
     margin: 0 !important;
     padding: 0 !important;
     cursor: default !important;
@@ -8077,82 +8088,54 @@ body.is-mobile-menu-open {
     touch-action: auto !important;
   }
 
-  /* Track now sits absolute inside shell — no flow flex layout,
-     just a positioning context for the absolutely-placed cards. */
+  /* Track is the sticky containing block. We CAN'T use padding-bottom
+     here because sticky elements are bound by the parent's CONTENT
+     BOX, not the padding box — extra padding wouldn't extend the
+     sticky window. Instead use ::after as a real flow-spacer to
+     extend the content area itself, giving the LAST card a proper
+     sticky window equal to the spacer height. */
   .choice-slider-track {
-    position: absolute !important;
-    inset: 0 !important;
-    flex-direction: row !important;
+    flex-direction: column !important;
     gap: 0 !important;
     width: 100% !important;
     min-width: 0 !important;
     padding: 0 !important;
     transform: none !important;
-    perspective: 2000px;
   }
 
-  /* No spacer needed in fan mode */
   .choice-slider-track::after {
-    display: none;
+    content: "";
+    display: block;
+    width: 100%;
+    height: 600px;
+    flex: 0 0 600px;
   }
 
-  /* Cards: absolutely positioned, fanned out with rotation. Hover any
-     card to bring it forward, flat, and slightly enlarged. */
+  /* Full-width tile per Figma 173:4367.
+     Internal layout: text left (~460w), icon right (~392w).
+     No rounded corners — sharp full-bleed edges. */
   .choice-card {
-    flex: none !important;
-    position: absolute !important;
-    inset: 0 !important;
+    flex: 0 0 auto !important;
     width: 100% !important;
-    min-height: 0 !important;
-    height: 100% !important;
+    min-height: 551px;
     max-width: 100%;
     padding: 40px !important;
     display: grid !important;
     grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
     gap: 40px !important;
     align-items: stretch !important;
-    top: 0 !important;
-    left: 0 !important;
     --choice-tilt: 0deg !important;
     --choice-y: 0px !important;
+    transform: translateZ(0) !important;
     opacity: 1 !important;
     border: none !important;
     border-radius: 0 !important;
     overflow: hidden;
-    transform-origin: center bottom;
-    transition: transform 480ms cubic-bezier(0.22, 1, 0.36, 1),
-                box-shadow 480ms cubic-bezier(0.22, 1, 0.36, 1) !important;
+    /* Sticky stack — each card peels over the previous on scroll */
+    position: sticky;
+    transition: none !important;
     will-change: transform;
     backface-visibility: hidden;
-    cursor: pointer;
-    box-shadow: 0 12px 30px rgba(11, 11, 11, 0.06);
-  }
-
-  /* Fan layout: cards rotated and offset left/right around center.
-     z-index ascending so the rightmost card sits on top initially. */
-  .choice-card:nth-child(1) {
-    transform: translateX(-180px) rotate(-6deg) scale(0.95);
-    z-index: 1;
-  }
-  .choice-card:nth-child(2) {
-    transform: translateX(-60px) rotate(-2deg) scale(0.97);
-    z-index: 2;
-  }
-  .choice-card:nth-child(3) {
-    transform: translateX(60px) rotate(2deg) scale(0.97);
-    z-index: 3;
-  }
-  .choice-card:nth-child(4) {
-    transform: translateX(180px) rotate(6deg) scale(0.95);
-    z-index: 4;
-  }
-
-  /* Hover any card → flatten, center, lift slightly, bring to front */
-  .choice-card:hover,
-  .choice-card:focus-within {
-    transform: translateX(0) translateY(-12px) rotate(0deg) scale(1.02) !important;
-    z-index: 10 !important;
-    box-shadow: 0 28px 64px rgba(11, 11, 11, 0.15);
   }
 
   /* Alternate fill: odd cards green, even cards white */
@@ -8253,8 +8236,13 @@ body.is-mobile-menu-open {
     object-fit: contain !important;
   }
 
-  /* (sticky tops removed — fan-stack uses transforms above, not
-     position: sticky) */
+  /* Sticky stack lives BELOW the pinned title. Title pins at top: 64
+     and is ~220-245px tall + 24px padding, so cards stick at top:340
+     and stagger 12px each so the older ones peek out at the bottom. */
+  .choice-card:nth-child(1) { top: 340px; z-index: 1; }
+  .choice-card:nth-child(2) { top: 352px; z-index: 2; }
+  .choice-card:nth-child(3) { top: 364px; z-index: 3; }
+  .choice-card:nth-child(4) { top: 376px; z-index: 4; }
 
   /* Hide the legacy stuff that was for forced horizontal scroll */
   .choice-cta {
