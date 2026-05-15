@@ -5130,7 +5130,7 @@ body.is-brief-modal-open {
 
 @media (min-width: 1920px) {
   :root {
-    --page-gutter: 100px;
+    --page-gutter: 40px;
   }
 
   .cover-alt {
@@ -8153,9 +8153,13 @@ body.is-mobile-menu-open {
     white-space: normal;
   }
 
-  /* Close the gap between hero and services so the services grid
-     encroaches into hero's bottom space instead of leaving a "hole". */
+  /* Pull the services grid up into hero's empty bottom area so the two
+     sections read as one block — service cards visually overlap the
+     lower portion of hero (which is mostly empty space below the
+     subtitle anyway). */
   .services {
-    margin-top: 32px;
+    margin-top: -160px;
+    position: relative;
+    z-index: 1;
   }
 }
