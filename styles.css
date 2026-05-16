@@ -6248,7 +6248,7 @@ body.is-brief-modal-open {
     width: 100vw;
     /* width: 100vw + negative margin so the swipe area runs edge-to-
        edge regardless of parent's page-gutter padding */
-    margin: 32px 0 0;
+    margin: 24px 0 0;
     margin-inline: calc(var(--page-gutter) * -1);
     padding: 4px var(--page-gutter);
     /* min-height matches card so the row wraps cleanly without
@@ -7498,16 +7498,17 @@ body.is-brief-modal-open {
     margin-bottom: 0 !important;
   }
 
-  /* Then set 32px gap on each section's container so title→content is uniform */
-  .about-top { gap: 32px !important; }
-  .services { gap: 32px; display: flex; flex-direction: column; }
-  .works-header { gap: 32px !important; margin-bottom: 32px !important; }
-  .store { gap: 32px !important; }
-  .clients-network-copy { gap: 32px !important; }
-  .choice-head { margin-bottom: 32px !important; min-height: 0 !important; }
-  .business-layout { gap: 32px !important; }
-  .faq { display: flex; flex-direction: column; gap: 32px !important; }
-  .footer-contact { gap: 32px !important; }
+  /* Uniform 24px gap from each section's title to its content
+     on mobile (user-specified standard). */
+  .about-top { gap: 24px !important; }
+  .services { gap: 24px; display: flex; flex-direction: column; }
+  .works-header { gap: 24px !important; margin-bottom: 24px !important; }
+  .store { gap: 24px !important; }
+  .clients-network-copy { gap: 24px !important; }
+  .choice-head { margin-bottom: 24px !important; min-height: 0 !important; }
+  .business-layout { gap: 24px !important; }
+  .faq { display: flex; flex-direction: column; gap: 24px !important; }
+  .footer-contact { gap: 24px !important; }
 }
 
 /* ============================================================ */
