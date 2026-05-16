@@ -6068,11 +6068,13 @@ body.is-brief-modal-open {
     margin-top: 24px;
   }
 
-  /* Mobile testimonials: shorter section so the empty "title-only
-     pinned" tail is gone — cards animate, last card stays, then the
-     page continues scrolling immediately. */
+  /* Mobile testimonials: ditched the sticky + JS-scroll-driven
+     horizontal animation entirely. On touch devices it produced
+     jitter (the JS-set transform fought native scroll fluidity)
+     and a long empty pinned tail. Now it's a regular section: title
+     on top, cards in a native swipe-scroll row below. */
   .testimonials-scroll {
-    height: 160vh;
+    height: auto;
     margin-top: 140px;
     padding-inline: 0;
     overflow-x: clip;
@@ -6190,10 +6192,10 @@ body.is-brief-modal-open {
   }
 
   .testimonials-scroll-sticky {
-    position: sticky;
-    top: 0;
-    height: 100vh;
-    min-height: 100vh;
+    position: static;
+    top: auto;
+    height: auto;
+    min-height: 0;
     padding: 0;
     overflow: visible;
   }
@@ -6233,22 +6235,37 @@ body.is-brief-modal-open {
     z-index: 2;
   }
 
-  /* Cards layer used to be centered vertically in the 100vh sticky,
-     leaving a ~half-viewport gap between the title at the top and
-     the cards in the middle. Pull them to the top so they sit just
-     below the title with the same breathing as 'Привет! Меня зовут
-     Евгений' → text below: ~32px gap. */
+  /* Mobile cards row: horizontal native swipe with snap. No more
+     JS-driven scroll-tied animation (was the source of jitter on
+     touch). User flicks left/right to read cards. */
   .testimonials-cards-layer {
-    position: absolute;
-    top: 0;
-    left: 0;
-    display: flex;
-    align-items: flex-start;
-    gap: 20px;
-    height: 100%;
+    position: relative;
+    top: auto;
+    left: auto;
     inset: auto;
-    padding-top: 144px;
-    transform: translate3d(105vw, 0, 0);
+    width: 100%;
+    height: auto;
+    margin: 32px 0 0;
+    padding: 4px var(--page-gutter);
+    display: flex;
+    align-items: stretch;
+    gap: 16px;
+    overflow-x: auto;
+    overflow-y: visible;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    transform: none !important;
+  }
+
+  .testimonials-cards-layer::-webkit-scrollbar {
+    display: none;
+  }
+
+  .testimonials-cards-layer .testimonial-card {
+    scroll-snap-align: start;
+    flex: 0 0 calc(100% - 48px);
+    max-width: 320px;
   }
 
   .testimonial-card {

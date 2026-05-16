@@ -1311,6 +1311,15 @@ function initTestimonialsScroll() {
     return;
   }
 
+  // Mobile: the cards row is a native horizontal swipe-scroll
+  // container — no JS-driven scroll animation. Bail here so the
+  // sticky/scroll-locked translation doesn't fight the user's
+  // touch scroll.
+  if (window.innerWidth <= 720) {
+    testimonialsCardsLayer.style.transform = "";
+    return;
+  }
+
   let ticking = false;
   let endX = 0;
   let sectionTop = 0;
