@@ -1736,8 +1736,13 @@ body {
   height: 32px;
   padding: 0 14px;
   border-radius: 32px;
-  background: #0b0b0b;
-  color: #ffffff;
+  /* Desktop: outline chip — keeps the mono-uppercase tag feel while
+     letting the project title stay the primary visual anchor on the
+     white info card. Mobile override (below) flips back to solid
+     black-on-white because the smaller info card needs the contrast. */
+  background: transparent;
+  border: 1px solid rgba(11, 11, 11, 0.2);
+  color: #0b0b0b;
   font-family: "JetBrains Mono", "Roboto Mono", monospace;
   font-size: 13px;
   line-height: 1;
@@ -5786,6 +5791,11 @@ body.is-brief-modal-open {
     padding: 6px 10px 8px;
     font-size: 11px;
     line-height: 1;
+    /* Mobile: solid black chip. Cards are smaller here so the outline
+       version reads too weak — needs filled contrast to register. */
+    background: #0b0b0b;
+    border-color: transparent;
+    color: #ffffff;
   }
 
   .shop {
