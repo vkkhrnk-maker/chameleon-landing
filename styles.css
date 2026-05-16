@@ -6060,8 +6060,11 @@ body.is-brief-modal-open {
     margin-top: 24px;
   }
 
+  /* Mobile testimonials: shorter section so the empty "title-only
+     pinned" tail is gone — cards animate, last card stays, then the
+     page continues scrolling immediately. */
   .testimonials-scroll {
-    height: 260vh;
+    height: 160vh;
     margin-top: 140px;
     padding-inline: 0;
     overflow-x: clip;
@@ -6222,15 +6225,21 @@ body.is-brief-modal-open {
     z-index: 2;
   }
 
+  /* Cards layer used to be centered vertically in the 100vh sticky,
+     leaving a ~half-viewport gap between the title at the top and
+     the cards in the middle. Pull them to the top so they sit just
+     below the title with the same breathing as 'Привет! Меня зовут
+     Евгений' → text below: ~32px gap. */
   .testimonials-cards-layer {
     position: absolute;
     top: 0;
     left: 0;
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     gap: 20px;
     height: 100%;
     inset: auto;
+    padding-top: 144px;
     transform: translate3d(105vw, 0, 0);
   }
 

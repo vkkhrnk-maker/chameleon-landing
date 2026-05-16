@@ -1321,12 +1321,15 @@ function initTestimonialsScroll() {
 
     testimonialsCardsLayer.style.width = `${trackWidth}px`;
     sectionTop = testimonialsSection.offsetTop;
-    // Cards animate over 60% of the section's scrollable distance —
-    // the remaining 40% is a "title-only pinned" window for the
-    // business panel below to naezzhaet over. 0.6 (was 0.5) slows
-    // the horizontal card scroll down so it doesn't whip past.
+    // Desktop: cards animate over 60% of the section's scrollable
+    // distance — the remaining 40% is a "title-only pinned" window
+    // for the .business panel below to naezzhaet over.
+    // Mobile (<=720px): no business overlap, so cards use the FULL
+    // scrollable distance. As soon as the last card lands, the
+    // sticky releases and the user keeps scrolling — no empty tail.
+    const multiplier = window.innerWidth <= 720 ? 1 : 0.6;
     scrollableDistance = Math.max(
-      (testimonialsSection.offsetHeight - window.innerHeight) * 0.6,
+      (testimonialsSection.offsetHeight - window.innerHeight) * multiplier,
       1
     );
     endX = -(trackWidth + window.innerWidth * (window.innerWidth <= 720 ? 0.12 : 0.2));
