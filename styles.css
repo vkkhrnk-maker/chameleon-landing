@@ -1302,11 +1302,11 @@ body {
   height: 32px;
   padding: 0 14px;
   border-radius: 999px;
-  /* White bg with subtle border so badges read as crisp chips on
-     BOTH the gray recessed service-cards (desktop services panel)
-     and on white service-cards (mobile / other contexts). */
-  background: #ffffff;
-  border: 1px solid var(--surface-border, #e0e0e0);
+  /* Dark badges matching .works-slide-badge — single chip style
+     across the site. Reads crisply on both gray and white card bgs
+     without needing a per-context override. */
+  background: #0b0b0b;
+  color: #ffffff;
   font-family: "JetBrains Mono", "Roboto Mono", monospace;
   font-size: 13px;
   font-weight: 400;
