@@ -6237,33 +6237,30 @@ body.is-brief-modal-open {
     z-index: 2;
   }
 
-  /* Mobile cards row: horizontal native swipe with snap. No more
-     JS-driven scroll-tied animation (was the source of jitter on
-     touch). User flicks left/right to read cards. */
+  /* Mobile cards: classic slider. No rotations, no vertical offsets —
+     each card sits flat at its natural position so the full content
+     and shadow are visible. Snap-scroll keeps swipe gestures aligned
+     to one card at a time. */
   .testimonials-cards-layer {
     position: relative;
     top: auto;
     left: auto;
     inset: auto;
     width: 100vw;
-    /* width: 100vw + negative margin so the swipe area runs edge-to-
-       edge regardless of parent's page-gutter padding */
+    /* edge-to-edge swipe area, ignores parent gutter */
     margin: 24px 0 0;
     margin-inline: calc(var(--page-gutter) * -1);
-    padding: 4px var(--page-gutter);
-    /* min-height matches card so the row wraps cleanly without
-       clipping the card's shadows/borders vertically */
-    min-height: 380px;
+    /* scroll-padding centers the snapped card in viewport */
+    padding: 8px 24px;
     height: auto;
+    min-height: 0;
     display: flex;
-    align-items: flex-start;
-    gap: 16px;
+    align-items: stretch;
+    gap: 12px;
     overflow-x: auto;
-    /* overflow-y must be auto/clip (not visible) since browsers
-       collapse mixed visible/auto into both-auto. clip preserves
-       vertical paint without enabling a vertical scroll bar. */
     overflow-y: clip;
     scroll-snap-type: x mandatory;
+    scroll-padding-inline: 24px;
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
     transform: none !important;
@@ -6273,25 +6270,8 @@ body.is-brief-modal-open {
     display: none;
   }
 
-  .testimonials-cards-layer .testimonial-card {
-    scroll-snap-align: start;
-    flex: 0 0 calc(100vw - 48px);
-    max-width: 320px;
-  }
-
-  .testimonial-card {
-    position: relative;
-    flex: 0 0 312px;
-    width: 312px;
-    min-height: 360px;
-    padding: 24px;
-  }
-
-  .testimonial-card:hover,
-  .testimonial-card:focus-within {
-    transform: translateY(var(--testimonial-offset-y, 0px)) rotate(0deg) scale(1.04);
-  }
-
+  /* Reset every card variant: no rotation, no vertical offset. */
+  .testimonials-cards-layer .testimonial-card,
   .testimonial-card-1,
   .testimonial-card-2,
   .testimonial-card-3,
@@ -6304,44 +6284,21 @@ body.is-brief-modal-open {
     --testimonial-rotate: 0deg;
   }
 
-  .testimonial-card-1 {
-    --testimonial-offset-y: -48px;
-    --testimonial-rotate: -4deg;
+  .testimonials-cards-layer .testimonial-card {
+    position: relative;
+    flex: 0 0 calc(100vw - 48px);
+    max-width: 340px;
+    width: calc(100vw - 48px);
+    min-height: 320px;
+    padding: 24px;
+    scroll-snap-align: start;
+    transform: none !important;
+    transition: none;
   }
 
-  .testimonial-card-2 {
-    --testimonial-offset-y: 18px;
-    --testimonial-rotate: 5deg;
-  }
-
-  .testimonial-card-3 {
-    --testimonial-offset-y: -30px;
-    --testimonial-rotate: -3deg;
-  }
-
-  .testimonial-card-4 {
-    --testimonial-offset-y: 26px;
-    --testimonial-rotate: 8deg;
-  }
-
-  .testimonial-card-5 {
-    --testimonial-offset-y: -42px;
-    --testimonial-rotate: -5deg;
-  }
-
-  .testimonial-card-6 {
-    --testimonial-offset-y: 14px;
-    --testimonial-rotate: 6deg;
-  }
-
-  .testimonial-card-7 {
-    --testimonial-offset-y: -24px;
-    --testimonial-rotate: -3deg;
-  }
-
-  .testimonial-card-8 {
-    --testimonial-offset-y: 20px;
-    --testimonial-rotate: 7deg;
+  .testimonials-cards-layer .testimonial-card:hover,
+  .testimonials-cards-layer .testimonial-card:focus-within {
+    transform: none !important;
   }
 }
 
