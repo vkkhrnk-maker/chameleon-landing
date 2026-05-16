@@ -7687,7 +7687,6 @@ body.is-store-detail-open {
 @media (max-width: 720px) {
   /* Uniform 100px gap between ALL top-level blocks on mobile */
   .hero,
-  .services,
   .works,
   .clients-network,
   .shop,
@@ -7699,6 +7698,15 @@ body.is-store-detail-open {
   .faq,
   .site-footer {
     margin-top: 100px !important;
+  }
+
+  /* Hero → Services should read as ONE block on mobile: the
+     'Услуги' H1 is hidden and the hero subtitle 'Авто, мото,
+     спортинвентарь, интерьерные решения' already names the
+     section. Use a small content-level gap instead of the
+     between-section 100px. */
+  .services {
+    margin-top: 32px !important;
   }
 
   /* Footer-contact is INSIDE .site-footer-main, no extra margin needed */
