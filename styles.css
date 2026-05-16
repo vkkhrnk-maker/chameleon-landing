@@ -1751,8 +1751,10 @@ body {
   font-weight: 500;
   line-height: 1.05;
   letter-spacing: -0.02em;
-  /* Reserve space for 2 lines so cards don't jump in height */
-  min-height: calc(2 * 1.05em);
+  /* Hug content — the parent card is flex-end aligned at a fixed 600px
+     height, so info-card position is stable regardless of title height.
+     Forcing 2 lines of reserved space left a visible gap below
+     single-line titles. */
 }
 
 .about {
