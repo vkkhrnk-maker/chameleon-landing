@@ -113,7 +113,6 @@ if (businessVisual) {
 
 if (testimonialsSection && testimonialsCardsLayer && testimonialsCards.length > 0) {
   initTestimonialsScroll();
-  initTestimonialsAutoAdvance();
 }
 
 if (faqItems.length > 0) {
@@ -1372,114 +1371,6 @@ function initTestimonialsScroll() {
   window.addEventListener("load", recalc);
   window.addEventListener("resize", recalc);
   window.addEventListener("scroll", requestUpdate, { passive: true });
-}
-
-// Mobile-only: drift the testimonial cards horizontally on their own
-// (~18px/sec) so the slider has life without the user having to swipe.
-// Pause on touch/wheel and resume after 3s of inactivity. Cards are
-// cloned once so the loop is seamless (when scrollLeft passes the
-// half-way point we jump back by the same amount — invisible because
-// the cloned cards look identical to the originals at that x).
-function initTestimonialsAutoAdvance() {
-  if (window.innerWidth > 720) {
-    return;
-  }
-  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-    return;
-  }
-
-  // Duplicate the card set so scrollLeft can wrap without a visible jump.
-  const originals = Array.from(testimonialsCardsLayer.children);
-  originals.forEach((card) => {
-    const clone = card.cloneNode(true);
-    clone.setAttribute("aria-hidden", "true");
-    clone.setAttribute("tabindex", "-1");
-    clone.dataset.clone = "true";
-    testimonialsCardsLayer.appendChild(clone);
-  });
-
-  const SPEED = 18; // px per second
-  const RESUME_AFTER = 3000;
-
-  let rafId = 0;
-  let lastT = 0;
-  let paused = false;
-  let resumeTimer = 0;
-  let visible = false;
-  let halfScroll = 0;
-
-  const recalcHalf = () => {
-    // half of total scrollable distance = original-set width (incl. gaps)
-    halfScroll = (testimonialsCardsLayer.scrollWidth - testimonialsCardsLayer.clientWidth) / 2 + testimonialsCardsLayer.clientWidth / 2;
-    // simpler: scrollWidth/2 since clones double the content
-    halfScroll = testimonialsCardsLayer.scrollWidth / 2;
-  };
-
-  const tick = (t) => {
-    if (!lastT) lastT = t;
-    const dt = Math.min((t - lastT) / 1000, 0.05); // clamp to avoid leaps if tab was background
-    lastT = t;
-
-    if (!paused) {
-      let next = testimonialsCardsLayer.scrollLeft + SPEED * dt;
-      if (next >= halfScroll) {
-        next -= halfScroll;
-      }
-      testimonialsCardsLayer.scrollLeft = next;
-    }
-
-    rafId = requestAnimationFrame(tick);
-  };
-
-  const start = () => {
-    if (rafId) return;
-    recalcHalf();
-    lastT = 0;
-    rafId = requestAnimationFrame(tick);
-  };
-
-  const stop = () => {
-    if (rafId) {
-      cancelAnimationFrame(rafId);
-      rafId = 0;
-    }
-  };
-
-  const pauseTemporarily = () => {
-    paused = true;
-    window.clearTimeout(resumeTimer);
-    resumeTimer = window.setTimeout(() => {
-      paused = false;
-      lastT = 0;
-    }, RESUME_AFTER);
-  };
-
-  testimonialsCardsLayer.addEventListener("touchstart", pauseTemporarily, { passive: true });
-  testimonialsCardsLayer.addEventListener("touchmove", pauseTemporarily, { passive: true });
-  testimonialsCardsLayer.addEventListener("wheel", pauseTemporarily, { passive: true });
-  testimonialsCardsLayer.addEventListener("pointerdown", pauseTemporarily, { passive: true });
-
-  // Only animate while the slider is on-screen — saves battery and avoids
-  // surprise mid-scroll motion the user isn't looking at.
-  const io = new IntersectionObserver(([entry]) => {
-    visible = entry.isIntersecting;
-    if (visible) {
-      start();
-    } else {
-      stop();
-    }
-  }, { threshold: 0.15 });
-
-  io.observe(testimonialsCardsLayer);
-
-  window.addEventListener("resize", () => {
-    if (window.innerWidth > 720) {
-      stop();
-      io.disconnect();
-    } else {
-      recalcHalf();
-    }
-  });
 }
 
 function initChoiceForcedScroll() {
