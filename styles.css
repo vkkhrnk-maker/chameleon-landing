@@ -537,6 +537,9 @@ summary:focus-visible {
 }
 
 html {
+  /* hidden first for older iOS (<16) without clip support;
+     clip overrides on modern browsers (paint-only, no scroll context). */
+  overflow-x: hidden;
   overflow-x: clip;
 }
 
@@ -546,12 +549,19 @@ body {
   font-family: "Onest", Arial, sans-serif;
   background: var(--page-bg);
   color: var(--text-primary);
+  overflow-x: hidden;
   overflow-x: clip;
 }
 
 .services-page {
   min-height: 100vh;
   padding-bottom: 16px;
+  /* Contain horizontal overflow at the page-shell level — children
+     occasionally extend a few px past viewport (e.g. clients-network
+     map at right:378 vs vw:375) and on iOS Safari that tiny overflow
+     becomes a draggable horizontal scroll area for the whole page. */
+  overflow-x: hidden;
+  overflow-x: clip;
 }
 
 .cover {
