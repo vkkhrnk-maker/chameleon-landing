@@ -13,61 +13,15 @@
   --body-line: 1.45;
 }
 
-/* While the user is actively scrolling, freeze pointer/hover effects
-   on the whole page. Toggled by initScrollPointerLock() in app.mjs —
-   removes the visual noise of cards flashing their hover state as
-   they pass under the (stationary) cursor during scroll. */
+/* While the user is actively scrolling, block hover interactions
+   site-wide. Toggled by initScrollPointerLock() in app.mjs.
+   pointer-events: none disables :hover from firing as cards pass
+   under the stationary cursor. We DON'T blanket-disable transitions
+   here — that would also kill the motion-reveal appearance animation
+   that fires when sections enter view during scroll. */
 html.is-scrolling,
 html.is-scrolling * {
   pointer-events: none !important;
-}
-html.is-scrolling *,
-html.is-scrolling *::before,
-html.is-scrolling *::after {
-  transition: none !important;
-}
-
-/* Custom cursor follower for the Choice section — premium-feel touch.
-   Becomes visible when mouse enters .choice-scroll, hides on exit.
-   Position is lerped via rAF in initChoiceCursor() for smooth follow. */
-.choice-cursor {
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 999;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 88px;
-  height: 88px;
-  margin: -44px 0 0 -44px;
-  border-radius: 999px;
-  background: #0b0b0b;
-  color: #fff;
-  font-family: "JetBrains Mono", "TT Commons Pro Mono Trl", "Roboto Mono", monospace;
-  font-size: 12px;
-  font-weight: 500;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  pointer-events: none;
-  opacity: 0;
-  transform: scale(0.6);
-  transition:
-    opacity 280ms ease,
-    transform 380ms cubic-bezier(0.22, 1, 0.36, 1);
-  will-change: transform, opacity;
-  mix-blend-mode: difference;
-}
-
-.choice-cursor.is-visible {
-  opacity: 1;
-  transform: scale(1);
-}
-
-@media (max-width: 1100px) {
-  .choice-cursor {
-    display: none;
-  }
 }
 
 @media (max-width: 720px) {
