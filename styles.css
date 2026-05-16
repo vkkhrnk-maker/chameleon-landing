@@ -5605,7 +5605,9 @@ body.is-brief-modal-open {
   }
 
   .clients-network-cta {
-    width: min(100%, 340px);
+    width: 100%;
+    max-width: none;
+    min-width: 0;
     min-height: 104px;
     padding: 24px 24px;
     border-radius: 28px;
@@ -5970,10 +5972,10 @@ body.is-brief-modal-open {
   }
 
   .cover-cta.services-cta {
-    justify-self: center;
+    justify-self: stretch;
     align-self: start;
     width: 100%;
-    max-width: 340px;
+    max-width: none;
     min-height: 104px;
     height: 104px;
     /* Match the rounded-card style of the other Получить консультацию
@@ -6057,8 +6059,8 @@ body.is-brief-modal-open {
   .cover-cta,
   .choice-cta,
   .clients-network-cta {
-    width: min(100%, 340px);
-    max-width: 340px;
+    width: 100%;
+    max-width: none;
     min-height: 104px;
     padding: 24px 24px;
     border-radius: 28px;
@@ -6243,15 +6245,24 @@ body.is-brief-modal-open {
     top: auto;
     left: auto;
     inset: auto;
-    width: 100%;
-    height: auto;
+    width: 100vw;
+    /* width: 100vw + negative margin so the swipe area runs edge-to-
+       edge regardless of parent's page-gutter padding */
     margin: 32px 0 0;
+    margin-inline: calc(var(--page-gutter) * -1);
     padding: 4px var(--page-gutter);
+    /* min-height matches card so the row wraps cleanly without
+       clipping the card's shadows/borders vertically */
+    min-height: 380px;
+    height: auto;
     display: flex;
-    align-items: stretch;
+    align-items: flex-start;
     gap: 16px;
     overflow-x: auto;
-    overflow-y: visible;
+    /* overflow-y must be auto/clip (not visible) since browsers
+       collapse mixed visible/auto into both-auto. clip preserves
+       vertical paint without enabling a vertical scroll bar. */
+    overflow-y: clip;
     scroll-snap-type: x mandatory;
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
@@ -6264,7 +6275,7 @@ body.is-brief-modal-open {
 
   .testimonials-cards-layer .testimonial-card {
     scroll-snap-align: start;
-    flex: 0 0 calc(100% - 48px);
+    flex: 0 0 calc(100vw - 48px);
     max-width: 320px;
   }
 
