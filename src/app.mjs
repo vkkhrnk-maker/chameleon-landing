@@ -119,6 +119,7 @@ if (faqItems.length > 0) {
   initFaq();
 }
 
+initScrollPointerLock();
 initAnchorLinks();
 initFloatHeader();
 initFiltersByContent();
@@ -408,6 +409,40 @@ function initWorksModal() {
       open(slide);
     });
   });
+}
+
+function initScrollPointerLock() {
+  // Disable hover/pointer events while the user is actively scrolling.
+  // Without this, hover-able cards (service-card, business-card, faq-item,
+  // store-card, etc.) flash their :hover state every time the cursor
+  // passes under them as they scroll past, which reads as visual noise
+  // and tiny color/transform flickers.
+  //
+  // Pattern: set a class on <html> on every scroll, and remove it ~120ms
+  // after the user stops. While the class is on, all hover/transition
+  // effects are suppressed via a stylesheet rule.
+
+  if (window.matchMedia("(hover: none), (pointer: coarse)").matches) {
+    // Touch device — there's no hover state to suppress anyway.
+    return;
+  }
+
+  let scrollTimer = 0;
+  const html = document.documentElement;
+
+  window.addEventListener(
+    "scroll",
+    () => {
+      if (!html.classList.contains("is-scrolling")) {
+        html.classList.add("is-scrolling");
+      }
+      window.clearTimeout(scrollTimer);
+      scrollTimer = window.setTimeout(() => {
+        html.classList.remove("is-scrolling");
+      }, 120);
+    },
+    { passive: true }
+  );
 }
 
 function initAnchorLinks() {

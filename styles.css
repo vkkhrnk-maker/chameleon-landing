@@ -13,6 +13,20 @@
   --body-line: 1.45;
 }
 
+/* While the user is actively scrolling, freeze pointer/hover effects
+   on the whole page. Toggled by initScrollPointerLock() in app.mjs —
+   removes the visual noise of cards flashing their hover state as
+   they pass under the (stationary) cursor during scroll. */
+html.is-scrolling,
+html.is-scrolling * {
+  pointer-events: none !important;
+}
+html.is-scrolling *,
+html.is-scrolling *::before,
+html.is-scrolling *::after {
+  transition: none !important;
+}
+
 @media (max-width: 720px) {
   :root {
     --page-gutter: 16px;
