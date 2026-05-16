@@ -6258,8 +6258,11 @@ body.is-brief-modal-open {
     gap: 12px;
     overflow-x: auto;
     overflow-y: clip;
-    scroll-snap-type: x mandatory;
-    scroll-padding-inline: 16px;
+    /* No scroll-snap on mobile — the auto-advance JS increments
+       scrollLeft each frame and mandatory snap would lock it to discrete
+       card positions, killing the drift. User can still swipe; cards
+       just park wherever the flick momentum lands. */
+    scroll-snap-type: none;
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
     /* base rule has pointer-events: none (desktop scroll-animated layer
@@ -6294,7 +6297,6 @@ body.is-brief-modal-open {
     width: calc(100vw - 48px);
     min-height: 320px;
     padding: 24px;
-    scroll-snap-align: start;
     transform: none !important;
     transition: none;
   }
