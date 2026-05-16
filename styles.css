@@ -803,8 +803,11 @@ body {
 }
 
 .cover-contact-icon-telegram {
-  width: 22px;
-  height: 22px;
+  /* Telegram svg fills its bounding box more densely than the VK
+     glyph — match optical weight rather than literal pixels by
+     shrinking telegram a touch and bumping vk. */
+  width: 19px;
+  height: 19px;
 }
 
 .cover-contact-icon-whatsapp {
@@ -813,8 +816,8 @@ body {
 }
 
 .cover-contact-icon-vk {
-  width: 28px;
-  height: 28px;
+  width: 30px;
+  height: 30px;
 }
 
 .cover-contact-link:hover,
