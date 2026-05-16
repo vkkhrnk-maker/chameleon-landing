@@ -2056,6 +2056,14 @@ body {
   max-width: none;
 }
 
+/* The star source asset has a flat left edge — the glyph's content
+   bbox starts at x=0 of the 413×425 image (right margin is 19px).
+   Compensate with object-position so the rendered star sits visually
+   centered instead of looking clipped on the left. */
+.choice-card-visual-img-star {
+  object-position: 60% 50%;
+}
+
 .choice-cta {
   display: flex;
   align-items: center;
