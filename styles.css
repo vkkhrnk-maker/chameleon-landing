@@ -7316,11 +7316,10 @@ body.is-brief-modal-open {
   }
 
   /* Mobile choice card: title -> centered icon -> text (Figma 127:4884).
-     No sticky stacking on mobile — touch scroll felt awkward with the
-     "cards land above each other" sticky pattern. Plain vertical
-     scroll is more predictable on phones.
-     Generous internal spacing so title / icon / text breathe rather
-     than feeling cramped. */
+     Sticky stack — each card lands at top: 64 (just below the
+     float header) and the next one slides up underneath it as you
+     scroll. z-index ascending so later cards cover earlier — clean
+     deck-replacement behavior, no left/right or downward weirdness. */
   .choice-card {
     flex-basis: auto;
     width: 100%;
@@ -7337,10 +7336,17 @@ body.is-brief-modal-open {
     --choice-y: 0px !important;
     transform: none !important;
     transition: none !important;
-    position: relative;
-    top: auto !important;
-    z-index: auto !important;
+    position: sticky;
+    top: 64px;
+    will-change: transform;
   }
+
+  /* Ascending z-index so the next card covers the previous as it
+     slides into the sticky position. */
+  .choice-card:nth-child(1) { z-index: 1; }
+  .choice-card:nth-child(2) { z-index: 2; }
+  .choice-card:nth-child(3) { z-index: 3; }
+  .choice-card:nth-child(4) { z-index: 4; }
 
   .choice-slider-track {
     gap: 16px;
