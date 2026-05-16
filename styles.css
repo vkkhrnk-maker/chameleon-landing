@@ -570,6 +570,12 @@ body {
      becomes a draggable horizontal scroll area for the whole page. */
   overflow-x: hidden;
   overflow-x: clip;
+  /* Disable horizontal touch-pan at the page level — overflow + overscroll
+     fixes alone weren't enough on real iPhones; the page could still be
+     dragged side-to-side. Sliders override this on themselves with
+     touch-action: pan-x / pan-x pan-y so swipes inside them still work.
+     Keeping pinch-zoom for accessibility. */
+  touch-action: pan-y pinch-zoom;
 }
 
 .cover {
@@ -6292,6 +6298,9 @@ body.is-brief-modal-open {
     scroll-padding-inline: 16px;
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
+    /* Page shell has touch-action: pan-y. This is a horizontal swiper,
+       so re-enable both axes here. */
+    touch-action: pan-x pan-y;
     /* base rule has pointer-events: none (desktop scroll-animated layer
        should ignore clicks). On mobile this IS the scrollable container,
        so it must receive touch. */
