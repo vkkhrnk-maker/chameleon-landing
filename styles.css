@@ -6246,12 +6246,11 @@ body.is-brief-modal-open {
     top: auto;
     left: auto;
     inset: auto;
-    width: 100vw;
-    /* edge-to-edge swipe area, ignores parent gutter */
+    /* Parent .testimonials-scroll has padding-inline: 0 on mobile, so the
+       layer is already edge-to-edge — no negative margin needed. */
+    width: 100%;
     margin: 24px 0 0;
-    margin-inline: calc(var(--page-gutter) * -1);
-    /* scroll-padding centers the snapped card in viewport */
-    padding: 8px 24px;
+    padding: 8px 16px;
     height: auto;
     min-height: 0;
     display: flex;
@@ -6260,9 +6259,13 @@ body.is-brief-modal-open {
     overflow-x: auto;
     overflow-y: clip;
     scroll-snap-type: x mandatory;
-    scroll-padding-inline: 24px;
+    scroll-padding-inline: 16px;
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
+    /* base rule has pointer-events: none (desktop scroll-animated layer
+       should ignore clicks). On mobile this IS the scrollable container,
+       so it must receive touch. */
+    pointer-events: auto;
     transform: none !important;
   }
 
