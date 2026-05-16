@@ -2109,9 +2109,12 @@ body {
 
 .about-title {
   margin: 0;
-  font-size: clamp(3.5rem, 5.5vw, 4.5rem);
+  /* Match the standard section title size used by .works/.services/
+     .store/.faq/.business etc. so this section doesn't read smaller
+     than its neighbors. */
+  font-size: clamp(4.5rem, 7.25vw, 5.5rem);
   font-weight: 500;
-  line-height: 1.02;
+  line-height: 0.9659;
   letter-spacing: -0.03em;
 }
 
@@ -8077,11 +8080,11 @@ body.is-mobile-menu-open {
     text-align: center;
     margin: 0 auto;
     max-width: 1024px;
-    /* Slightly smaller than the original 128px max so the pinned
-       title doesn't eat too much of the viewport while cards scroll
-       under it. Still big per Figma but leaves room for cards. */
-    font-size: clamp(56px, 5.5vw, 88px) !important;
-    line-height: 0.92 !important;
+    /* Match the standard section title size (works/services/store/
+       faq/business etc) so the section reads as part of the same
+       vertical rhythm. */
+    font-size: clamp(4.5rem, 7.25vw, 5.5rem) !important;
+    line-height: 0.9659 !important;
     letter-spacing: -0.03em !important;
     will-change: transform;
     transform: translateZ(0);
