@@ -13,7 +13,7 @@
       href="https://fonts.googleapis.com/css2?family=Onest:wght@500&family=JetBrains+Mono:wght@400;500&display=swap&subset=cyrillic,latin"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="./styles.css?v=20260516-iter46" />
+    <link rel="stylesheet" href="./styles.css?v=20260516-iter47" />
     <style>
       .store {
         margin-top: 140px;
@@ -361,12 +361,20 @@
 
       @media (max-width: 720px) {
         .store {
-          row-gap: 20px;
+          /* gap on the flex column .store provides the title -> grid spacing.
+             Title's margin-bottom AND .store-header's margin-bottom were
+             stacking on top of this and giving ~56px — way too much. Zero
+             both so the 24px gap on .store is the only spacer. */
+          row-gap: 24px;
           padding-inline: var(--page-gutter);
         }
 
+        .store-header {
+          margin-bottom: 0;
+        }
+
         .store-title {
-          margin-bottom: 24px;
+          margin-bottom: 0;
           max-width: 320px;
           font-size: clamp(3.5rem, 18vw, 4.75rem);
         }
