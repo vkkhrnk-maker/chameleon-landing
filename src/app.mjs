@@ -120,6 +120,7 @@ if (faqItems.length > 0) {
 }
 
 initScrollPointerLock();
+initChoiceCursor();
 initAnchorLinks();
 initFloatHeader();
 initFiltersByContent();
@@ -408,6 +409,63 @@ function initWorksModal() {
       if (e.target.closest("a, button")) return;
       open(slide);
     });
+  });
+}
+
+function initChoiceCursor() {
+  // Custom cursor follower inside the Choice section.
+  // Appears when the mouse is over .choice-scroll, hides when it leaves.
+  // Smooth lerped position via rAF — softer than direct event-driven
+  // placement.
+
+  if (window.matchMedia("(hover: none), (pointer: coarse)").matches) return;
+
+  const section = document.querySelector(".choice-scroll");
+  if (!section) return;
+  if (window.innerWidth <= 1100) return;
+
+  const cursor = document.createElement("div");
+  cursor.className = "choice-cursor";
+  cursor.setAttribute("aria-hidden", "true");
+  cursor.textContent = "Hover";
+  document.body.appendChild(cursor);
+
+  let active = false;
+  let tx = 0;
+  let ty = 0;
+  let cx = 0;
+  let cy = 0;
+  let rafId = 0;
+
+  const loop = () => {
+    cx += (tx - cx) * 0.18;
+    cy += (ty - cy) * 0.18;
+    cursor.style.transform = `translate3d(${cx.toFixed(1)}px, ${cy.toFixed(1)}px, 0)`;
+    if (active && (Math.abs(tx - cx) > 0.4 || Math.abs(ty - cy) > 0.4)) {
+      rafId = requestAnimationFrame(loop);
+    } else {
+      rafId = 0;
+    }
+  };
+
+  section.addEventListener("mouseenter", () => {
+    active = true;
+    cursor.classList.add("is-visible");
+  });
+
+  section.addEventListener("mouseleave", () => {
+    active = false;
+    cursor.classList.remove("is-visible");
+  });
+
+  section.addEventListener("mousemove", (event) => {
+    tx = event.clientX;
+    ty = event.clientY;
+    if (!rafId) {
+      cx = tx;
+      cy = ty;
+      rafId = requestAnimationFrame(loop);
+    }
   });
 }
 

@@ -27,6 +27,49 @@ html.is-scrolling *::after {
   transition: none !important;
 }
 
+/* Custom cursor follower for the Choice section — premium-feel touch.
+   Becomes visible when mouse enters .choice-scroll, hides on exit.
+   Position is lerped via rAF in initChoiceCursor() for smooth follow. */
+.choice-cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 999;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 88px;
+  height: 88px;
+  margin: -44px 0 0 -44px;
+  border-radius: 999px;
+  background: #0b0b0b;
+  color: #fff;
+  font-family: "JetBrains Mono", "TT Commons Pro Mono Trl", "Roboto Mono", monospace;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  pointer-events: none;
+  opacity: 0;
+  transform: scale(0.6);
+  transition:
+    opacity 280ms ease,
+    transform 380ms cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform, opacity;
+  mix-blend-mode: difference;
+}
+
+.choice-cursor.is-visible {
+  opacity: 1;
+  transform: scale(1);
+}
+
+@media (max-width: 1100px) {
+  .choice-cursor {
+    display: none;
+  }
+}
+
 @media (max-width: 720px) {
   :root {
     --page-gutter: 16px;
@@ -8257,6 +8300,8 @@ body.is-mobile-menu-open {
     /* Softer / more diffuse shadow under the 3D-rendered icon */
     filter: drop-shadow(0 24px 48px rgba(11, 11, 11, 0.12))
             drop-shadow(0 8px 16px rgba(11, 11, 11, 0.06)) !important;
+    /* Animatable transition for the inner image rotation on hover */
+    transition: transform 700ms cubic-bezier(0.22, 1, 0.36, 1) !important;
   }
 
   .choice-card-visual-img {
@@ -8264,6 +8309,14 @@ body.is-mobile-menu-open {
     width: 100% !important;
     height: 100% !important;
     object-fit: contain !important;
+    transition: transform 700ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  /* Micro-rotation on hover: subtle 3D-icon tilt + scale lift,
+     gives the metallic icon a feeling of being "lit from above"
+     when the user rests over the card. Apple/Linear style. */
+  .choice-card:hover .choice-card-visual-img {
+    transform: rotate(-8deg) scale(1.06);
   }
 
   /* Cards sticky-stack just below the float header (top:16, 48 tall →
