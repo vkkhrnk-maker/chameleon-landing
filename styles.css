@@ -1116,12 +1116,19 @@ body {
   margin: 140px auto 0;
 }
 
+/* "Услуги" H1 is visually hidden across all viewports — hero's
+   title + subtitle act as the section context. The element stays
+   in the DOM for screen readers / section labelling. */
 .services-title {
-  margin: 0 0 40px;
-  font-size: clamp(3.5rem, 8vw, 5.5rem);
-  font-weight: 500;
-  line-height: 0.9659;
-  letter-spacing: -0.03em;
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
 }
 
 .services-grid {
@@ -7253,8 +7260,11 @@ body.is-brief-modal-open {
     --choice-glow-scale: 0.54;
   }
 
-  /* Mobile choice card: title -> centered icon -> text (Figma 127:4884)
-     With sticky stack effect — newer cards stack ON TOP of previous on scroll */
+  /* Mobile choice card: title -> centered icon -> text (Figma 127:4884).
+     No sticky stacking on mobile — touch scroll felt awkward with the
+     "cards land above each other" sticky pattern (user reported it
+     reading as: 'card first slides DOWN then something stacks from
+     above'). Plain vertical scroll is more predictable on phones. */
   .choice-card {
     flex-basis: auto;
     width: 100%;
@@ -7265,26 +7275,16 @@ body.is-brief-modal-open {
     flex-direction: column;
     padding: 28px 24px;
     gap: 24px;
-    /* Match service-card framing for consistency */
     background: var(--surface);
     border: 1px solid var(--surface-border);
-    /* Disable desktop tilt/lift on mobile */
     --choice-tilt: 0deg !important;
     --choice-y: 0px !important;
     transform: none !important;
     transition: none !important;
-    /* Stack effect: each card sticks at top of viewport on scroll */
-    position: sticky;
-    will-change: transform;
+    position: relative;
+    top: auto !important;
+    z-index: auto !important;
   }
-
-  /* Stagger so each new card sticks HIGHER than the previous — newest
-     ends up on top of the stack, older cards peek out at the BOTTOM,
-     visually the stack accumulates upward. */
-  .choice-card:nth-child(1) { top: 88px; z-index: 1; }
-  .choice-card:nth-child(2) { top: 72px; z-index: 2; }
-  .choice-card:nth-child(3) { top: 56px; z-index: 3; }
-  .choice-card:nth-child(4) { top: 40px; z-index: 4; }
 
   .choice-slider-track {
     gap: 16px;
@@ -8336,19 +8336,10 @@ body.is-mobile-menu-open {
      so it releases when services has fully scrolled past.
 
      The duplicate "Услуги" heading is redundant — hero's title +
-     subtitle describe what this section is — so hide it
-     (visually-hidden, still accessible to screen readers). */
-  .services-title {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    margin: -1px;
-    padding: 0;
-    overflow: hidden;
-    clip: rect(0 0 0 0);
-    white-space: nowrap;
-    border: 0;
-  }
+     subtitle describe what this section is. The visually-hidden
+     style now lives globally (outside this media block) so it
+     applies on mobile too — hero subtitle 'Авто, мото...' already
+     names the section on phones. */
 
   .hero-services-stack {
     position: relative;
