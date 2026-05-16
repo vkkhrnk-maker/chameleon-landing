@@ -1302,7 +1302,11 @@ body {
   height: 32px;
   padding: 0 14px;
   border-radius: 999px;
-  background: var(--badge-bg);
+  /* White bg with subtle border so badges read as crisp chips on
+     BOTH the gray recessed service-cards (desktop services panel)
+     and on white service-cards (mobile / other contexts). */
+  background: #ffffff;
+  border: 1px solid var(--surface-border, #e0e0e0);
   font-family: "JetBrains Mono", "Roboto Mono", monospace;
   font-size: 13px;
   font-weight: 400;
@@ -5201,18 +5205,24 @@ body.is-brief-modal-open {
 }
 
 @media (max-width: 720px) {
+  /* Brief modal goes fullscreen on phones — was 12px padding all
+     around the dialog, which read as black edges crowding the form. */
   .brief-modal {
-    padding: 12px;
+    padding: 0;
+    overflow: hidden;
   }
 
   .brief-modal-dialog {
-    width: calc(100vw - 24px);
-    min-height: 0;
+    width: 100vw;
+    max-width: 100vw;
+    min-height: 100vh;
+    min-height: 100dvh;
+    border-radius: 0;
   }
 
   .brief-modal-close {
-    top: 0;
-    right: 0;
+    top: 12px;
+    right: 12px;
   }
 
   .brief-modal-art {
@@ -7262,9 +7272,10 @@ body.is-brief-modal-open {
 
   /* Mobile choice card: title -> centered icon -> text (Figma 127:4884).
      No sticky stacking on mobile — touch scroll felt awkward with the
-     "cards land above each other" sticky pattern (user reported it
-     reading as: 'card first slides DOWN then something stacks from
-     above'). Plain vertical scroll is more predictable on phones. */
+     "cards land above each other" sticky pattern. Plain vertical
+     scroll is more predictable on phones.
+     Generous internal spacing so title / icon / text breathe rather
+     than feeling cramped. */
   .choice-card {
     flex-basis: auto;
     width: 100%;
@@ -7273,8 +7284,8 @@ body.is-brief-modal-open {
     overflow: hidden;
     display: flex;
     flex-direction: column;
-    padding: 28px 24px;
-    gap: 24px;
+    padding: 40px 24px;
+    gap: 32px;
     background: var(--surface);
     border: 1px solid var(--surface-border);
     --choice-tilt: 0deg !important;
@@ -7322,9 +7333,11 @@ body.is-brief-modal-open {
   .choice-card-visual {
     order: 2;
     align-self: center;
-    width: 140px;
-    height: 140px;
-    margin: 4px 0;
+    /* Bigger icon block for more visual presence on mobile.
+       Was 140 — bumped to 168 since cards have more vertical room now. */
+    width: 168px;
+    height: 168px;
+    margin: 0;
     background: transparent !important;
     overflow: visible !important;
   }
@@ -7350,8 +7363,8 @@ body.is-brief-modal-open {
   }
 
   .choice-card-visual-asset {
-    width: 140px;
-    height: 140px;
+    width: 168px;
+    height: 168px;
     overflow: visible;
   }
 
