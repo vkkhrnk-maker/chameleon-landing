@@ -5789,7 +5789,10 @@ body.is-brief-modal-open {
   .hero {
     min-height: 0;
     margin-top: 80px !important;
-    padding-block: 30px 0;
+    /* Top padding bumped from 30 → 70 to drop the title + subtitle
+       ~40px lower on the screen — felt cramped right under the
+       sticky header. */
+    padding-block: 70px 0;
     padding-inline: var(--page-gutter);
     overflow-x: clip;
     overflow-y: visible;
@@ -7872,9 +7875,11 @@ body.is-store-detail-open {
     padding-bottom: 0 !important;
   }
 
-  /* Hero used to add an internal padding-block that doubled the gap. */
+  /* Hero internal padding: 40px top to drop the title + subtitle
+     lower on the screen (was 0 — felt cramped right under the
+     sticky header), 0 bottom so the gap to services stays clean. */
   .hero {
-    padding-block: 0 !important;
+    padding-block: 40px 0 !important;
   }
 
   /* Services section: same tight gap as desktop */
