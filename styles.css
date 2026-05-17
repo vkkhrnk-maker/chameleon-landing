@@ -5372,7 +5372,11 @@ body.is-brief-modal-open {
     max-height: 100dvh;
     min-height: 0;
     gap: 24px;
-    padding: 20px;
+    /* Top padding clears the absolute-positioned close button (X)
+       which sits at top: 12, height: 48 → bottom: 60. Side and
+       bottom paddings keep content off the screen edges. Was a
+       flat 20px which pinned the title right under the X. */
+    padding: 72px 20px 24px;
   }
 
   .brief-form-field {
