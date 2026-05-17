@@ -5550,8 +5550,15 @@ body.is-brief-modal-open {
     grid-template-columns: 1fr;
     grid-template-rows: auto auto 1fr auto;
     row-gap: 24px;
-    padding-top: 24px;
-    padding-bottom: 32px;
+    /* Top padding bumped 24 → 64 (+40px) to drop the lead and
+       typed title lower on the screen — was cramped right under
+       the sticky header. */
+    padding-top: 64px;
+    /* Bottom padding respects the home-indicator / system-gesture
+       safe area on iOS so the CTA isn't covered by the bottom
+       browser bar / home bar. Falls back to 32px on platforms
+       without env(safe-area-inset-bottom). */
+    padding-bottom: max(32px, calc(env(safe-area-inset-bottom) + 24px));
   }
 
   .cover-alt-header {
@@ -7887,9 +7894,11 @@ body.is-store-detail-open {
     gap: 4px !important;
   }
 
-  /* Cover-alt: shrink bottom padding, content already laid out */
+  /* Cover-alt bottom padding clears the iOS home indicator / system
+     gesture bar so the CTA isn't covered. max() falls back to a
+     fixed value on platforms without env(safe-area-inset-bottom). */
   .cover-alt {
-    padding-bottom: 16px !important;
+    padding-bottom: max(24px, calc(env(safe-area-inset-bottom) + 16px)) !important;
   }
 }
 
