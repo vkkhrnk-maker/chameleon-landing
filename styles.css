@@ -8098,14 +8098,22 @@ body.is-store-detail-open {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 20px var(--page-gutter);
+  /* Top padding matches the cover-header's top: 24px so the logo
+     and close button land at the same y as the page logo + burger
+     when the menu opens — no 4px vertical jump. */
+  padding: 24px var(--page-gutter) 20px;
   gap: 16px;
 }
 
 .mobile-menu-logo {
+  /* Match .cover-alt-wordmark exactly — same family, size, weight,
+     spacing, line-height — so the logo doesn't jump or change
+     style when the menu opens. Was 0.1em letter-spacing + default
+     line-height which shifted both the position and the width. */
   font-family: "JetBrains Mono", "Roboto Mono", monospace;
   font-size: 22px;
-  letter-spacing: 0.1em;
+  line-height: 1;
+  letter-spacing: 0;
   text-transform: uppercase;
   color: var(--cta-bg);
 }
