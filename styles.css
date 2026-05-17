@@ -8245,8 +8245,27 @@ body.is-store-detail-open {
   text-transform: uppercase;
 }
 
+/* Reserve the scrollbar gutter at the root so locking scroll
+   (body overflow:hidden when a modal/menu opens) doesn't widen
+   the page by the scrollbar width — without this the entire
+   layout shifted ~14px when the mobile menu / brief modal opened. */
+html {
+  scrollbar-gutter: stable;
+}
+
 body.is-mobile-menu-open {
   overflow: hidden;
+}
+
+/* Mobile menu (position: fixed; inset: 0) normally fills the full
+   viewport including any reserved scrollbar gutter. The cover
+   header that the menu visually replaces sits inside the page
+   (excluding the scrollbar gutter), so the close X would be 14px
+   further right than the burger it replaces — "X jumps right"
+   when opening the menu. Pull the right edge in by the gutter
+   width (set from JS as --scrollbar-width; 0 on real mobile). */
+.mobile-menu {
+  right: var(--scrollbar-width, 0);
 }
 
 /* ============================================================ */

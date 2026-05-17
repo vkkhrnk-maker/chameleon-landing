@@ -1,3 +1,17 @@
+// Expose the actual scrollbar gutter width as a CSS custom property
+// so fixed-positioned overlays (mobile menu) can pull their right
+// edge in to match the page's right edge. Without this, the close
+// button visually jumps right when the menu opens on any browser
+// that uses classic (space-taking) scrollbars (most desktop dev
+// tools mobile simulations). On real mobile devices with overlay
+// scrollbars this evaluates to 0 — no shift.
+const setScrollbarWidthVar = () => {
+  const w = window.innerWidth - document.documentElement.clientWidth;
+  document.documentElement.style.setProperty("--scrollbar-width", `${w}px`);
+};
+setScrollbarWidthVar();
+window.addEventListener("resize", setScrollbarWidthVar);
+
 const feedbackButtons = document.querySelectorAll("[data-feedback-message]");
 const telegramLinkButtons = document.querySelectorAll("[data-telegram-link]");
 const briefOpenButtons = document.querySelectorAll("[data-brief-open]");
