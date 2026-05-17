@@ -3136,6 +3136,14 @@ body {
   overflow: visible;
   isolation: isolate;
   background: #ebebeb;
+  /* GPU-promote the sticky container so its rendering doesn't
+     change during the parent's scroll-driven translate. Without
+     this, Chrome on macOS sometimes re-rasterizes the sticky
+     viewport every scroll tick → text shake on the title and
+     adjacent elements. */
+  will-change: transform;
+  transform: translateZ(0);
+  backface-visibility: hidden;
 }
 
 .testimonials-scroll-bg {
@@ -3305,6 +3313,10 @@ body {
   transform: translate3d(120vw, 0, 0);
   will-change: transform;
   backface-visibility: hidden;
+  /* preserve-3d so children's translateZ(0) keeps them on their own
+     compositor layers — otherwise the parent flattens 3D context
+     and child layers can be merged + re-rasterized each frame. */
+  transform-style: preserve-3d;
 }
 
 .testimonial-card {
@@ -3320,12 +3332,21 @@ body {
   pointer-events: auto;
   isolation: isolate;
   z-index: 1;
-  transform: translateY(var(--testimonial-offset-y, 0px)) rotate(var(--testimonial-rotate, 0deg));
+  /* Each card's transform is a fixed rotate + offset; we add an
+     explicit translateZ(0) and will-change so the compositor keeps
+     it on its own GPU layer. Without this, the parent's scroll-
+     driven translate3d forced cards to re-rasterize every frame,
+     and their rotated text rendered with shifting sub-pixel
+     anti-aliasing → "shaking" / "wobbling" feel. */
+  transform: translateY(var(--testimonial-offset-y, 0px)) rotate(var(--testimonial-rotate, 0deg)) translateZ(0);
   transform-origin: center center;
-  transition:
-    transform 220ms ease,
-    box-shadow 220ms ease,
-    z-index 220ms ease;
+  will-change: transform;
+  backface-visibility: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  /* z-index doesn't transition; box-shadow doesn't change on scroll.
+     Keep only the transform transition for the hover lift. */
+  transition: transform 220ms ease;
 }
 
 /* Scale-on-hover for desktop only. There's a mobile override at
@@ -3618,10 +3639,15 @@ body {
 
 .footer-contact-title {
   margin: 0;
-  font-size: clamp(4.5rem, 6.15vw, 5.5rem);
+  /* This is the page's terminal CTA — bump it to match the
+     hero / testimonials title scale (~128px on desktop) and
+     center it. Mobile media blocks below override to keep the
+     phone layout sane. */
+  font-size: clamp(4.5rem, 9vw, 8rem);
   font-weight: 500;
   line-height: 0.9659;
   letter-spacing: -0.03em;
+  text-align: center;
 }
 
 .footer-contact-cards {
@@ -3765,6 +3791,33 @@ body {
 .footer-contact-address p,
 .footer-contact-phone {
   transition: color 220ms ease;
+}
+
+/* Inline text links in the footer meta block — "Мы на Яндекс картах"
+   and the phone number. Default state matches surrounding text; on
+   hover the underline thickens and drops further from the baseline,
+   so the link "lifts" subtly. Gated to hover-capable devices to
+   avoid sticky styles on touch. */
+.footer-contact-address a,
+.footer-contact-phone a {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 4px;
+  transition:
+    color 200ms ease,
+    text-decoration-thickness 200ms ease,
+    text-underline-offset 200ms ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .footer-contact-address a:hover,
+  .footer-contact-phone a:hover,
+  .footer-contact-address a:focus-visible,
+  .footer-contact-phone a:focus-visible {
+    text-decoration-thickness: 2px;
+    text-underline-offset: 6px;
+    outline: none;
+  }
 }
 
 .footer-contact-card:hover,
@@ -5271,10 +5324,17 @@ body.is-brief-modal-open {
 
 @media (max-width: 720px) {
   /* Brief modal goes fullscreen on phones — was 12px padding all
-     around the dialog, which read as black edges crowding the form. */
+     around the dialog, which read as black edges crowding the form.
+     align-items: start (instead of inherited place-items: center)
+     so when form content exceeds viewport height, the top of the
+     form (incl. the "Получить расчёт" title) stays visible at the
+     top instead of being pushed above the viewport by center
+     alignment. The form scrolls internally for overflow. */
   .brief-modal {
     padding: 0;
     overflow: hidden;
+    align-items: start;
+    justify-items: stretch;
   }
 
   .brief-modal-dialog {
@@ -5283,6 +5343,11 @@ body.is-brief-modal-open {
     min-height: 100vh;
     min-height: 100dvh;
     border-radius: 0;
+    /* Same as parent — start (not center). The form inside is often
+       taller than the viewport (chips + 3 inputs + footer), and
+       place-items: center pulled the header above the viewport. */
+    align-items: start;
+    justify-items: stretch;
   }
 
   .brief-modal-close {
@@ -5296,12 +5361,16 @@ body.is-brief-modal-open {
 
   .brief-form {
     width: 100%;
-    /* Was max-height: calc(100vh - 80px) from desktop base, which
-       left ~40px of black backdrop above/below the green form on
-       phones. Force the form to fill the viewport completely. */
-    max-height: none;
-    min-height: 100vh;
-    min-height: 100dvh;
+    /* Fill the viewport exactly — was min-height only, which let the
+       form grow to its content height (996px) and push the bottom
+       past the viewport with nothing scrolling. Now the form is
+       capped at viewport height and scrolls its overflow internally
+       (overflow-y: auto from the base rule). */
+    height: 100vh;
+    height: 100dvh;
+    max-height: 100vh;
+    max-height: 100dvh;
+    min-height: 0;
     gap: 24px;
     padding: 20px;
   }
@@ -8494,6 +8563,20 @@ body.is-mobile-menu-open {
   .hero-glow-left,
   .hero-glow-center,
   .hero-glow-right {
+    animation: none !important;
+  }
+
+  /* Same story for the testimonials section: it pins with sticky for
+     ~280vh while cards translate horizontally. The three infinite
+     t-glow-drift-* animations on the bg glow ellipses cause the
+     pinned layer to repaint every frame — text in adjacent sticky
+     elements (title, cards) jitters / shakes during the scroll.
+     Pause the animations entirely on desktop; the glows still render
+     in their starting positions. */
+  .testimonials-glow,
+  .testimonials-glow-left,
+  .testimonials-glow-center,
+  .testimonials-glow-right {
     animation: none !important;
   }
 

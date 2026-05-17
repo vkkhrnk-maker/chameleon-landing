@@ -1354,7 +1354,10 @@ function initTestimonialsScroll() {
     const startX = window.innerWidth * (window.innerWidth <= 720 ? 0.85 : 0.75);
     const currentX = startX + (endX - startX) * progressed;
 
-    testimonialsCardsLayer.style.transform = `translate3d(${currentX}px, 0, 0)`;
+    // Round to integer pixels — sub-pixel translateX makes text
+    // inside the cards re-rasterize at slightly different positions
+    // each frame, which the eye reads as "shaking" / "wobbling".
+    testimonialsCardsLayer.style.transform = `translate3d(${Math.round(currentX)}px, 0, 0)`;
     ticking = false;
   };
 
