@@ -7712,14 +7712,17 @@ body {
 }
 
 .store-detail-modal-close {
+  /* Same dimensions / position as the .mobile-menu-close so the
+     layout reads the same whether the user opens the menu or a
+     product card — top-right of viewport, 48px tap target. */
   position: absolute;
-  top: 16px;
+  top: 24px;
   right: 16px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 44px;
-  height: 44px;
+  width: 48px;
+  height: 48px;
   padding: 0;
   border: 0;
   border-radius: 999px;
@@ -7748,7 +7751,11 @@ body {
   align-items: center;
   justify-content: center;
   height: 240px;
-  background: #ffffff;
+  /* Dark detail bg — one tier lighter than the dialog itself
+     (#0b0b0b) so the product reads as on a recessed tile, not a
+     white inset. Matches the rest of the modal's dark theme. */
+  background: #1a1a1a;
+  border-radius: 16px;
   overflow: hidden;
 }
 
