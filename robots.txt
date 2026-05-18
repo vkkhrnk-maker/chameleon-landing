@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://vkkhrnk-maker.github.io/chameleon-landing/sitemap.xml
