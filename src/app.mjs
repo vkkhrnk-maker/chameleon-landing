@@ -1,12 +1,16 @@
-// Expose the actual scrollbar gutter width as a CSS custom property
-// so fixed-positioned overlays (mobile menu) can pull their right
-// edge in to match the page's right edge. Without this, the close
-// button visually jumps right when the menu opens on any browser
-// that uses classic (space-taking) scrollbars (most desktop dev
-// tools mobile simulations). On real mobile devices with overlay
-// scrollbars this evaluates to 0 — no shift.
+// Expose the actual scrollbar gutter width as a CSS custom property.
+// Used by:
+//   1. .mobile-menu { right: var(--scrollbar-width) } so the fixed
+//      menu's right edge aligns with the page's right edge — the
+//      close X then sits exactly where the burger was.
+//   2. body.is-*-open { padding-right: var(--scrollbar-width) } so
+//      when a modal/menu locks scroll and the scrollbar disappears,
+//      the page doesn't widen and content doesn't shift sideways.
+// On touch devices with overlay scrollbars this evaluates to 0 — no-op.
+// Avoids the cross-browser inconsistencies of scrollbar-gutter: stable
+// (which had different behavior on Android Chrome).
 const setScrollbarWidthVar = () => {
-  const w = window.innerWidth - document.documentElement.clientWidth;
+  const w = Math.max(0, window.innerWidth - document.documentElement.clientWidth);
   document.documentElement.style.setProperty("--scrollbar-width", `${w}px`);
 };
 setScrollbarWidthVar();
@@ -409,12 +413,15 @@ function initWorksModal() {
     });
     m.querySelector(".works-modal-title").textContent = title;
     m.classList.add("is-open");
-    document.body.style.overflow = "hidden";
+    /* Use class-based scroll lock so the body also gets the
+       padding-right compensation that prevents horizontal layout
+       shift when the scrollbar disappears. */
+    document.body.classList.add("is-works-modal-open");
   }
   function close() {
     if (!modal) return;
     modal.classList.remove("is-open");
-    document.body.style.overflow = "";
+    document.body.classList.remove("is-works-modal-open");
   }
   slides.forEach((slide) => {
     slide.style.cursor = "pointer";

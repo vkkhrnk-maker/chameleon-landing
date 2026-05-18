@@ -3945,9 +3945,9 @@ body {
   line-height: 1.4;
 }
 
-body.is-brief-modal-open {
-  overflow: hidden;
-}
+/* Brief-modal scroll-lock is unified with mobile-menu / store-detail
+   at the bottom of the file (single rule with padding-right
+   compensation). */
 
 .brief-modal {
   position: fixed;
@@ -8245,25 +8245,23 @@ body.is-store-detail-open {
   text-transform: uppercase;
 }
 
-/* Reserve the scrollbar gutter at the root so locking scroll
-   (body overflow:hidden when a modal/menu opens) doesn't widen
-   the page by the scrollbar width — without this the entire
-   layout shifted ~14px when the mobile menu / brief modal opened. */
-html {
-  scrollbar-gutter: stable;
-}
-
-body.is-mobile-menu-open {
+/* Body scroll-lock when modal / mobile menu opens. padding-right
+   matches the scrollbar width (set by JS via --scrollbar-width)
+   so when the scrollbar disappears, the page width is preserved
+   and nothing shifts sideways. On touch devices with overlay
+   scrollbars --scrollbar-width is 0 so padding-right is also 0. */
+body.is-mobile-menu-open,
+body.is-brief-modal-open,
+body.is-store-detail-open,
+body.is-works-modal-open {
   overflow: hidden;
+  padding-right: var(--scrollbar-width, 0);
 }
 
-/* Mobile menu (position: fixed; inset: 0) normally fills the full
-   viewport including any reserved scrollbar gutter. The cover
-   header that the menu visually replaces sits inside the page
-   (excluding the scrollbar gutter), so the close X would be 14px
-   further right than the burger it replaces — "X jumps right"
-   when opening the menu. Pull the right edge in by the gutter
-   width (set from JS as --scrollbar-width; 0 on real mobile). */
+/* Pull the fixed mobile menu in by the scrollbar gutter width
+   (set from JS as --scrollbar-width; 0 on touch devices with
+   overlay scrollbars) so the close X aligns with the burger it
+   replaces. */
 .mobile-menu {
   right: var(--scrollbar-width, 0);
 }
