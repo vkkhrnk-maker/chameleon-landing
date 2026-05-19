@@ -559,6 +559,24 @@ html {
   overscroll-behavior-x: none;
 }
 
+/* At phone widths, hide the system scrollbar visually so it
+   doesn't reserve ~14px on the right edge. Samsung Internet on
+   Android draws classic space-taking scrollbars by default — that
+   shrunk the body 14px narrower than the viewport and visually
+   shifted all content to the left of the screen center. iOS Safari
+   and Chrome use overlay scrollbars already; this rule is a no-op
+   on those. Vertical touch-scroll behavior is unaffected. */
+@media (max-width: 720px) {
+  html {
+    scrollbar-width: none; /* Firefox / spec */
+  }
+  html::-webkit-scrollbar,
+  body::-webkit-scrollbar {
+    width: 0;
+    display: none; /* Chromium / WebKit */
+  }
+}
+
 body {
   margin: 0;
   min-height: 100vh;
