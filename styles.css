@@ -559,6 +559,28 @@ html {
   overscroll-behavior-x: none;
 }
 
+/* At phone widths, hide the visual system scrollbar. Samsung
+   Internet on Android draws a classic space-taking scrollbar by
+   default — it made body 14-16px narrower than the viewport so
+   content visibly shifted off-center. The OS-rendered touch scroll
+   gesture is unaffected. iOS Safari and Chrome with overlay
+   scrollbars: no-op, scrollbar already takes no space.
+   NOTE: desktop browsers' built-in mobile emulators (Chrome
+   DevTools, claude-preview tool) IGNORE this rule and keep showing
+   a classic scrollbar — that's a tool limitation, not a real-
+   device problem. */
+@media (max-width: 720px) {
+  html {
+    scrollbar-width: none;
+  }
+  html::-webkit-scrollbar,
+  body::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+    display: none;
+  }
+}
+
 
 body {
   margin: 0;
