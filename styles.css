@@ -523,9 +523,14 @@ summary:focus-visible {
 }
 
 @media (max-width: 767px) {
+  /* NOTE: .services-title is intentionally excluded — it's a
+     visually-hidden <h1> (1×1px, clip) kept only for the document
+     outline / screen readers. Applying width: 100% to it made the
+     absolutely-positioned element 375px wide at left: 16, so its
+     right edge poked 16px past the viewport → horizontal drag /
+     rubber-band on iOS. */
   .shop-title,
   .store-title,
-  .services-title,
   .works-title,
   .clients-network-title,
   .choice-title,
@@ -5645,8 +5650,9 @@ body {
     align-self: end;
   }
 
+  /* .services-title excluded — visually-hidden <h1>, must keep its
+     1×1px clip footprint (else it overflows the viewport). */
   .store-title,
-  .services-title,
   .works-title,
   .clients-network-title,
   .choice-title,
