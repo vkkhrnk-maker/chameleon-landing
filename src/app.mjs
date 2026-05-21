@@ -1507,11 +1507,16 @@ function initMobileMenu() {
   const open = () => {
     lastFocused = document.activeElement;
     menu.hidden = false;
-    requestAnimationFrame(() => {
-      menu.classList.add("is-open");
-      menu.setAttribute("aria-hidden", "false");
-      document.body.classList.add("is-mobile-menu-open");
-    });
+    // Force a synchronous reflow so the browser registers the
+    // hidden=false → display change before .is-open flips opacity —
+    // that's what makes the fade-in transition run. Was a
+    // requestAnimationFrame callback, which could be throttled (or
+    // skipped) on background tabs / slow devices and leave the menu
+    // stuck half-open. A forced reflow is deterministic.
+    void menu.offsetWidth;
+    menu.classList.add("is-open");
+    menu.setAttribute("aria-hidden", "false");
+    document.body.classList.add("is-mobile-menu-open");
     menu.querySelector(".mobile-menu-close")?.focus();
   };
 

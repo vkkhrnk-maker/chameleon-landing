@@ -143,484 +143,7 @@
       href="https://fonts.googleapis.com/css2?family=Onest:wght@500&family=JetBrains+Mono:wght@400;500&display=swap&subset=cyrillic,latin"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="./styles.css?v=20260516-iter54" />
-    <style>
-      .store {
-        margin-top: 140px;
-        display: flex;
-        flex-direction: column;
-        gap: 40px;
-      }
-
-      .store-title {
-        margin: 0;
-        max-width: 920px;
-        font-family: "Onest", Arial, sans-serif;
-        font-size: clamp(4.5rem, 7.25vw, 5.5rem);
-        font-weight: 500;
-        line-height: 0.95;
-        letter-spacing: -0.03em;
-      }
-
-      .store-toolbar {
-        grid-area: toolbar;
-        display: grid;
-        grid-template-columns: minmax(0, 1fr);
-        gap: 24px;
-        align-items: start;
-        margin-bottom: 0;
-      }
-
-      .store-tabs {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 12px;
-        align-items: flex-start;
-      }
-
-      .store-tab {
-        appearance: none;
-        -webkit-appearance: none;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        min-height: 44px;
-        padding: 8px 16px;
-        border: 0;
-        border-radius: 56px;
-        background: #ffffff;
-        color: #0b0b0b;
-        font-family: "JetBrains Mono", "TT Commons Pro Mono Trl", "Roboto Mono", monospace;
-        font-size: 16px;
-        line-height: 1.4;
-        text-transform: uppercase;
-        white-space: nowrap;
-        box-shadow: none;
-        cursor: pointer;
-      }
-
-      .store-tab.is-active {
-        background: #0e0e0e;
-        color: #ffffff;
-      }
-
-      .store-cta-block {
-        grid-area: cta;
-        display: grid;
-        gap: 16px;
-        align-content: start;
-      }
-
-      .store-cta {
-        appearance: none;
-        -webkit-appearance: none;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        width: 100%;
-        min-height: 60px;
-        padding: 8px 32px;
-        border: 0;
-        border-radius: 16px;
-        background: #0b0b0b;
-        color: #ffffff;
-        font-family: "JetBrains Mono", "TT Commons Pro Mono Trl", "Roboto Mono", monospace;
-        font-size: 16px;
-        line-height: 1.4;
-        text-transform: uppercase;
-        cursor: pointer;
-      }
-
-      .store-cta-note {
-        margin: 0;
-        color: rgba(11, 11, 11, 0.6);
-        font-family: "JetBrains Mono", "TT Commons Pro Mono Trl", "Roboto Mono", monospace;
-        font-size: 16px;
-        line-height: 1.4;
-      }
-
-      .store-grid {
-        display: grid;
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-        gap: 4px;
-        align-items: stretch;
-      }
-
-      .store-footer-cta {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        /* Was 8px — too tight between the big CTA pill and the note. */
-        gap: 24px;
-      }
-
-      .store-footer-cta .store-cta {
-        /* Big rounded pill (same size as the green consultation
-           buttons) but BLACK with white text — secondary CTA tone
-           per user. Green is reserved for the primary "Получить
-           консультацию" action. */
-        width: auto;
-        max-width: 100%;
-        min-width: 284px;
-        min-height: 128px;
-        padding: 32px 40px;
-        border-radius: 32px;
-        background: #0b0b0b;
-        color: #ffffff;
-      }
-
-      .store-footer-cta .store-cta:hover,
-      .store-footer-cta .store-cta:focus-visible {
-        background: #1a1a1a;
-        color: #ffffff;
-        transform: translateY(-2px);
-      }
-
-      .store-footer-cta .store-cta-note {
-        text-align: center;
-      }
-
-      /* Mobile: full-width CTA matching the other primary buttons */
-      @media (max-width: 720px) {
-        .store-footer-cta {
-          gap: 16px;
-          align-items: stretch;
-        }
-        .store-footer-cta .store-cta {
-          width: 100%;
-          max-width: none;
-          min-width: 0;
-          min-height: 104px;
-          padding: 24px;
-          border-radius: 28px;
-        }
-      }
-
-      .store-slider-shell {
-        grid-area: slider;
-        overflow-x: auto;
-        overflow-y: visible;
-        width: 100%;
-        scrollbar-width: none;
-        cursor: grab;
-        touch-action: pan-y;
-        overscroll-behavior-x: contain;
-      }
-
-      .store-slider-shell::-webkit-scrollbar {
-        display: none;
-      }
-
-      .store-slider-shell.is-dragging {
-        cursor: grabbing;
-      }
-
-      .store-slider-track {
-        display: flex;
-        gap: 4px;
-        width: max-content;
-        min-width: 100%;
-      }
-
-      .store-card {
-        display: flex;
-        flex-direction: column;
-        min-width: 0;
-        min-height: 460px;
-        background: #ffffff;
-        overflow: hidden;
-      }
-
-      .store-card[hidden] {
-        display: none;
-      }
-
-      .store-card-image-wrap {
-        position: relative;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        height: 278px;
-        overflow: hidden;
-      }
-
-      .store-card-image {
-        display: block;
-        width: 200px;
-        height: 200px;
-        max-width: 100%;
-        object-fit: contain;
-      }
-
-      .store-card-badge {
-        position: absolute;
-        top: 20px;
-        left: 20px;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        min-height: 32px;
-        padding: 0 12px;
-        border-radius: 40px;
-        overflow: hidden;
-      }
-
-      .store-card-badge-accent {
-        position: absolute;
-        top: 20px;
-        left: 20px;
-        z-index: 1;
-      }
-
-      .store-card-badge-bg {
-        position: absolute;
-        inset: 0;
-        width: 100%;
-        height: 100%;
-      }
-
-      .store-card-badge-label {
-        position: relative;
-        z-index: 1;
-        font-family: "JetBrains Mono", "TT Commons Pro Mono Trl", "Roboto Mono", monospace;
-        font-size: 13px;
-        line-height: 1.4;
-        text-transform: uppercase;
-      }
-
-      .store-card-info {
-        display: grid;
-        gap: 16px;
-        padding: 20px 20px 8px;
-      }
-
-      .store-card-name {
-        margin: 0;
-        font-family: "Onest", Arial, sans-serif;
-        font-size: 26px;
-        font-weight: 500;
-        line-height: 1.1;
-        letter-spacing: -0.02em;
-        color: #0b0b0b;
-      }
-
-      .store-card-price {
-        margin: 0;
-        color: rgba(11, 11, 11, 0.4);
-        font-family: "Onest", Arial, sans-serif;
-        font-size: 29px;
-        font-weight: 500;
-        line-height: 1;
-        letter-spacing: -0.02em;
-      }
-
-      .store-card-action-wrap {
-        margin-top: auto;
-        padding: 12px 16px 16px;
-      }
-
-      .store-card-action {
-        appearance: none;
-        -webkit-appearance: none;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        width: 100%;
-        min-height: 60px;
-        padding: 8px 32px;
-        border: 0;
-        border-radius: 16px;
-        background: #eaeaea;
-        color: #0b0b0b;
-        font-family: "JetBrains Mono", "TT Commons Pro Mono Trl", "Roboto Mono", monospace;
-        font-size: 16px;
-        line-height: 1.4;
-        text-transform: uppercase;
-        cursor: pointer;
-      }
-
-      @media (max-width: 1100px) {
-        .store {
-          row-gap: 24px;
-        }
-
-        .store-title {
-          max-width: 640px;
-          font-size: clamp(3.75rem, 10vw, 5rem);
-        }
-
-        .store-toolbar {
-          overflow: visible;
-        }
-
-        .store-tabs {
-          display: flex;
-          flex-wrap: nowrap;
-          width: calc(100% + var(--page-gutter));
-          min-width: calc(100% + var(--page-gutter));
-          gap: 8px;
-          overflow-x: auto;
-          overflow-y: visible;
-          padding: 2px var(--page-gutter) 2px 0;
-          margin-right: calc(var(--page-gutter) * -1);
-          align-items: center;
-          -webkit-overflow-scrolling: touch;
-          scrollbar-width: none;
-        }
-
-        .store-tabs::-webkit-scrollbar {
-          display: none;
-        }
-
-        .store-tab {
-          flex: 0 0 auto;
-        }
-
-        .store-cta-block {
-          width: min(100%, 341px);
-        }
-
-        .store-grid {
-          grid-template-columns: repeat(2, minmax(0, 1fr));
-        }
-
-        .store-card {
-          min-height: 460px;
-        }
-      }
-
-      @media (max-width: 720px) {
-        .store {
-          /* gap on the flex column .store provides the title -> grid spacing.
-             Title's margin-bottom AND .store-header's margin-bottom were
-             stacking on top of this and giving ~56px — way too much. Zero
-             both so the 24px gap on .store is the only spacer. */
-          row-gap: 24px;
-          padding-inline: var(--page-gutter);
-        }
-
-        .store-header {
-          margin-bottom: 0;
-        }
-
-        .store-title {
-          margin-bottom: 0;
-          max-width: 320px;
-          font-size: clamp(3.5rem, 18vw, 4.75rem);
-        }
-
-        .store-toolbar {
-          gap: 20px;
-          margin-bottom: 0;
-          overflow: visible;
-        }
-
-        .store-tabs {
-          display: flex;
-          flex-wrap: nowrap;
-          width: calc(100% + var(--page-gutter));
-          min-width: calc(100% + var(--page-gutter));
-          gap: 8px;
-          overflow-x: auto;
-          overflow-y: visible;
-          padding: 2px var(--page-gutter) 2px 0;
-          margin-right: calc(var(--page-gutter) * -1);
-          align-items: center;
-          -webkit-overflow-scrolling: touch;
-          scrollbar-width: none;
-        }
-
-        .store-tabs::-webkit-scrollbar {
-          display: none;
-        }
-
-        .store-tab {
-          flex: 0 0 auto;
-          min-height: 40px;
-          padding: 8px 14px;
-          font-size: 13px;
-        }
-
-        .store-cta {
-          min-height: 104px;
-          padding: 24px 28px;
-          font-size: 16px;
-          border-radius: 28px;
-        }
-
-        .store-cta-note {
-          font-size: 13px;
-        }
-
-        /* Mobile: store-grid acts as horizontal slider like .works */
-        .store-grid {
-          --store-peek: 28px;
-          grid-template-columns: none;
-          display: flex;
-          gap: 8px;
-          width: calc(100% + var(--page-gutter) * 2);
-          margin-left: calc(var(--page-gutter) * -1);
-          margin-right: calc(var(--page-gutter) * -1);
-          padding-left: var(--page-gutter);
-          padding-right: max(var(--store-peek), var(--page-gutter));
-          overflow-x: auto;
-          overflow-y: visible;
-          scroll-snap-type: x mandatory;
-          scroll-padding-left: var(--page-gutter);
-          scrollbar-width: none;
-          touch-action: pan-x pan-y;
-          -webkit-overflow-scrolling: touch;
-        }
-
-        .store-grid::-webkit-scrollbar {
-          display: none;
-        }
-
-        .store-card {
-          flex: 0 0 auto;
-          width: calc(100vw - (var(--page-gutter) * 2) - var(--store-peek));
-          min-height: 460px;
-          scroll-snap-align: start;
-        }
-
-        .store-card-image-wrap {
-          height: 240px;
-        }
-
-        .store-card-badge {
-          top: 16px;
-          left: 16px;
-        }
-
-        .store-card-badge-accent {
-          top: 16px;
-          left: 16px;
-        }
-
-        .store-card-info {
-          gap: 10px;
-          padding: 16px;
-        }
-
-        .store-card-name {
-          font-size: 24px;
-        }
-
-        .store-card-price {
-          font-size: 22px;
-        }
-
-        .store-card-action-wrap {
-          padding: 0 16px 16px;
-        }
-
-        .store-card-action {
-          min-height: 52px;
-          padding: 8px 20px;
-          font-size: 13px;
-        }
-      }
-    </style>
+    <link rel="stylesheet" href="./styles.css?v=20260521-iter55" />
   </head>
   <body>
     <div class="float-header" data-float-header aria-hidden="true">
@@ -719,7 +242,7 @@
           </button>
         </div>
 
-        <h2 id="cover-alt-title" class="cover-alt-title" aria-label="Мы делаем аквапринт">
+        <h1 id="cover-alt-title" class="cover-alt-title" aria-label="Мы делаем аквапринт">
           <span class="cover-alt-title-static">Мы делаем</span>
           <span class="cover-alt-title-dynamic-row">
             <span
@@ -730,7 +253,7 @@
             </span>
             <span class="cover-alt-title-caret" aria-hidden="true"></span>
           </span>
-        </h2>
+        </h1>
       </section>
 
       <div class="hero-services-stack">
@@ -762,11 +285,11 @@
               </div>
             </div>
           </div>
-          <h1 id="hero-title" class="hero-title">
+          <h2 id="hero-title" class="hero-title">
             Создаем уникальность
             <br />
             на ваш вкус
-          </h1>
+          </h2>
           <p class="hero-subtitle">
             Авто, мото, спортивный инвентарь, интерьерные решения
           </p>
@@ -774,7 +297,7 @@
       </section>
 
       <section id="services" class="services" aria-labelledby="services-title">
-        <h1 id="services-title" class="services-title">Услуги</h1>
+        <h2 id="services-title" class="services-title">Услуги</h2>
 
         <div class="services-grid">
           <article
@@ -798,7 +321,7 @@
               Переносим декоративные текстуры на детали салона, кузова и мотоэлементы с&nbsp;аккуратной подгонкой под проект
             </p>
             <div class="service-card-footer">
-              <h2 class="service-title">Аквапринт</h2>
+              <h3 class="service-title">Аквапринт</h3>
             </div>
           </article>
 
@@ -822,7 +345,7 @@
               общий стиль автомобиля
             </p>
             <div class="service-card-footer">
-              <h2 class="service-title">Антихром</h2>
+              <h3 class="service-title">Антихром</h3>
             </div>
           </article>
 
@@ -846,7 +369,7 @@
               и&nbsp;технической задаче
             </p>
             <div class="service-card-footer">
-              <h2 class="service-title">Вакуумная инфузия</h2>
+              <h3 class="service-title">Вакуумная инфузия</h3>
             </div>
           </article>
 
@@ -872,7 +395,7 @@
               конкретную задачу и&nbsp;материал детали
             </p>
             <div class="service-card-footer">
-              <h2 class="service-title">Покраска</h2>
+              <h3 class="service-title">Покраска</h3>
             </div>
           </article>
 
@@ -898,7 +421,7 @@
               геометрией, рисунком и&nbsp;чистой посадкой
             </p>
             <div class="service-card-footer">
-              <h2 class="service-title">Ламинация карбоном</h2>
+              <h3 class="service-title">Ламинация карбоном</h3>
             </div>
           </article>
 
