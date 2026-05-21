@@ -5575,7 +5575,13 @@ body {
     --cover-alt-title-top: 0px;
     /* svh = small viewport — stable on mobile, doesn't jitter when URL bar collapses */
     min-height: 100svh;
-    grid-template-columns: 1fr;
+    /* minmax(0, 1fr) — NOT plain 1fr. Plain 1fr = minmax(auto, 1fr),
+       whose auto minimum is the column's min-content. A long typed
+       word in .cover-alt-title (e.g. "аквапринт") has a min-content
+       width that, on a 320px phone, exceeds the content box and
+       expanded the whole column — pushing the header + CTA ~6px
+       past the viewport edge. minmax(0, 1fr) lets the track shrink. */
+    grid-template-columns: minmax(0, 1fr);
     grid-template-rows: auto auto 1fr auto;
     row-gap: 24px;
     padding-top: 24px;
