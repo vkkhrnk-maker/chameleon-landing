@@ -4689,7 +4689,10 @@ body {
 
 .brief-form-footer {
   display: flex;
-  align-items: flex-end;
+  /* Align consent checkbox + label with the TOP of the submit
+     button (not the bottom) so multi-line consent text reads
+     starting at the same baseline as the button label. */
+  align-items: flex-start;
   justify-content: space-between;
   gap: 32px;
 }
