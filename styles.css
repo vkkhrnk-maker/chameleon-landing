@@ -3846,11 +3846,10 @@ body {
 
 .footer-contact-cards {
   display: grid;
-  /* Brief card on the left + three social buttons on the right.
-     Brief gets 1.5fr so its envelope+arrow+title row has room;
-     each social button is 1fr (icon + label centered). Tight 4px
-     gap and no border-radius keep the row reading as one unit. */
-  grid-template-columns: 1.5fr 1fr 1fr 1fr;
+  /* Brief fills the entire left column (50%); three social
+     buttons share the right column (50%), each 1/6 of total.
+     Total fr: 3+1+1+1 = 6 → brief = 3/6 = 50%, social = 1/6. */
+  grid-template-columns: 3fr 1fr 1fr 1fr;
   gap: 4px;
 }
 
