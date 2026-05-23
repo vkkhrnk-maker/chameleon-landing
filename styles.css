@@ -162,6 +162,10 @@ html.is-scrolling * {
     width: 56px;
     height: 56px;
   }
+
+  /* (Testimonials glow rebalance moved to the later @media block
+     below — needs to come AFTER the base .testimonials-glow rule to
+     win the cascade.) */
 }
 
 :root {
@@ -1290,9 +1294,11 @@ body {
 .services-grid {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
+  /* Row 1: 3 service cards (card-3 spans 2 cols).
+     Row 2: 4 items — Покраска, Ламинация, Шпон, CTA — all 1 col. */
   grid-template-areas:
     "card-1 card-2 card-3 card-3"
-    "card-4 card-5 card-5 cta";
+    "card-4 card-5 card-6 cta";
   grid-auto-rows: 300px;
   gap: 4px;
 }
@@ -1427,6 +1433,10 @@ body {
 
 .service-card:nth-child(5) {
   grid-area: card-5;
+}
+
+.service-card:nth-child(6) {
+  grid-area: card-6;
 }
 
 .badge-list {
@@ -5379,10 +5389,12 @@ body {
 
   .services-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+    /* Tablet (721-1100): 6 cards + CTA → 4 rows of 2 cells. */
     grid-template-areas:
       "card-1 card-2"
       "card-3 card-4"
-      "card-5 cta";
+      "card-5 card-6"
+      "cta cta";
     grid-auto-rows: 300px;
   }
 
@@ -5454,6 +5466,25 @@ body {
 
   .cover-alt {
     padding-bottom: 32px;
+  }
+
+  /* Testimonials glow rebalance for wide screens. At default sizes
+     (401px) the three glows clustered on the left-center half of a
+     1920+ viewport and the right side looked empty. Scale them up
+     and spread the shift values symmetrically around the viewport
+     center so the gradient feels even edge-to-edge. */
+  .testimonials-glow {
+    width: 700px;
+    height: 700px;
+  }
+  .testimonials-glow-left {
+    --testimonials-glow-shift-x: -540px;
+  }
+  .testimonials-glow-center {
+    --testimonials-glow-shift-x: 0px;
+  }
+  .testimonials-glow-right {
+    --testimonials-glow-shift-x: 540px;
   }
 }
 
@@ -6254,6 +6285,7 @@ body {
       "card-3"
       "card-4"
       "card-5"
+      "card-6"
       "cta";
     /* auto rows so the CTA doesn't leave a 116px tail under itself */
     grid-auto-rows: auto;

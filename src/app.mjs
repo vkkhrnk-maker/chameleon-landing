@@ -68,15 +68,25 @@ if (feedbackButtons.length > 0) {
 }
 
 if (telegramLinkButtons.length > 0) {
+  // All "Получить консультацию" / "Заказать" buttons now scroll to
+  // the footer-contact section (#contacts) — the block with the two
+  // cards (brief form + Telegram link) — rather than opening
+  // Telegram directly. Lets the user pick which channel to use
+  // and keeps them on-page. data-telegram-link is preserved as a
+  // legacy marker; not used as a URL anymore.
   telegramLinkButtons.forEach((button) => {
     button.addEventListener("click", () => {
-      const telegramLink = button.dataset.telegramLink;
-
-      if (!telegramLink) {
+      const contacts = document.querySelector("#contacts");
+      if (!contacts) {
+        // Fallback: open the Telegram link directly if the contacts
+        // section isn't on this page for any reason.
+        const telegramLink = button.dataset.telegramLink;
+        if (telegramLink) {
+          window.open(telegramLink, "_blank", "noopener,noreferrer");
+        }
         return;
       }
-
-      window.open(telegramLink, "_blank", "noopener,noreferrer");
+      contacts.scrollIntoView({ behavior: "smooth", block: "start" });
     });
   });
 }
