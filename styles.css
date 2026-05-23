@@ -66,8 +66,8 @@ html.is-scrolling * {
 
 @media (min-width: 1920px) {
   :root {
-    --page-gutter: 240px;
-    --cover-gutter: 240px;
+    --page-gutter: 280px;
+    --cover-gutter: 280px;
   }
 }
 
@@ -5509,8 +5509,8 @@ body {
 
 @media (min-width: 1920px) {
   :root {
-    --page-gutter: 240px;
-    --cover-gutter: 240px;
+    --page-gutter: 280px;
+    --cover-gutter: 280px;
   }
 
   .cover-alt {
@@ -9518,8 +9518,10 @@ body.is-works-modal-open {
     padding-left: 96px;
     gap: 140px;
   }
+  /* Marker stays at left: -84, width 64 → center at -52.
+     Was -68 = off-center by 16px from the marker. */
   .clients-network-step:not(:last-child)::after {
-    left: -68px;
+    left: -52px;
     top: 64px;
     bottom: -140px;
   }
@@ -9571,5 +9573,110 @@ body.is-works-modal-open {
   .works-tabs {
     width: 100%;
     justify-self: stretch;
+  }
+}
+
+/* ============================================================ */
+/* Footer-contact: social card (replaces Telegram-only card)    */
+/* ============================================================ */
+.footer-contact-card-social {
+  /* same surface as the brief card next to it */
+  background: var(--surface);
+  color: var(--text-primary);
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 32px;
+}
+
+.footer-contact-socials {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.footer-contact-social {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1 1 0;
+  min-width: 0;
+  padding: 18px 12px;
+  border-radius: 18px;
+  background: var(--page-bg);
+  color: var(--text-primary);
+  text-decoration: none;
+  transition: background-color 180ms ease, transform 180ms ease, color 180ms ease;
+}
+
+.footer-contact-social-icon {
+  width: 36px;
+  height: 36px;
+  flex: 0 0 auto;
+}
+
+.footer-contact-social-label {
+  font-family: "JetBrains Mono", "Roboto Mono", monospace;
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .footer-contact-social:hover,
+  .footer-contact-social:focus-visible {
+    background: #0b0b0b;
+    color: #ffffff;
+    transform: translateY(-2px);
+    outline: none;
+  }
+}
+
+/* ============================================================ */
+/* Wide screens (≥1920): widen about-intro container,           */
+/* bump choice-card body text, enlarge social icons             */
+/* ============================================================ */
+@media (min-width: 1920px) {
+  /* About — both text containers were too narrow on wide (380/560
+     caps). Give the visual column more weight and uncap. */
+  .about-top {
+    grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+    gap: 80px;
+  }
+  .about-copy {
+    max-width: none;
+  }
+  .about-intro {
+    max-width: 720px;
+  }
+  .about-intro-text {
+    font-size: 20px;
+  }
+  .about-intro-title {
+    font-size: 28px;
+  }
+  .about-visual {
+    gap: 56px;
+  }
+
+  /* Choice cards body text — was 20, bump to 24 on wide */
+  .choice-card-text {
+    font-size: 24px !important;
+  }
+
+  /* Footer social icons bigger + label hidden in favor of bigger glyph */
+  .footer-contact-social {
+    padding: 28px 12px;
+    border-radius: 28px;
+  }
+  .footer-contact-social-icon {
+    width: 56px;
+    height: 56px;
+  }
+  .footer-contact-social-label {
+    font-size: 14px;
   }
 }
