@@ -66,8 +66,8 @@ html.is-scrolling * {
 
 @media (min-width: 1920px) {
   :root {
-    --page-gutter: 160px;
-    --cover-gutter: 160px;
+    --page-gutter: 200px;
+    --cover-gutter: 200px;
   }
 }
 
@@ -5355,8 +5355,8 @@ body {
 
 @media (min-width: 1920px) {
   :root {
-    --page-gutter: 40px;
-    --cover-gutter: 40px;
+    --page-gutter: 200px;
+    --cover-gutter: 200px;
   }
 
   .cover-alt {
