@@ -73,12 +73,12 @@ html.is-scrolling * {
 
 /* ============================================================ */
 /* WIDE-SCREEN (≥1920px) TYPOGRAPHY + ELEMENT SCALE-UP           */
-/* Everything ~+6px so type doesn't feel undersized on large     */
-/* monitors. Section/hero clamp() rules already bump via vw —    */
-/* this block targets the fixed-size pieces that don't scale.    */
+/* Everything ~+4px so type doesn't feel undersized on large     */
+/* monitors but stays balanced. Section/hero clamp() rules       */
+/* already bump via vw — this targets fixed-size pieces.         */
 /* ============================================================ */
 @media (min-width: 1920px) {
-  /* Body copy + descriptions */
+  /* Body copy + descriptions: 16-18 → 20 (+2-4) */
   .service-description,
   .business-card-text,
   .choice-card-text,
@@ -96,11 +96,11 @@ html.is-scrolling * {
   .footer-contact-address p,
   .footer-contact-address a,
   .footer-contact-phone {
-    font-size: 22px !important;
-    line-height: 1.5 !important;
+    font-size: 20px !important;
+    line-height: 1.45 !important;
   }
 
-  /* Eyebrow / mono small caps (badges, nav, eyebrows) */
+  /* Eyebrow / mono small caps: 13-16 → 17 (+1-4) */
   .service-badge,
   .works-slide-badge,
   .works-slide-badge-dark,
@@ -110,6 +110,7 @@ html.is-scrolling * {
   .cover-cta-label,
   .choice-cta-label,
   .clients-network-cta-label,
+  .cta-label,
   .works-tab,
   .shop-tab,
   .store-tab,
@@ -118,32 +119,35 @@ html.is-scrolling * {
   .testimonial-card-name,
   .testimonial-card-project,
   .footer-contact-card-eyebrow,
-  .mobile-menu-cta-label {
-    font-size: 19px !important;
+  .mobile-menu-cta-label,
+  .store-detail-modal-cta .cover-cta-label,
+  .brief-modal-submit,
+  .brief-form-submit {
+    font-size: 17px !important;
   }
 
-  /* Card titles — desktop base 29px → 35 (+6) */
+  /* Card titles — desktop base 29px → 33 (+4) */
   .service-title,
   .works-slide-title,
   .business-card-title,
   .faq-question,
   .footer-contact-card-title {
-    font-size: 35px !important;
+    font-size: 33px !important;
   }
 
-  /* Choice cards are a bigger "feature" tier (53 from clamp → 59). */
+  /* Choice cards bigger "feature" tier (53 from clamp → 57). */
   .choice-card-title {
-    font-size: 59px !important;
+    font-size: 57px !important;
   }
 
-  /* Store-card name (26 → 32). */
+  /* Store-card name (26 → 30). */
   .store-card-name {
-    font-size: 32px !important;
+    font-size: 30px !important;
   }
 
-  /* Store-detail modal title (28 → 34). */
+  /* Store-detail modal title (28 → 32). */
   .store-detail-modal-title {
-    font-size: 34px !important;
+    font-size: 32px !important;
   }
 
   /* CTA button sizing — needs to grow with the 19px label */
@@ -5474,17 +5478,30 @@ body {
      and spread the shift values symmetrically around the viewport
      center so the gradient feels even edge-to-edge. */
   .testimonials-glow {
-    width: 700px;
-    height: 700px;
+    width: 900px;
+    height: 900px;
   }
   .testimonials-glow-left {
-    --testimonials-glow-shift-x: -540px;
+    --testimonials-glow-shift-x: -680px;
   }
   .testimonials-glow-center {
     --testimonials-glow-shift-x: 0px;
   }
   .testimonials-glow-right {
-    --testimonials-glow-shift-x: 540px;
+    --testimonials-glow-shift-x: 680px;
+  }
+
+  /* Bigger testimonial cards on wide screens — the 312px default
+     looked undersized against a 1920+ viewport. Plus tighter line-
+     height on the mono quote text per user feedback. */
+  .testimonial-card {
+    flex: 0 0 420px;
+    width: 420px;
+    min-height: 460px;
+    padding: 32px;
+  }
+  .testimonial-card-quote {
+    line-height: 1.3 !important;
   }
 }
 
