@@ -5509,27 +5509,22 @@ body {
     padding-bottom: 32px;
   }
 
-  /* Testimonials glow rebalance for wide screens. The base setup
-     uses mix-blend-mode: soft-light on the left glow, which on the
-     gray section bg renders the left glow nearly invisible. On
-     1920+ that made the entire left half of the section look empty
-     even when glows were "spread" wide. Solution: neutralize the
-     blend mode on wide so all three glows render at full strength,
-     scale them up, and use a moderate spread that overlaps to fill
-     the section uniformly. */
+  /* Testimonials gradient on wide screens — the original three
+     SVG glows are blurred-circle assets that scale poorly: at 1920+
+     their hard radial edges become visible and the cluster never
+     fills the section smoothly. Hide them and paint a single
+     CSS radial-gradient stack directly on the bg layer using the
+     same brand colors (#48FA80 lime + #F9FF85 yellow). Result is
+     an even wash across the whole section regardless of viewport. */
   .testimonials-glow {
-    width: 900px;
-    height: 900px;
+    display: none;
   }
-  .testimonials-glow-left {
-    --testimonials-glow-shift-x: -500px;
-    mix-blend-mode: normal;
-  }
-  .testimonials-glow-center {
-    --testimonials-glow-shift-x: 0px;
-  }
-  .testimonials-glow-right {
-    --testimonials-glow-shift-x: 500px;
+  .testimonials-scroll-bg {
+    background:
+      radial-gradient(ellipse 55% 55% at 30% 35%, rgba(72, 250, 128, 0.42) 0%, rgba(72, 250, 128, 0) 70%),
+      radial-gradient(ellipse 50% 50% at 70% 65%, rgba(72, 250, 128, 0.38) 0%, rgba(72, 250, 128, 0) 70%),
+      radial-gradient(ellipse 45% 55% at 50% 50%, rgba(249, 255, 133, 0.55) 0%, rgba(249, 255, 133, 0) 65%),
+      #ebebeb;
   }
 
   /* Bigger testimonial cards on wide screens — the 312px default
