@@ -3846,7 +3846,11 @@ body {
 
 .footer-contact-cards {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  /* Brief card on the left + three social buttons on the right.
+     Brief gets 1.5fr so its envelope+arrow+title row has room;
+     each social button is 1fr (icon + label centered). Tight 4px
+     gap and no border-radius keep the row reading as one unit. */
+  grid-template-columns: 1.5fr 1fr 1fr 1fr;
   gap: 4px;
 }
 
@@ -9679,4 +9683,147 @@ body.is-works-modal-open {
   .footer-contact-social-label {
     font-size: 14px;
   }
+}
+
+/* ============================================================ */
+/* Footer-contact social buttons (3 standalone cards)           */
+/* ============================================================ */
+.footer-contact-card-social-btn {
+  background: #ffffff;
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  color: var(--text-primary);
+}
+
+.footer-contact-social-btn-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 88px;
+  height: 88px;
+  flex: 0 0 auto;
+}
+.footer-contact-social-btn-icon svg {
+  width: 100%;
+  height: 100%;
+}
+
+.footer-contact-card-social-btn .footer-contact-card-title {
+  font-size: 22px;
+  line-height: 1;
+  text-align: center;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .footer-contact-card-social-btn:hover,
+  .footer-contact-card-social-btn:focus-visible {
+    background: #0b0b0b;
+    color: #ffffff;
+    outline: none;
+  }
+}
+
+/* On wide screens — bigger icons */
+@media (min-width: 1920px) {
+  .footer-contact-social-btn-icon {
+    width: 120px;
+    height: 120px;
+  }
+  .footer-contact-card-social-btn .footer-contact-card-title {
+    font-size: 28px;
+  }
+}
+
+/* Mobile: stack vertically — 4 rows, brief + 3 sub-buttons */
+@media (max-width: 720px) {
+  .footer-contact-cards {
+    grid-template-columns: 1fr;
+  }
+  .footer-contact-card-social-btn {
+    flex-direction: row;
+    justify-content: flex-start;
+    gap: 16px;
+    padding: 20px 24px;
+    min-height: 84px;
+  }
+  .footer-contact-social-btn-icon {
+    width: 48px;
+    height: 48px;
+  }
+  .footer-contact-card-social-btn .footer-contact-card-title {
+    text-align: left;
+    font-size: 18px;
+  }
+}
+
+/* ============================================================ */
+/* Brief form: ФЗ-152 personal-data consent checkbox            */
+/* ============================================================ */
+.brief-form-consent {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  cursor: pointer;
+  user-select: none;
+  font-family: "JetBrains Mono", "Roboto Mono", monospace;
+  font-size: 13px;
+  line-height: 1.4;
+  color: rgba(11, 11, 11, 0.8);
+}
+
+.brief-form-consent-input {
+  /* Hide native checkbox visually; keep accessible */
+  position: absolute;
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+  pointer-events: none;
+}
+
+.brief-form-consent-box {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border: 2px solid rgba(11, 11, 11, 0.4);
+  border-radius: 6px;
+  background: #ffffff;
+  color: #ffffff;
+  transition: background-color 160ms ease, border-color 160ms ease, color 160ms ease;
+}
+.brief-form-consent-box svg {
+  width: 14px;
+  height: 14px;
+  opacity: 0;
+  transition: opacity 160ms ease;
+}
+
+.brief-form-consent-input:checked ~ .brief-form-consent-box {
+  background: #0b0b0b;
+  border-color: #0b0b0b;
+}
+.brief-form-consent-input:checked ~ .brief-form-consent-box svg {
+  opacity: 1;
+}
+
+.brief-form-consent-input:focus-visible ~ .brief-form-consent-box {
+  outline: 2px solid #0b0b0b;
+  outline-offset: 2px;
+}
+
+.brief-form-consent-text {
+  flex: 1 1 auto;
+}
+
+/* Submit disabled-look until checkbox is ticked. Pure CSS via
+   :has() — supported in all modern browsers (~2023+). */
+.brief-form:has(.brief-form-consent-input:not(:checked)) .brief-form-submit {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
