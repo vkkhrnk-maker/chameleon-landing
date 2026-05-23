@@ -152,6 +152,14 @@ html.is-scrolling * {
     font-size: 33px !important;
   }
 
+  /* Services-cta uses .cover-cta-label but in this context it's a
+     SANS-SERIF card-style title (29px on desktop), not a mono caps
+     label. Restore card-title scale (29 → 33) so my mono-caps
+     17px override above doesn't shrink it. */
+  .cover-cta.services-cta .cover-cta-label {
+    font-size: 33px !important;
+  }
+
   /* Card titles — desktop base 29px → 33 (+4) */
   .service-title,
   .works-slide-title,
