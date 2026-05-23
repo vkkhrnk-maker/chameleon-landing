@@ -1370,17 +1370,31 @@ body {
   height: 32px;
   padding: 0 14px;
   border-radius: 999px;
-  /* Dark badges matching .works-slide-badge — single chip style
-     across the site. Reads crisply on both gray and white card bgs
-     without needing a per-context override. */
-  background: #0b0b0b;
-  color: #ffffff;
+  /* Desktop: outline chip — matches .works-slide-badge on desktop
+     so both badge groups share one visual language. The bigger
+     service cards have room to let titles dominate; outline chips
+     stay readable as a secondary meta tier. Mobile override below
+     flips to solid black-on-white for contrast on smaller cards. */
+  background: transparent;
+  border: 1px solid rgba(11, 11, 11, 0.2);
+  color: #0b0b0b;
   font-family: "JetBrains Mono", "Roboto Mono", monospace;
   font-size: 13px;
   font-weight: 400;
   line-height: 1;
   text-transform: uppercase;
   white-space: nowrap;
+}
+
+/* Mobile: solid black chip — matches .works-slide-badge mobile so
+   every badge on a phone reads as one component (we explicitly
+   agreed badges stay black on mobile across the site). */
+@media (max-width: 720px) {
+  .service-badge {
+    background: #0b0b0b;
+    border-color: transparent;
+    color: #ffffff;
+  }
 }
 
 .service-badge-accent {
