@@ -66,8 +66,101 @@ html.is-scrolling * {
 
 @media (min-width: 1920px) {
   :root {
-    --page-gutter: 200px;
-    --cover-gutter: 200px;
+    --page-gutter: 280px;
+    --cover-gutter: 280px;
+  }
+}
+
+/* ============================================================ */
+/* WIDE-SCREEN (≥1920px) TYPOGRAPHY + ELEMENT SCALE-UP           */
+/* Everything ~+6px so type doesn't feel undersized on large     */
+/* monitors. Section/hero clamp() rules already bump via vw —    */
+/* this block targets the fixed-size pieces that don't scale.    */
+/* ============================================================ */
+@media (min-width: 1920px) {
+  /* Body copy + descriptions */
+  .service-description,
+  .business-card-text,
+  .choice-card-text,
+  .faq-answer,
+  .clients-network-note,
+  .clients-network-step-text,
+  .about-intro-text,
+  .store-card-meta,
+  .cover-alt-lead,
+  .cover-lead,
+  .hero-subtitle,
+  .testimonials-scroll-subtitle,
+  .testimonial-card-quote,
+  .footer-contact-meta,
+  .footer-contact-address p,
+  .footer-contact-address a,
+  .footer-contact-phone {
+    font-size: 22px !important;
+    line-height: 1.5 !important;
+  }
+
+  /* Eyebrow / mono small caps (badges, nav, eyebrows) */
+  .service-badge,
+  .works-slide-badge,
+  .works-slide-badge-dark,
+  .shop-card-badge-label,
+  .cover-nav-link,
+  .float-header-link,
+  .cover-cta-label,
+  .choice-cta-label,
+  .clients-network-cta-label,
+  .works-tab,
+  .shop-tab,
+  .store-tab,
+  .footer-contact-eyebrow,
+  .footer-contact-person,
+  .testimonial-card-name,
+  .testimonial-card-project,
+  .footer-contact-card-eyebrow,
+  .mobile-menu-cta-label {
+    font-size: 19px !important;
+  }
+
+  /* Card titles — desktop base 29px → 35 (+6) */
+  .service-title,
+  .works-slide-title,
+  .business-card-title,
+  .faq-question,
+  .footer-contact-card-title {
+    font-size: 35px !important;
+  }
+
+  /* Choice cards are a bigger "feature" tier (53 from clamp → 59). */
+  .choice-card-title {
+    font-size: 59px !important;
+  }
+
+  /* Store-card name (26 → 32). */
+  .store-card-name {
+    font-size: 32px !important;
+  }
+
+  /* Store-detail modal title (28 → 34). */
+  .store-detail-modal-title {
+    font-size: 34px !important;
+  }
+
+  /* CTA button sizing — needs to grow with the 19px label */
+  .cover-cta,
+  .choice-cta,
+  .clients-network-cta,
+  .shop-cta,
+  .store-cta {
+    min-height: 76px;
+    padding-block: 24px;
+  }
+
+  .cover-cta-icon,
+  .choice-cta-icon,
+  .clients-network-cta-icon {
+    width: 56px;
+    height: 56px;
   }
 }
 
@@ -5355,8 +5448,8 @@ body {
 
 @media (min-width: 1920px) {
   :root {
-    --page-gutter: 200px;
-    --cover-gutter: 200px;
+    --page-gutter: 280px;
+    --cover-gutter: 280px;
   }
 
   .cover-alt {
