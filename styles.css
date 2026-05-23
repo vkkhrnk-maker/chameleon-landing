@@ -9547,3 +9547,21 @@ body.is-works-modal-open {
     height: 56px;
   }
 }
+
+/* On wide screens stack works-header into a single column so the
+   tab row starts at the section's left edge instead of being
+   pushed to the right half of the page (where the grid's second
+   column begins). At 1920+ the right-aligned tabs read as
+   "stuck" to the title. */
+@media (min-width: 1920px) {
+  .works-header {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 40px;
+  }
+  .works-tabs {
+    width: 100%;
+    justify-self: stretch;
+  }
+}
