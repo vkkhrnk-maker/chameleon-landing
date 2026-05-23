@@ -83,16 +83,21 @@
         word-break: break-word;
       }
 
+      /* Readable links — dark text with a visible underline.
+         Brand green at light-bg looked washed-out / unclickable. */
       .policy-content a {
-        color: var(--cta-bg);
-        text-decoration: none;
-        transition: color 160ms ease;
+        color: #0b0b0b;
+        text-decoration: underline;
+        text-decoration-thickness: 1px;
+        text-underline-offset: 3px;
+        transition: text-decoration-thickness 160ms ease, text-underline-offset 160ms ease, color 160ms ease;
       }
 
       .policy-content a:hover,
       .policy-content a:focus-visible {
-        color: var(--cta-bg-hover);
-        text-decoration: underline;
+        color: #0b0b0b;
+        text-decoration-thickness: 2px;
+        text-underline-offset: 5px;
       }
 
       @media (max-width: 720px) {
