@@ -3846,10 +3846,8 @@ body {
 
 .footer-contact-cards {
   display: grid;
-  /* Brief fills the entire left column (50%); three social
-     buttons share the right column (50%), each 1/6 of total.
-     Total fr: 3+1+1+1 = 6 → brief = 3/6 = 50%, social = 1/6. */
-  grid-template-columns: 3fr 1fr 1fr 1fr;
+  /* Brief on the left, "Напишите нам" plate on the right. */
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 4px;
 }
 
@@ -9828,4 +9826,78 @@ body.is-works-modal-open {
 .brief-form:has(.brief-form-consent-input:not(:checked)) .brief-form-submit {
   opacity: 0.5;
   cursor: not-allowed;
+}
+
+/* ============================================================ */
+/* Footer-contact social chips (Telegram + VK pills inside the   */
+/* "Напишите нам" card). Same DS chip pattern as .service-badge: */
+/* 32px pill, JetBrains Mono caps, dark fill, icon + label.      */
+/* ============================================================ */
+.footer-contact-card-social {
+  background: #ffffff;
+}
+
+.footer-contact-social-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: auto;
+}
+
+.footer-contact-social-chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 36px;
+  padding: 0 14px;
+  border-radius: 999px;
+  background: #0b0b0b;
+  color: #ffffff;
+  font-family: "JetBrains Mono", "Roboto Mono", monospace;
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1;
+  text-transform: uppercase;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background-color 160ms ease, color 160ms ease, transform 160ms ease;
+}
+
+.footer-contact-social-chip-icon {
+  width: 16px;
+  height: 16px;
+  flex: 0 0 auto;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .footer-contact-social-chip:hover,
+  .footer-contact-social-chip:focus-visible {
+    background: #ffffff;
+    color: #0b0b0b;
+    outline: 1px solid #0b0b0b;
+  }
+}
+
+/* When the parent .footer-contact-card-social is hovered/focused
+   (turns dark with white text), the chips need to stay readable
+   — invert them to a light pill so they pop against the now-dark
+   card. */
+.footer-contact-card-social:hover .footer-contact-social-chip,
+.footer-contact-card-social:focus-within .footer-contact-social-chip {
+  background: rgba(255, 255, 255, 0.14);
+  color: #ffffff;
+}
+
+@media (min-width: 1920px) {
+  .footer-contact-social-chip {
+    height: 44px;
+    padding: 0 18px;
+    font-size: 15px;
+    gap: 10px;
+  }
+  .footer-contact-social-chip-icon {
+    width: 20px;
+    height: 20px;
+  }
 }
