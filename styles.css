@@ -9832,75 +9832,64 @@ body.is-works-modal-open {
 }
 
 /* ============================================================ */
-/* Footer-contact social chips (Telegram + VK pills inside the   */
-/* "Напишите нам" card). Same DS chip pattern as .service-badge: */
-/* 32px pill, JetBrains Mono caps, dark fill, icon + label.      */
+/* Footer-contact "Напишите нам" plate — 2 small icon pills      */
+/* (Telegram + VK) sit in the top-right where the arrow used     */
+/* to be. Same circular-button pattern as cover-contact icons.    */
 /* ============================================================ */
 .footer-contact-card-social {
   background: #ffffff;
 }
 
-.footer-contact-social-chips {
-  display: flex;
-  flex-wrap: wrap;
+.footer-contact-card-socials {
+  display: inline-flex;
+  align-items: center;
   gap: 8px;
-  margin-top: auto;
+  margin-left: auto;
 }
 
-.footer-contact-social-chip {
+.footer-contact-card-social-icon {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
-  height: 36px;
-  padding: 0 14px;
+  width: 44px;
+  height: 44px;
   border-radius: 999px;
-  background: #0b0b0b;
-  color: #ffffff;
-  font-family: "JetBrains Mono", "Roboto Mono", monospace;
-  font-size: 13px;
-  font-weight: 400;
-  line-height: 1;
-  text-transform: uppercase;
+  background: rgba(11, 11, 11, 0.06);
+  color: #0b0b0b;
   text-decoration: none;
-  white-space: nowrap;
+  flex: 0 0 auto;
   transition: background-color 160ms ease, color 160ms ease, transform 160ms ease;
 }
 
-.footer-contact-social-chip-icon {
-  width: 16px;
-  height: 16px;
-  flex: 0 0 auto;
+.footer-contact-card-social-icon svg {
+  width: 20px;
+  height: 20px;
 }
 
 @media (hover: hover) and (pointer: fine) {
-  .footer-contact-social-chip:hover,
-  .footer-contact-social-chip:focus-visible {
-    background: #ffffff;
-    color: #0b0b0b;
-    outline: 1px solid #0b0b0b;
+  .footer-contact-card-social-icon:hover,
+  .footer-contact-card-social-icon:focus-visible {
+    background: #0b0b0b;
+    color: #ffffff;
+    outline: none;
   }
 }
 
-/* When the parent .footer-contact-card-social is hovered/focused
-   (turns dark with white text), the chips need to stay readable
-   — invert them to a light pill so they pop against the now-dark
-   card. */
-.footer-contact-card-social:hover .footer-contact-social-chip,
-.footer-contact-card-social:focus-within .footer-contact-social-chip {
+/* When the parent card is hovered (turns dark), invert icons
+   so they remain visible on the dark fill. */
+.footer-contact-card-social:hover .footer-contact-card-social-icon,
+.footer-contact-card-social:focus-within .footer-contact-card-social-icon {
   background: rgba(255, 255, 255, 0.14);
   color: #ffffff;
 }
 
 @media (min-width: 1920px) {
-  .footer-contact-social-chip {
-    height: 44px;
-    padding: 0 18px;
-    font-size: 15px;
-    gap: 10px;
+  .footer-contact-card-social-icon {
+    width: 56px;
+    height: 56px;
   }
-  .footer-contact-social-chip-icon {
-    width: 20px;
-    height: 20px;
+  .footer-contact-card-social-icon svg {
+    width: 24px;
+    height: 24px;
   }
 }
