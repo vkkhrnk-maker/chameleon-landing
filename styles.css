@@ -9854,8 +9854,11 @@ body.is-works-modal-open {
   width: 44px;
   height: 44px;
   border-radius: 999px;
-  background: rgba(11, 11, 11, 0.06);
-  color: #0b0b0b;
+  /* Solid dark fill so the icon reads clearly as a clickable
+     circle on the white card (the 6% alpha fill was nearly
+     invisible — user couldn't see the icons). */
+  background: #0b0b0b;
+  color: #ffffff;
   text-decoration: none;
   flex: 0 0 auto;
   transition: background-color 160ms ease, color 160ms ease, transform 160ms ease;
@@ -9869,18 +9872,19 @@ body.is-works-modal-open {
 @media (hover: hover) and (pointer: fine) {
   .footer-contact-card-social-icon:hover,
   .footer-contact-card-social-icon:focus-visible {
-    background: #0b0b0b;
+    background: #313131;
     color: #ffffff;
+    transform: scale(1.06);
     outline: none;
   }
 }
 
 /* When the parent card is hovered (turns dark), invert icons
-   so they remain visible on the dark fill. */
+   to a light pill so they stay visible on the now-dark card. */
 .footer-contact-card-social:hover .footer-contact-card-social-icon,
 .footer-contact-card-social:focus-within .footer-contact-card-social-icon {
-  background: rgba(255, 255, 255, 0.14);
-  color: #ffffff;
+  background: #ffffff;
+  color: #0b0b0b;
 }
 
 @media (min-width: 1920px) {
