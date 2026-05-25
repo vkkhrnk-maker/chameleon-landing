@@ -3338,6 +3338,20 @@ body {
   will-change: transform;
   transform: translateZ(0);
   backface-visibility: hidden;
+  /* Isolate paint + style invalidation inside this sticky so
+     scroll-driven repaints don't leak out to siblings + so
+     siblings don't force re-layout here. */
+  contain: layout paint style;
+}
+
+/* Pin the section title to its own GPU layer too. Without this
+   the absolutely-positioned title can re-rasterize every scroll
+   frame, even with the sticky container promoted. */
+.testimonials-scroll-title {
+  will-change: transform;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  -webkit-font-smoothing: antialiased;
 }
 
 .testimonials-scroll-bg {
