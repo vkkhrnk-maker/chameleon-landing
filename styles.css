@@ -9865,8 +9865,10 @@ body.is-works-modal-open {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 44px;
-  height: 44px;
+  /* 52px (was 44) so the icons read with the same visual weight
+     as the 56px avatar on the left side of the card-top row. */
+  width: 52px;
+  height: 52px;
   border-radius: 999px;
   /* Solid dark fill so the icon reads clearly as a clickable
      circle on the white card (the 6% alpha fill was nearly
@@ -9879,8 +9881,8 @@ body.is-works-modal-open {
 }
 
 .footer-contact-card-social-icon svg {
-  width: 20px;
-  height: 20px;
+  width: 24px;
+  height: 24px;
 }
 
 @media (hover: hover) and (pointer: fine) {
@@ -9903,11 +9905,11 @@ body.is-works-modal-open {
 
 @media (min-width: 1920px) {
   .footer-contact-card-social-icon {
-    width: 56px;
-    height: 56px;
+    width: 64px;
+    height: 64px;
   }
   .footer-contact-card-social-icon svg {
-    width: 24px;
-    height: 24px;
+    width: 28px;
+    height: 28px;
   }
 }
