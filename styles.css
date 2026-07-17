@@ -219,6 +219,10 @@ html.is-scrolling * {
   --cta-icon-bg: #0b0b0b;
   --inverse-text: #ffffff;
   --glass-dark: rgba(18, 18, 18, 0.92);
+  --control-motion-duration: 180ms;
+  --control-motion-ease: cubic-bezier(0.2, 0, 0, 1);
+  --control-hover-scale: 1.06;
+  --control-press-scale: 0.96;
 }
 
 .works-modal {
@@ -587,6 +591,51 @@ summary:focus-visible {
   align-items: center;
 }
 
+.float-header-burger {
+  display: none;
+  position: relative;
+  flex: 0 0 auto;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: 0;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.08);
+  color: #ffffff;
+  cursor: pointer;
+  transition:
+    background-color var(--control-motion-duration) var(--control-motion-ease),
+    transform var(--control-motion-duration) var(--control-motion-ease);
+}
+
+.float-header-burger:hover,
+.float-header-burger:focus-visible {
+  background: rgba(255, 255, 255, 0.16);
+  outline: none;
+}
+
+.float-header-burger:active {
+  transform: scale(var(--control-press-scale));
+}
+
+.float-header-burger-line {
+  position: absolute;
+  left: 11px;
+  width: 18px;
+  height: 2px;
+  border-radius: 999px;
+  background: currentColor;
+  transform-origin: center;
+  transition:
+    top var(--control-motion-duration) var(--control-motion-ease),
+    opacity var(--control-motion-duration) var(--control-motion-ease),
+    transform var(--control-motion-duration) var(--control-motion-ease);
+}
+
+.float-header-burger-line:nth-child(1) { top: 13px; }
+.float-header-burger-line:nth-child(2) { top: 19px; }
+.float-header-burger-line:nth-child(3) { top: 25px; }
+
 .float-header-link {
   display: inline-flex;
   align-items: center;
@@ -649,6 +698,70 @@ summary:focus-visible {
   transform: translateY(-1px);
   text-decoration: none;
   outline: none;
+}
+
+@media (min-width: 721px) and (max-width: 1100px) {
+  .float-header {
+    width: min(420px, calc(100vw - 32px));
+    justify-content: space-between;
+    padding: 6px;
+  }
+
+  .float-header-burger {
+    display: inline-flex;
+  }
+
+  .float-header-nav {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    right: 0;
+    display: grid;
+    gap: 4px;
+    padding: 8px;
+    border-radius: 16px;
+    background: var(--glass-dark);
+    box-shadow: 0 18px 48px rgba(11, 11, 11, 0.22);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(-8px) scale(0.98);
+    transform-origin: top center;
+    transition:
+      opacity var(--control-motion-duration) var(--control-motion-ease),
+      transform var(--control-motion-duration) var(--control-motion-ease);
+  }
+
+  .float-header-link {
+    width: 100%;
+    height: 44px;
+    justify-content: flex-start;
+  }
+
+  .float-header.is-menu-open .float-header-nav {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0) scale(1);
+  }
+
+  .float-header.is-menu-open .float-header-burger-line:nth-child(1) {
+    top: 19px;
+    transform: rotate(45deg);
+  }
+
+  .float-header.is-menu-open .float-header-burger-line:nth-child(2) {
+    opacity: 0;
+  }
+
+  .float-header.is-menu-open .float-header-burger-line:nth-child(3) {
+    top: 19px;
+    transform: rotate(-45deg);
+  }
+
+  .float-header-cta {
+    margin-left: auto;
+  }
 }
 
 @media (max-width: 720px) {
@@ -987,6 +1100,11 @@ body {
   border-radius: 999px;
   background: #0b0b0b;
   cursor: pointer;
+  transition:
+    background-color var(--control-motion-duration) var(--control-motion-ease),
+    color var(--control-motion-duration) var(--control-motion-ease),
+    transform var(--control-motion-duration) var(--control-motion-ease),
+    box-shadow var(--control-motion-duration) var(--control-motion-ease);
 }
 
 .cover-contact-link img {
@@ -1024,6 +1142,15 @@ body {
 .cover-phone:focus-visible {
   background: var(--cta-bg);
   box-shadow: 0 8px 24px rgba(139, 235, 102, 0.24);
+}
+
+.cover-contact-link:hover,
+.cover-contact-link:focus-visible {
+  transform: scale(var(--control-hover-scale));
+}
+
+.cover-contact-link:active {
+  transform: scale(var(--control-press-scale));
 }
 
 .cover-contact-link:hover img,
@@ -1734,8 +1861,6 @@ body {
    Match Figma node 127-3997: full-pill shape, label hugs left, icon hugs right. */
 .cover-cta.services-cta {
   grid-area: cta;
-  grid-column: auto;
-  grid-row: auto;
   align-self: end;
   justify-self: end;
   width: auto;
@@ -3957,9 +4082,9 @@ body {
   border-radius: 999px;
   flex: 0 0 auto;
   transition:
-    transform 180ms ease,
-    background-color 180ms ease,
-    color 180ms ease;
+    transform var(--control-motion-duration) var(--control-motion-ease),
+    background-color var(--control-motion-duration) var(--control-motion-ease),
+    color var(--control-motion-duration) var(--control-motion-ease);
 }
 
 .footer-contact-arrow svg {
@@ -3992,7 +4117,7 @@ body {
 
 .footer-contact-card:hover .footer-contact-arrow,
 .footer-contact-card:focus-visible .footer-contact-arrow {
-  transform: translateY(-1px);
+  transform: scale(var(--control-hover-scale));
 }
 
 .footer-contact-meta,
@@ -4012,6 +4137,13 @@ body {
   text-decoration: underline;
   text-decoration-thickness: 1px;
   text-underline-offset: 4px;
+  /* Expand the touch target to ~44px without moving the visual
+     baseline: padding grows the hit area, negative margin cancels
+     the layout shift. Matters on phones where these are the only
+     tappable path to Maps / the dialer. */
+  display: inline-block;
+  padding-block: 13px;
+  margin-block: -13px;
   transition:
     color 200ms ease,
     text-decoration-thickness 200ms ease,
@@ -4987,16 +5119,27 @@ body {
     backdrop-filter: blur(16px);
     opacity: 0;
     pointer-events: none;
+    /* visibility (not just opacity) so the links inside are removed
+       from tab order and the accessibility tree while the dropdown
+       is closed — on phones this menu never opens (the burger opens
+       .mobile-menu instead), so without this, invisible links behind
+       the cover image stayed keyboard-focusable. */
+    visibility: hidden;
     transform: translateY(-8px);
     transition:
       opacity 160ms ease,
-      transform 160ms ease;
+      transform 160ms ease,
+      visibility 0s 160ms;
   }
 
   .cover-header.is-menu-open .cover-menu {
     opacity: 1;
     pointer-events: auto;
+    visibility: visible;
     transform: translateY(0);
+    transition:
+      opacity 160ms ease,
+      transform 160ms ease;
   }
 
   .cover-nav {
@@ -5464,6 +5607,17 @@ body {
       "card-5 card-6"
       "cta cta";
     grid-auto-rows: 300px;
+  }
+
+  .cover-cta.services-cta {
+    grid-area: cta;
+    align-self: start;
+    justify-self: center;
+    width: min(100%, 351px);
+    min-height: 100px;
+    margin-top: 28px;
+    padding: 28px;
+    border-radius: 32px;
   }
 
   .service-card:nth-child(1),
@@ -6496,18 +6650,9 @@ body {
     margin-top: 24px;
   }
 
-  /* Mobile testimonials: ditched the sticky + JS-scroll-driven
-     horizontal animation entirely. On touch devices it produced
-     jitter (the JS-set transform fought native scroll fluidity)
-     and a long empty pinned tail. Now it's a regular section: title
-     on top, cards in a native swipe-scroll row below. */
-  .testimonials-scroll {
-    height: auto;
-    margin-top: 140px;
-    padding-inline: 0;
-    overflow-x: clip;
-  }
+}
 
+@media (max-width: 720px) {
   .faq {
     margin-top: 140px;
     padding-inline: var(--page-gutter);
@@ -6525,7 +6670,6 @@ body {
   }
 
   .faq-question {
-    /* +2px to match the bumped card-title scale. */
     font-size: 24px;
     line-height: 1.02;
   }
@@ -6581,16 +6725,8 @@ body {
     height: 44px;
   }
 
-  .footer-contact-eyebrow-icon {
-    width: 28px;
-    height: 28px;
-  }
-
-  .footer-contact-eyebrow-icon svg {
-    width: 28px;
-    height: 28px;
-  }
-
+  .footer-contact-eyebrow-icon,
+  .footer-contact-eyebrow-icon svg,
   .footer-contact-eyebrow-icon img {
     width: 28px;
     height: 28px;
@@ -6602,7 +6738,6 @@ body {
   }
 
   .footer-contact-card-title {
-    /* +2px to match the bumped card-title scale. */
     font-size: 24px;
   }
 
@@ -6619,6 +6754,21 @@ body {
 
   .site-footer-credit {
     font-size: 13px;
+  }
+}
+
+@media (max-width: 720px) and (pointer: coarse) {
+
+  /* Mobile testimonials: ditched the sticky + JS-scroll-driven
+     horizontal animation entirely. On touch devices it produced
+     jitter (the JS-set transform fought native scroll fluidity)
+     and a long empty pinned tail. Now it's a regular section: title
+     on top, cards in a native swipe-scroll row below. */
+  .testimonials-scroll {
+    height: auto;
+    margin-top: 140px;
+    padding-inline: 0;
+    overflow-x: clip;
   }
 
   .testimonials-scroll-sticky {
@@ -8293,15 +8443,15 @@ body.is-store-detail-open {
   background: #0b0b0b;
   color: #ffffff;
   transition:
-    transform 160ms ease,
-    background-color 160ms ease;
+    transform var(--control-motion-duration) var(--control-motion-ease),
+    background-color var(--control-motion-duration) var(--control-motion-ease);
 }
 
 .business-card-arrow svg { width: 20px; height: 20px; }
 
 .business-card:hover .business-card-arrow,
 .business-card:focus-visible .business-card-arrow {
-  transform: translateY(-2px);
+  transform: scale(var(--control-hover-scale));
   background: #1a1a1a;
 }
 
@@ -9335,6 +9485,147 @@ body.is-works-modal-open {
   }
 }
 
+@media (min-width: 721px) and (max-width: 1100px) {
+  .choice-scroll {
+    height: auto;
+  }
+
+  .choice-scroll-sticky {
+    position: relative;
+    top: auto;
+    display: block;
+    min-height: 0;
+  }
+
+  .choice-slider-shell {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: visible;
+    cursor: default;
+    touch-action: auto;
+    overscroll-behavior-x: auto;
+    scroll-snap-type: none;
+    scroll-padding: 0;
+  }
+
+  .choice-slider-track {
+    flex-direction: column;
+    gap: 4px;
+    width: 100%;
+    min-width: 0;
+    padding: 0;
+    transform: none !important;
+    will-change: auto;
+  }
+
+  .choice-slider-track > .choice-card {
+    flex: 0 0 auto;
+    width: 100%;
+    min-height: 360px;
+    --choice-tilt: 0deg;
+    scroll-snap-align: none;
+    scroll-snap-stop: normal;
+  }
+
+  .business-layout {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 32px;
+  }
+
+  .business-copy {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) clamp(220px, 30vw, 280px);
+    align-items: center;
+    gap: clamp(20px, 4vw, 48px);
+    min-height: 0;
+    padding-right: 0;
+  }
+
+  .business-title {
+    width: 100%;
+    max-width: none;
+    margin: 0;
+    text-align: left;
+  }
+
+  .business-visual {
+    position: relative;
+    inset: auto;
+    justify-self: end;
+    width: clamp(220px, 30vw, 280px);
+    height: clamp(220px, 30vw, 280px);
+    margin: 0;
+    transform: rotate(-12deg);
+    will-change: auto;
+  }
+
+  .business-visual img {
+    width: clamp(190px, 26vw, 232px);
+    height: clamp(190px, 26vw, 232px);
+    will-change: auto;
+  }
+
+  .business-visual.is-interactive,
+  .business-visual.is-interactive:hover,
+  .business-visual.is-interactive:focus-visible {
+    transform: rotate(-12deg);
+  }
+
+  .business-visual.is-interactive:hover img,
+  .business-visual.is-interactive:focus-visible img {
+    transform: none;
+  }
+
+  .business-cards {
+    display: grid;
+    width: 100%;
+    max-width: none;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 4px;
+  }
+
+  .store-grid {
+    display: flex;
+    grid-template-columns: none;
+    gap: 4px;
+    width: calc(100% + var(--page-gutter));
+    margin-left: 0;
+    margin-right: calc(var(--page-gutter) * -1);
+    padding-left: var(--page-gutter);
+    padding-right: var(--page-gutter);
+    overflow-x: auto;
+    overflow-y: visible;
+    scroll-snap-type: x mandatory;
+    scroll-padding-left: var(--page-gutter);
+    overscroll-behavior-x: contain;
+    touch-action: pan-x pan-y;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    cursor: grab;
+  }
+
+  .store-grid::-webkit-scrollbar {
+    display: none;
+  }
+
+  .store-grid.is-dragging {
+    cursor: grabbing;
+    scroll-snap-type: none;
+  }
+
+  .store-card {
+    flex: 0 0 calc((100% - 4px) / 2);
+    width: calc((100% - 4px) / 2);
+    min-height: 460px;
+    scroll-snap-align: start;
+  }
+
+  .store-card-name {
+    text-wrap: balance;
+  }
+}
+
 @media (max-width: 720px) {
   .store {
     /* gap on the flex column .store provides the title -> grid spacing.
@@ -9877,7 +10168,10 @@ body.is-works-modal-open {
   color: #ffffff;
   text-decoration: none;
   flex: 0 0 auto;
-  transition: background-color 160ms ease, color 160ms ease, transform 160ms ease;
+  transition:
+    background-color var(--control-motion-duration) var(--control-motion-ease),
+    color var(--control-motion-duration) var(--control-motion-ease),
+    transform var(--control-motion-duration) var(--control-motion-ease);
 }
 
 .footer-contact-card-social-icon svg {
@@ -9890,7 +10184,7 @@ body.is-works-modal-open {
   .footer-contact-card-social-icon:focus-visible {
     background: #313131;
     color: #ffffff;
-    transform: scale(1.06);
+    transform: scale(var(--control-hover-scale));
     outline: none;
   }
 }
@@ -9901,6 +10195,11 @@ body.is-works-modal-open {
 .footer-contact-card-social:focus-within .footer-contact-card-social-icon {
   background: #ffffff;
   color: #0b0b0b;
+}
+
+.footer-contact-card-brief:active .footer-contact-arrow,
+.footer-contact-card-social-icon:active {
+  transform: scale(var(--control-press-scale));
 }
 
 @media (min-width: 1920px) {
