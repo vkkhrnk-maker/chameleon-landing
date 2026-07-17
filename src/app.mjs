@@ -39,7 +39,7 @@ const worksSlides = document.querySelectorAll(".works-slide");
 const worksSliderShell = document.querySelector(".works-slider-shell");
 const storeTabs = document.querySelectorAll(".store-tab");
 const storeCards = document.querySelectorAll(".store-card");
-const storeSliderShell = document.querySelector(".store-slider-shell");
+const storeSliderShell = document.querySelector(".store-slider-shell, .store-grid");
 const choiceSection = document.querySelector(".choice-scroll");
 const choiceSliderShell = document.querySelector(".choice-slider-shell");
 const choiceSliderTrack = document.querySelector(".choice-slider-track");
@@ -120,10 +120,6 @@ if (storeTabs.length > 0 && storeCards.length > 0) {
 
 if (storeSliderShell) {
   initHorizontalDragScroll(storeSliderShell);
-}
-
-if (choiceSliderShell) {
-  initHorizontalDragScroll(choiceSliderShell);
 }
 
 // Choice section now uses CSS sticky-stack on desktop (no JS forced scroll)
@@ -516,8 +512,45 @@ function initFloatHeader() {
   const header = document.querySelector("[data-float-header]");
   if (!header) return;
   const cover = document.querySelector(".cover");
+  const burger = header.querySelector(".float-header-burger");
+  const nav = header.querySelector(".float-header-nav");
   let lastY = window.scrollY;
   let ticking = false;
+
+  const closeMenu = () => {
+    header.classList.remove("is-menu-open");
+    burger?.setAttribute("aria-expanded", "false");
+    burger?.setAttribute("aria-label", "Открыть меню");
+  };
+
+  const setHeaderVisible = (visible) => {
+    header.classList.toggle("is-visible", visible);
+    header.setAttribute("aria-hidden", String(!visible));
+    if (!visible) closeMenu();
+  };
+
+  burger?.addEventListener("click", () => {
+    const willOpen = !header.classList.contains("is-menu-open");
+    header.classList.toggle("is-menu-open", willOpen);
+    burger.setAttribute("aria-expanded", String(willOpen));
+    burger.setAttribute("aria-label", willOpen ? "Закрыть меню" : "Открыть меню");
+  });
+
+  nav?.addEventListener("click", (event) => {
+    if (event.target.closest("a")) closeMenu();
+  });
+
+  document.addEventListener("click", (event) => {
+    if (!header.contains(event.target)) closeMenu();
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") closeMenu();
+  });
+
+  window.addEventListener("resize", () => {
+    if (window.innerWidth > 1100 || window.innerWidth <= 720) closeMenu();
+  });
 
   function update() {
     const y = window.scrollY;
@@ -527,11 +560,11 @@ function initFloatHeader() {
     const scrollingUp = dir < -2;
     const scrollingDown = dir > 2;
     if (!past) {
-      header.classList.remove("is-visible");
+      setHeaderVisible(false);
     } else if (scrollingUp) {
-      header.classList.add("is-visible");
+      setHeaderVisible(true);
     } else if (scrollingDown) {
-      header.classList.remove("is-visible");
+      setHeaderVisible(false);
     }
     lastY = y;
     ticking = false;
@@ -586,7 +619,10 @@ function createFeedback() {
 }
 
 function initBusinessVisualHover() {
-  if (window.matchMedia("(hover: none), (pointer: coarse)").matches) {
+  if (
+    window.innerWidth <= 1100 ||
+    window.matchMedia("(hover: none), (pointer: coarse)").matches
+  ) {
     return;
   }
 
@@ -1214,8 +1250,10 @@ function initHorizontalDragScroll(scrollElement) {
       scrollElement === choiceSliderShell && window.innerWidth > 1100;
     const isClientsDesktop =
       scrollElement === clientsStepsList && window.innerWidth > 1100;
+    const isStoreDesktop =
+      scrollElement === storeSliderShell && window.innerWidth > 1100;
 
-    if (isChoiceDesktop || isClientsDesktop) {
+    if (isChoiceDesktop || isClientsDesktop || isStoreDesktop) {
       return;
     }
 
@@ -1336,18 +1374,10 @@ function initStoreSection() {
 
 function initTestimonialsScroll() {
   const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const nativeSwipeQuery = window.matchMedia("(max-width: 720px) and (pointer: coarse)");
 
   if (prefersReducedMotion) {
     testimonialsCardsLayer.style.transform = "translate3d(0px, 0, 0)";
-    return;
-  }
-
-  // Mobile: the cards row is a native horizontal swipe-scroll
-  // container — no JS-driven scroll animation. Bail here so the
-  // sticky/scroll-locked translation doesn't fight the user's
-  // touch scroll.
-  if (window.innerWidth <= 720) {
-    testimonialsCardsLayer.style.transform = "";
     return;
   }
 
@@ -1357,32 +1387,44 @@ function initTestimonialsScroll() {
   let scrollableDistance = 1;
 
   const recalc = () => {
+    // Real touch devices use the native swipe row. A narrow desktop
+    // window still keeps the scroll-driven fly-by, and resizing out of
+    // mobile mode re-enables it without requiring a page refresh.
+    if (nativeSwipeQuery.matches) {
+      testimonialsCardsLayer.style.removeProperty("width");
+      testimonialsCardsLayer.style.removeProperty("transform");
+      ticking = false;
+      return;
+    }
+
     const trackWidth = testimonialsCardsLayer.scrollWidth;
 
     testimonialsCardsLayer.style.width = `${trackWidth}px`;
     sectionTop = testimonialsSection.offsetTop;
-    // Desktop: cards animate over 60% of the section's scrollable
-    // distance — the remaining 40% is a "title-only pinned" window
-    // for the .business panel below to naezzhaet over.
-    // Mobile (<=720px): no business overlap, so cards use the FULL
-    // scrollable distance. As soon as the last card lands, the
-    // sticky releases and the user keeps scrolling — no empty tail.
-    const multiplier = window.innerWidth <= 720 ? 1 : 0.6;
+    // Cards animate over 60% of the section's scrollable distance;
+    // the remaining 40% is a title-only pinned window for the
+    // business panel below to overlap.
+    const multiplier = 0.6;
     scrollableDistance = Math.max(
       (testimonialsSection.offsetHeight - window.innerHeight) * multiplier,
       1
     );
-    endX = -(trackWidth + window.innerWidth * (window.innerWidth <= 720 ? 0.12 : 0.2));
+    endX = -(trackWidth + window.innerWidth * 0.2);
     update();
   };
 
   const update = () => {
+    if (nativeSwipeQuery.matches) {
+      ticking = false;
+      return;
+    }
+
     const progressed = Math.min(
       Math.max((window.scrollY - sectionTop) / scrollableDistance, 0),
       1
     );
     // Start cards on the right edge so title in center is unobstructed
-    const startX = window.innerWidth * (window.innerWidth <= 720 ? 0.85 : 0.75);
+    const startX = window.innerWidth * 0.75;
     const currentX = startX + (endX - startX) * progressed;
 
     // Round to integer pixels — sub-pixel translateX makes text
@@ -1405,6 +1447,7 @@ function initTestimonialsScroll() {
   window.addEventListener("load", recalc);
   window.addEventListener("resize", recalc);
   window.addEventListener("scroll", requestUpdate, { passive: true });
+  nativeSwipeQuery.addEventListener("change", recalc);
 }
 
 function initChoiceForcedScroll() {

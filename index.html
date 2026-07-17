@@ -6,8 +6,8 @@
 
     <!-- Primary SEO -->
     <title>Хамелеон — аквапринт, антихром, покраска авто в Ухте</title>
-    <meta name="description" content="Студия декоративных покрытий в Ухте. Аквапринт, антихром, ламинация карбоном, вакуумная инфузия, покраска авто и мото. Пожизненная гарантия. Работаем по всей России." />
-    <meta name="keywords" content="аквапринт, антихром, ламинация карбоном, вакуумная инфузия, покраска авто, тюнинг авто, декоративные покрытия, Ухта" />
+    <meta name="description" content="Студия декоративных покрытий в Ухте. Аквапринт, антихром, ламинация карбоном, вакуумная инфузия, покраска, бронирование плёнкой авто и мото. Пожизненная гарантия. Работаем по всей России." />
+    <meta name="keywords" content="аквапринт, антихром, ламинация карбоном, вакуумная инфузия, покраска авто, бронирование авто, бронирование оптики, защитная плёнка, тюнинг авто, декоративные покрытия, Ухта" />
     <meta name="author" content="Хамелеон / Евгений Кухаренко" />
     <meta name="robots" content="index, follow" />
     <meta name="theme-color" content="#0b0b0b" />
@@ -26,7 +26,7 @@
     <meta property="og:url" content="https://vkkhrnk-maker.github.io/chameleon-landing/" />
     <meta property="og:site_name" content="Хамелеон" />
     <meta property="og:title" content="Хамелеон — аквапринт, антихром, покраска авто в Ухте" />
-    <meta property="og:description" content="Студия декоративных покрытий. Аквапринт, антихром, ламинация карбоном, вакуумная инфузия, покраска. Пожизненная гарантия. Работаем по всей России." />
+    <meta property="og:description" content="Студия декоративных покрытий. Аквапринт, антихром, ламинация карбоном, вакуумная инфузия, покраска, бронирование плёнкой. Пожизненная гарантия. Работаем по всей России." />
     <meta property="og:image" content="https://vkkhrnk-maker.github.io/chameleon-landing/assets/figma/cover-main.png" />
     <meta property="og:image:alt" content="Студия Хамелеон — декоративные покрытия авто и мото" />
 
@@ -81,7 +81,9 @@
           { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Антихром", "description": "Убираем хромированные элементы и собираем чистый тёмный финиш под общий стиль автомобиля." } },
           { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Вакуумная инфузия", "description": "Создаём лёгкие и прочные детали из углеродного волокна по вашей форме и технической задаче." } },
           { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Покраска", "description": "Подбираем оттенок, готовим поверхность и наносим покрытие под конкретную задачу и материал детали." } },
-          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Ламинация карбоном", "description": "Ламинируем детали карбоном для салона и экстерьера с точной геометрией, рисунком и чистой посадкой." } }
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Ламинация карбоном", "description": "Ламинируем детали карбоном для салона и экстерьера с точной геометрией, рисунком и чистой посадкой." } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Шпон", "description": "Облицовываем салон и интерьерные детали натуральным шпоном с ручной подгонкой и защитным покрытием." } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Бронирование", "description": "Бронируем плёнкой оптику, кузов и стёкла авто, мототехнику, шлемы и спортивный инвентарь от сколов и царапин." } }
         ]
       }
     }
@@ -143,11 +145,22 @@
       href="https://fonts.googleapis.com/css2?family=Onest:wght@500&family=JetBrains+Mono:wght@400;500&display=swap&subset=cyrillic,latin"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="./styles.css?v=20260521-iter55" />
+    <link rel="stylesheet" href="./styles.css?v=20260714-iter61" />
   </head>
   <body>
     <div class="float-header" data-float-header aria-hidden="true">
-      <nav class="float-header-nav" aria-label="Меню">
+      <button
+        class="float-header-burger"
+        type="button"
+        aria-label="Открыть меню"
+        aria-expanded="false"
+        aria-controls="float-header-nav"
+      >
+        <span class="float-header-burger-line"></span>
+        <span class="float-header-burger-line"></span>
+        <span class="float-header-burger-line"></span>
+      </button>
+      <nav class="float-header-nav" id="float-header-nav" aria-label="Меню">
         <a class="float-header-link" href="#services" data-anchor>Услуги</a>
         <a class="float-header-link" href="#works" data-anchor>Работы</a>
         <a class="float-header-link" href="#store" data-anchor>Магазин</a>
@@ -364,7 +377,7 @@
           </article>
 
           <article
-            class="service-card service-card-wide"
+            class="service-card"
             data-preview-art="vacuum"
           >
             <div class="service-card-preview" aria-hidden="true">
@@ -463,6 +476,32 @@
             </div>
           </article>
 
+          <article
+            class="service-card"
+            data-preview-art="armor"
+          >
+            <div class="service-card-preview" aria-hidden="true">
+              <img loading="lazy" decoding="async"
+                class="service-card-preview-image"
+                src="./assets/figma/service-preview.png"
+                alt=""
+              />
+            </div>
+            <div class="badge-list" aria-label="Категории Бронирование">
+              <span class="service-badge">авто</span>
+              <span class="service-badge">мото</span>
+              <span class="service-badge">шлемы</span>
+              <span class="service-badge">инвентарь</span>
+            </div>
+            <p class="service-description">
+              Бронируем плёнкой оптику, кузов и&nbsp;стёкла авто, мототехнику, шлемы
+              и&nbsp;спортивный инвентарь от&nbsp;сколов и&nbsp;царапин
+            </p>
+            <div class="service-card-footer">
+              <h3 class="service-title">Бронирование</h3>
+            </div>
+          </article>
+
           <button
             id="cta-button"
             class="cover-cta services-cta"
@@ -523,6 +562,21 @@
 
         <div class="works-slider-shell" data-drag-scroll>
           <div class="works-slider-track">
+            <article class="works-slide works-slide-standard" data-categories="aquaprint">
+              <img loading="lazy" decoding="async"
+                class="works-slide-image"
+                src="./assets/figma/works/aquaprint-blue-trim-retouched-v2.jpg"
+                alt="Комплект интерьерных накладок с тёмно-синим глянцевым покрытием — Аквапринт"
+              />
+              <div class="works-slide-info">
+                <div class="works-slide-badges" aria-label="Категории работы">
+                  <span class="works-slide-badge">Аквапринт</span>
+                  <span class="works-slide-badge">Интерьер</span>
+                </div>
+                <h3 class="works-slide-title">Тёмно-синее дерево, глубокий глянец</h3>
+              </div>
+            </article>
+
             <article class="works-slide works-slide-standard" data-categories="aquaprint">
               <img loading="lazy" decoding="async"
                 class="works-slide-image"
@@ -2090,6 +2144,6 @@
       </button>
     </div>
 
-    <script type="module" src="./src/app.mjs?v=20260523-iter56"></script>
+    <script type="module" src="./src/app.mjs?v=20260714-iter60"></script>
   </body>
 </html>

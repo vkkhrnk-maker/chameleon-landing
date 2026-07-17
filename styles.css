@@ -1459,11 +1459,14 @@ body {
 .services-grid {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
-  /* Row 1: 3 service cards (card-3 spans 2 cols).
-     Row 2: 4 items — Покраска, Ламинация, Шпон, CTA — all 1 col. */
+  /* 7 services + CTA = exactly 2 rows of 4 equal cells.
+     Row 1: Аквапринт, Антихром, Вакуумная инфузия, Покраска.
+     Row 2: Ламинация, Шпон, Бронирование, CTA.
+     (Вакуумная was a 2-col wide card while we had 5 services;
+     with 7 the even 2×4 grid packs clean with no holes.) */
   grid-template-areas:
-    "card-1 card-2 card-3 card-3"
-    "card-4 card-5 card-6 cta";
+    "card-1 card-2 card-3 card-4"
+    "card-5 card-6 card-7 cta";
   grid-auto-rows: 300px;
   gap: 4px;
 }
@@ -1602,6 +1605,10 @@ body {
 
 .service-card:nth-child(6) {
   grid-area: card-6;
+}
+
+.service-card:nth-child(7) {
+  grid-area: card-7;
 }
 
 .badge-list {
@@ -5600,11 +5607,13 @@ body {
 
   .services-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    /* Tablet (721-1100): 6 cards + CTA → 4 rows of 2 cells. */
+    /* Tablet (721-1100): 7 cards + full-width CTA row.
+       Бронирование pairs with Шпон; CTA keeps its own row. */
     grid-template-areas:
       "card-1 card-2"
       "card-3 card-4"
       "card-5 card-6"
+      "card-7 card-7"
       "cta cta";
     grid-auto-rows: 300px;
   }
@@ -6527,6 +6536,7 @@ body {
       "card-4"
       "card-5"
       "card-6"
+      "card-7"
       "cta";
     /* auto rows so the CTA doesn't leave a 116px tail under itself */
     grid-auto-rows: auto;
