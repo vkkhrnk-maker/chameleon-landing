@@ -1,3 +1,49 @@
+import { WORKS_LQIP } from "./lqip-data.mjs";
+
+// ─── Blur-up (LQIP) for the works gallery ───
+// A ~24px base64 copy of each photo shows instantly, blurred, while
+// the real (lazy-loaded) file downloads; the sharp image then fades
+// in over it. Progressive enhancement: without JS nothing changes —
+// images render normally. Ported from the syno-art-map prototype,
+// but revealing on the img load event (with a complete-check to
+// dodge the cached-image race) instead of the prototype's timer.
+function initWorksBlurUp() {
+  document.querySelectorAll(".works-slide-image").forEach((img) => {
+    const file = (img.getAttribute("src") || "").split("/").pop();
+    const lq = WORKS_LQIP[file];
+    if (!lq) return;
+
+    if (img.complete && img.naturalWidth > 0) {
+      // Already loaded (cache) — skip the placeholder entirely.
+      return;
+    }
+
+    // The placeholder goes ON TOP of the image and fades away once
+    // the real file arrives. The img itself is never hidden: hiding
+    // it (opacity: 0) made Chrome treat the lazy image as
+    // non-rendered and skip loading it entirely — photos never
+    // arrived and the gallery stayed blurred forever.
+    const ph = document.createElement("span");
+    ph.className = "works-lqip";
+    ph.setAttribute("aria-hidden", "true");
+    ph.style.backgroundImage = `url("${lq}")`;
+    img.parentNode.insertBefore(ph, img.nextSibling);
+
+    const reveal = () => ph.classList.add("bu-done");
+    ph.addEventListener(
+      "transitionend",
+      () => ph.remove(),
+      { once: true }
+    );
+    img.addEventListener("load", reveal, { once: true });
+    img.addEventListener("error", reveal, { once: true });
+    // Safety net: never let a stuck load event leave the slide
+    // blurred forever — force the fade after 8s regardless.
+    setTimeout(reveal, 8000);
+  });
+}
+initWorksBlurUp();
+
 // Expose the actual scrollbar gutter width as a CSS custom property.
 // Used by:
 //   1. .mobile-menu { right: var(--scrollbar-width) } so the fixed
@@ -981,6 +1027,7 @@ function initMotionSystem() {
     stagger: 70,
   });
   registerMotion(".footer-contact-title", { kind: "heading" });
+  registerMotion(".footer-contact-hero", { kind: "media", baseDelay: 90 });
   registerMotion(".footer-contact-cards > *", {
     kind: "card",
     baseDelay: 70,
@@ -1013,8 +1060,14 @@ function initMotionSystem() {
       });
     },
     {
-      threshold: 0.06,
-      rootMargin: "0px 0px -4% 0px",
+      // Pre-trigger: the bottom rootMargin EXTENDS the viewport by 18%,
+      // so elements start their reveal ~150px BEFORE scrolling into
+      // view and land already-visible. (Was -4% — reveal only started
+      // once the element was inside the viewport, which combined with
+      // the 700-800ms transition + stagger made second-row cards feel
+      // like they arrived late.)
+      threshold: 0.01,
+      rootMargin: "0px 0px 18% 0px",
     }
   );
 

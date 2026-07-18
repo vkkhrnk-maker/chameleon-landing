@@ -2058,6 +2058,29 @@ body {
   object-fit: cover;
 }
 
+/* Blur-up (LQIP): a tiny base64 thumbnail (injected by app.mjs)
+   sits blurred ON TOP of the lazy-loading photo and fades away
+   once the real file arrives. The img itself is never hidden —
+   hiding it made Chrome skip loading the lazy image entirely.
+   blur() halo would show at the edges — scale(1.08) tucks it
+   outside the slide's overflow: hidden. app.mjs removes the
+   placeholder node after the fade completes. */
+.works-lqip {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  filter: blur(16px);
+  transform: scale(1.08);
+  pointer-events: none;
+  opacity: 1;
+  transition: opacity 550ms ease;
+}
+
+.works-lqip.bu-done {
+  opacity: 0;
+}
+
 .works-slide-info {
   position: relative;
   z-index: 1;
@@ -3995,6 +4018,72 @@ body {
   /* Brief on the left, "Напишите нам" plate on the right. */
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 4px;
+}
+
+/* The whole cards row is parked with [hidden] while the brief flow
+   is on hold — grid display above must not resurrect it. */
+.footer-contact-cards[hidden] {
+  display: none;
+}
+
+/* ============================================================ */
+/* Footer hero: big portrait + TG/VK circles, overlapping stack  */
+/* ============================================================ */
+.footer-contact-hero {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.footer-contact-hero-photo {
+  width: 220px;
+  height: 220px;
+  border-radius: 999px;
+  object-fit: cover;
+  object-position: center top;
+  /* Ring in the section's own green so the overlap reads as a
+     clean "cut-out" between the stacked circles. */
+  border: 6px solid #8beb66;
+  position: relative;
+  z-index: 3;
+  flex: 0 0 auto;
+}
+
+.footer-contact-hero-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 112px;
+  height: 112px;
+  border-radius: 999px;
+  background: #0b0b0b;
+  color: #ffffff;
+  border: 6px solid #8beb66;
+  margin-left: -28px;
+  text-decoration: none;
+  flex: 0 0 auto;
+  position: relative;
+  transition:
+    background-color 180ms ease,
+    transform 180ms ease;
+}
+
+/* Stack order: photo on top, TG under it, VK under TG. */
+.footer-contact-hero-icon:nth-of-type(1) { z-index: 2; }
+.footer-contact-hero-icon:nth-of-type(2) { z-index: 1; }
+
+.footer-contact-hero-icon svg {
+  width: 44px;
+  height: 44px;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .footer-contact-hero-icon:hover,
+  .footer-contact-hero-icon:focus-visible {
+    background: #313131;
+    transform: scale(1.05);
+    outline: none;
+  }
 }
 
 .footer-contact-card {
@@ -10220,5 +10309,41 @@ body.is-works-modal-open {
   .footer-contact-card-social-icon svg {
     width: 28px;
     height: 28px;
+  }
+
+  /* Footer hero scales up with the wide-screen type bump. */
+  .footer-contact-hero-photo {
+    width: 280px;
+    height: 280px;
+    border-width: 8px;
+  }
+  .footer-contact-hero-icon {
+    width: 140px;
+    height: 140px;
+    border-width: 8px;
+    margin-left: -36px;
+  }
+  .footer-contact-hero-icon svg {
+    width: 56px;
+    height: 56px;
+  }
+}
+
+/* Footer hero on phones: same overlap, pocket-sized. */
+@media (max-width: 720px) {
+  .footer-contact-hero-photo {
+    width: 150px;
+    height: 150px;
+    border-width: 4px;
+  }
+  .footer-contact-hero-icon {
+    width: 80px;
+    height: 80px;
+    border-width: 4px;
+    margin-left: -20px;
+  }
+  .footer-contact-hero-icon svg {
+    width: 32px;
+    height: 32px;
   }
 }
