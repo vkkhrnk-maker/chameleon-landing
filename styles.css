@@ -3993,7 +3993,12 @@ body {
 }
 
 .site-footer-main {
-  padding: 120px var(--page-gutter);
+  /* Asymmetric on purpose: the top padding is section rhythm (gap
+     from FAQ down to the title), the bottom one only separates the
+     last meta line from the legal strip — which has its own bg and
+     already reads as a divider. 120px there just stretched the
+     screen. Mobile settled on 32px; desktop steps up to 48. */
+  padding: 120px var(--page-gutter) 48px;
   background: #8beb66;
 }
 
@@ -5575,7 +5580,9 @@ body {
 
   .site-footer-main {
     padding-top: 96px;
-    padding-bottom: 96px;
+    /* Same reasoning as the base rule — trimmed from 96 so the
+       legal strip sits close under the last meta line. */
+    padding-bottom: 40px;
   }
 
   .footer-contact {
