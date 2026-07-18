@@ -1027,6 +1027,7 @@ function initMotionSystem() {
     stagger: 70,
   });
   registerMotion(".footer-contact-title", { kind: "heading" });
+  registerMotion(".footer-contact-subtitle", { kind: "copy", baseDelay: 120 });
   registerMotion(".footer-contact-hero", { kind: "media", baseDelay: 90 });
   registerMotion(".footer-contact-cards > *", {
     kind: "card",

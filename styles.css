@@ -57,7 +57,8 @@ html.is-scrolling * {
   .testimonials-scroll-subtitle,
   .cover-lead,
   .cover-alt-lead,
-  .hero-subtitle {
+  .hero-subtitle,
+  .footer-contact-subtitle {
     font-size: 13px !important;
     line-height: 1.45 !important;
   }
@@ -90,6 +91,7 @@ html.is-scrolling * {
   .cover-alt-lead,
   .cover-lead,
   .hero-subtitle,
+  .footer-contact-subtitle,
   .testimonials-scroll-subtitle,
   .testimonial-card-quote,
   .footer-contact-meta,
@@ -364,6 +366,7 @@ textarea:invalid {
 
 .cover-lead,
 .hero-subtitle,
+.footer-contact-subtitle,
 .clients-network-note,
 .testimonials-scroll-subtitle,
 .about-intro-text,
@@ -4013,6 +4016,26 @@ body {
   text-align: center;
 }
 
+/* Hero-style head: two-line title + mono-caps subtitle, same
+   pattern as the "Создаем уникальность" hero block. */
+.footer-contact-head {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+}
+
+.footer-contact-subtitle {
+  width: min(100%, 463px);
+  margin: 0;
+  font-family: "JetBrains Mono", "Roboto Mono", monospace;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.4;
+  text-transform: uppercase;
+  text-align: center;
+}
+
 .footer-contact-cards {
   display: grid;
   /* Brief on the left, "Напишите нам" plate on the right. */
@@ -6796,6 +6819,10 @@ body {
 
   .footer-contact {
     gap: 32px;
+  }
+
+  .footer-contact-head {
+    gap: 16px;
   }
 
   .footer-contact-title {
