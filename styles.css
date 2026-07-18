@@ -4045,7 +4045,8 @@ body {
      clean "cut-out" between the stacked circles. */
   border: 6px solid #8beb66;
   position: relative;
-  z-index: 3;
+  /* Bottom of the stack — the icons overlap ONTO the photo. */
+  z-index: 1;
   flex: 0 0 auto;
 }
 
@@ -4053,13 +4054,15 @@ body {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 112px;
-  height: 112px;
+  /* Same diameter as the portrait — three equal circles overlap
+     into one bold centered trio (photo + the two channels). */
+  width: 220px;
+  height: 220px;
   border-radius: 999px;
   background: #0b0b0b;
   color: #ffffff;
   border: 6px solid #8beb66;
-  margin-left: -28px;
+  margin-left: -48px;
   text-decoration: none;
   flex: 0 0 auto;
   position: relative;
@@ -4068,13 +4071,13 @@ body {
     transform 180ms ease;
 }
 
-/* Stack order: photo on top, TG under it, VK under TG. */
+/* Stack order: each icon overlaps ONTO the circle to its left. */
 .footer-contact-hero-icon:nth-of-type(1) { z-index: 2; }
-.footer-contact-hero-icon:nth-of-type(2) { z-index: 1; }
+.footer-contact-hero-icon:nth-of-type(2) { z-index: 3; }
 
 .footer-contact-hero-icon svg {
-  width: 44px;
-  height: 44px;
+  width: 88px;
+  height: 88px;
 }
 
 @media (hover: hover) and (pointer: fine) {
@@ -10318,32 +10321,32 @@ body.is-works-modal-open {
     border-width: 8px;
   }
   .footer-contact-hero-icon {
-    width: 140px;
-    height: 140px;
+    width: 280px;
+    height: 280px;
     border-width: 8px;
-    margin-left: -36px;
+    margin-left: -60px;
   }
   .footer-contact-hero-icon svg {
-    width: 56px;
-    height: 56px;
+    width: 112px;
+    height: 112px;
   }
 }
 
-/* Footer hero on phones: same overlap, pocket-sized. */
+/* Footer hero on phones: three equal circles sized to fit 375. */
 @media (max-width: 720px) {
   .footer-contact-hero-photo {
-    width: 150px;
-    height: 150px;
+    width: 130px;
+    height: 130px;
     border-width: 4px;
   }
   .footer-contact-hero-icon {
-    width: 80px;
-    height: 80px;
+    width: 130px;
+    height: 130px;
     border-width: 4px;
-    margin-left: -20px;
+    margin-left: -32px;
   }
   .footer-contact-hero-icon svg {
-    width: 32px;
-    height: 32px;
+    width: 52px;
+    height: 52px;
   }
 }
